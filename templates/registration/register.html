@@ -1,0 +1,56 @@
+{% extends "blog/base.html" %}
+{% block title %}Fashion_Cart-register{% endblock %}
+{% block content %}
+<h1>회원가입</h1>
+<section>
+    <form method="post" action=".">
+        <h1>기본정보</h1>
+      {% csrf_token %}
+      {% if form.errors %}
+        <p>아래 입력내용을 다시 확인하세요.</p>
+      {% endif %}
+    <fieldset>
+        {{ form.username.label_tag }}{{ form.username }}<span id="message">8자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.</span><br>
+        {{ form.email.label_tag }} {{ form.email }}<br>
+        {{ form.first_name.label_tag }} {{ form.first_name }}<br>
+        {{ form.last_name.label_tag }} {{ form.last_name }}<br>
+        {{ form.password1.label_tag }} {{ form.password1 }}<br>
+        {{ form.password2.label_tag }} {{ form.password2 }}<span>{{ form.password2.errors|striptags }}</span>
+
+    </fieldset>
+    <div>
+        <input type="submit" value="회원가입"/>
+          <a href="{% url 'home' %}">
+          <button type="button">취소</button>
+        </a>
+    </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $("#id_username").change(function () {
+            var username = $(this).val();
+            // console.log( username );
+            $.ajax({
+                url: '{% url "validate_username" %}',
+                data: {
+                    'username': username
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_taken_username) {
+                        $("#message").html(data.error_message);
+                    } else {
+                        $("#message").html("");
+                    }
+                }
+            });
+        });
+        {% if user.is_authenticated %}
+              alert('잘못된 접근입니다. \n회원가입을 위해서는 로그아웃이 필요합니다.')
+              window.location.href = '{% url 'home' %}';
+        {% endif %}
+    </script>
+{% endblock %}

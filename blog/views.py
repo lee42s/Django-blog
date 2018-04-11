@@ -20,20 +20,18 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
     if request.user.is_authenticated:
-        if request.user.is_manager:
+        if request.user.is_manager ==True:
             return redirect('manager_home')
-        elif request.user.is_member:
+        elif request.user.is_member==True or request.user.is_manager ==True:
             return redirect('blog_home')
-        else:
-            error='해당홈페이지 권한이없습니다.관리자에게 문의하세요'
-            return HttpResponse(error)
     return render(request, 'blog/home.html')
 
 
 def admin_home(request):
-    user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')[:5]
-    none_user = User.objects.filter(is_member=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:5]
-    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user})
+    user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
+    user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
+    none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
+    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager})
 
 
 class HomeView(TemplateView):

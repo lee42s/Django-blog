@@ -17,10 +17,11 @@ def user_permission_edit(request, pk):
         if form.is_valid():
             user_member = form.save(commit=False)
             user_member.is_member = user.is_member
+            user_member.is_manager = user.is_manager
             # post.published_date = timezone.now()
             user_member.save()
             return redirect('manager_home')
     else:
-        user_username = User.objects.filter(id=pk)
+        user_pk = User.objects.filter(id=pk)
         form = PermissionForm(instance=user)
-    return render(request, 'member/permission_edit.html',{'form':form,})
+    return render(request, 'member/permission_edit.html',{'form':form, 'user_pk':user_pk})

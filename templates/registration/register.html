@@ -1,6 +1,4 @@
-{% extends "blog/base.html" %}
-{% block title %}Fashion_Cart-register{% endblock %}
-{% block content %}
+{% block register %}
 <h1>회원가입</h1>
 <section>
     <form method="post" action=".">
@@ -49,7 +47,7 @@
             });
         });
         {% if user.is_authenticated %}
-              alert('잘못된 접근입니다. \n회원가입을 위해서는 로그아웃이 필요합니다.')
+              alert('잘못된 접근입니다. \n회원가입을 위해서는 로그아웃이 필요합니다.');
               window.location.href = '{% url 'home' %}';
         {% endif %}
     </script>

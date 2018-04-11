@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}{% endblock %}</title>
+    <title>blog</title>
 </head>
 <body>
     <header>
@@ -26,11 +26,19 @@
             </ul>
         </nav>
     </header>
-    <section>
-        {% block content %}
-
-        {% endblock %}
-    </section>
+    {% if user.is_member == True or user.is_manager == True %}
+        <section>
+            {% block content %}
+            {% endblock %}
+        </section>
+        {% elif user.is_manager == False %}
+            <p>해당홈페이지 권한이없습니다.관리자에게 문의하세요</p>
+        {% else %}
+                {% block register %}
+                {% endblock %}
+                {% block login %}
+                {% endblock %}
+    {% endif %}
     {% block footer %}
     <footer>
         <div>&copy; 2017. (LKH) All rights reserved.</div>

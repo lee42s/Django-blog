@@ -1,0 +1,15 @@
+{% extends "manager/base.html" %}
+{% block content %}
+<section>
+    <h1>유저권한수정</h1>
+{% for user_username in user_username %}
+    <p>아이디:{{user_username}}</p>
+{% endfor %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">저장</button>
+</form>
+</section>
+
+{% endblock %}

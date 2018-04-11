@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 
-from .views import AdminHomeView,HomeView,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
+from .views import admin_home,HomeView,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
 from blog import views
 from blog import settings
 urlpatterns = [
@@ -25,14 +25,12 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     #관리자
     url(r'^admin/', admin.site.urls),
-    url(r'^manager/', AdminHomeView.as_view(), name='manager_home'),
-
-
-
+    url(r'^manager/',admin_home, name='manager_home'),
+    url(r'^member/', include('member.urls', namespace='member')),
     #사용자
     url(r'^blog$', HomeView.as_view(), name='blog_home'),
     url(r'^accounts/logout/$', auth_views.logout, {'next_page': '/'},name='logout'),
-    url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html'},name='login'),
+    url(r'^blog/accounts/login/$', auth_views.login, {'template_name': 'registration/login.html'},name='login'),
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^accounts/register/$', UserRegisterView.as_view(), name='register'),
     url(r'^accounts/password_change/$', UserPasswordChangeView.as_view(), name='password_change'),

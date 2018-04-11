@@ -17,7 +17,7 @@
     </div>
     <input type="submit" value="로그인" />
     <input type="hidden" name="next" value="{{ next }}" />
-    <!--{% url 'show_user_page' user=user as the_url %}-->
     <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+    <li><a href="{% url 'register' %}">회원가입</a></li>
 </form>
 {% endblock %}

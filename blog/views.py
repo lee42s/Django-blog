@@ -14,24 +14,32 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.views import PasswordChangeDoneView,PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 def home(request):
     if request.user.is_authenticated:
-        if request.user.is_manager :
+        if request.user.is_manager:
             return redirect('manager_home')
-        elif request.user.is_member  :
+        elif request.user.is_member:
             return redirect('blog_home')
         else:
-            error='해당홈페이지 권한이없습니다.관리자에게 문의하세요 HP:010-4824-6318'
+            error='해당홈페이지 권한이없습니다.관리자에게 문의하세요'
             return HttpResponse(error)
     return render(request, 'blog/home.html')
 
 
-class AdminHomeView(TemplateView):
-    template_name = 'manager/home.html'
+def admin_home(request):
+    user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')[:5]
+    none_user = User.objects.filter(is_member=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:5]
+    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user})
+
 
 class HomeView(TemplateView):
     template_name = 'blog/home.html'
+
+
 
 class UserRegisterView(CreateView):
     template_name = 'registration/register.html'

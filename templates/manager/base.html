@@ -7,15 +7,22 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+{% if user.is_member %}
+    <p>
+        해당 홈페이지는 관리자 홈페이지 입니다.<br>
+        관리자로 로그인 해주세요
+    </p>
+{% else %}
     <header>
         <div>
             <h1><a href="{% url 'manager_home' %}">Blog-admin</a></h1>
         </div>
         <nav>
             <ul>
-                {% if user.is_active %}
-                     <li><a href="{% url 'logout' %}">로그아웃</a></li>
+                {% if user.user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">로그아웃</a></li>
                     <li><a href="{% url 'password_change' %}">비밀번호 변경</a></li>
+                    <li><a href="{% url 'blog_home' %}">사이트보기</a></li>
                     {% else %}
                         <li><a href="{% url 'login' %}">로그인</a></li>
                         <li><a href="{% url 'register' %}">회원가입</a></li>
@@ -23,14 +30,17 @@
             </ul>
         </nav>
     </header>
-    {% block footer %}
-    <footer>
-        <div>&copy; 2017. (LKH) All rights reserved.</div>
-    </footer>
+    {% block content %}
     {% endblock %}
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    {% block footer %}
+        <footer>
+            <div>&copy; 2017. (LKH) All rights reserved.</div>
+        </footer>
+    {% endblock %}
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     {% block javascript %}
     {% endblock %}
+{% endif %}
 </body>
 
 </html>

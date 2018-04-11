@@ -1,4 +1,46 @@
 {% extends "manager/base.html" %}
 {% block title %}blog-admin{% endblock %}
 {% block content %}
+<section>
+    <h1>회원권한</h1>
+    <section>
+        <h1>회원유저</h1>
+        <table>
+            <tr>
+                <th>아이디</th>
+                <th>권한</th>
+                <th>가입날짜</th>
+            </tr>
+            {% for user_is_member in user_is_member %}
+            <tr>
+                <td>{{user_is_member.username}}</a></td>
+                {% if user_is_member.is_member == True %}
+                     <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">권한수정</a></td>
+                {%endif%}
+                <td>{{user_is_member.date_joined}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    <section>
+         <h1>비회원유저</h1>
+        <table>
+            <tr>
+                <th>아이디</th>
+                <th>권한</th>
+                <th>가입날짜</th>
+            </tr>
+            {% for none_user in none_user %}
+            <tr>
+                <td>{{none_user.username}}</td>
+                {% if none_user.is_member == False %}
+                    <td>비회원<a href="{%url 'member:permission_edit' pk=none_user.pk%}">권한수정</a></td>
+                {% endif %}
+                <td>{{none_user.date_joined}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+</section>
+
 {% endblock %}

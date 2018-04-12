@@ -30,6 +30,7 @@ urlpatterns = [
     # url(r'^manager/register/', MangerRegisterView.as_view(), name='manager_register'),
     url(r'^manager/$', admin_home, name='manager_home'),
     url(r'^member/', include(('member.urls','permission_edit'), namespace='member')),
+    url(r'^manager/post_list/', include(('notice.urls', 'post_list'), namespace='post')),
 
     #사용자
     url(r'^blog/$', blog_home, name='blog_home'),
@@ -44,5 +45,7 @@ urlpatterns = [
 
     #ajax유저아이디검사
     url(r'^ajax/validate_username/$', views.validate_username, name="validate_username"),
+    #djrichtextfield위젯
+    url(r'^djrichtextfield/', include('djrichtextfield.urls'))
 
 ]

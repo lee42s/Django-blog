@@ -2,6 +2,7 @@
 {% block head_title %}blog-manager{% endblock %}
 {% block title %}blog-manager{% endblock %}
 {% block content %}
+<a href="{%url 'post:post_list'%}">게시판</a>
 <section>
     <h1>회원권한</h1>
     <section>
@@ -69,5 +70,6 @@
         </table>
     </section>
 </section>
+
 {% block javascript %}{% endblock %}
 {% endblock %}

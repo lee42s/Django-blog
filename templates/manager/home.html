@@ -1,4 +1,6 @@
-{% extends "manager/base.html" %}
+{% extends "base.html" %}
+{% block head_title %}blog-manager{% endblock %}
+{% block title %}blog-manager{% endblock %}
 {% block content %}
 <section>
     <h1>회원권한</h1>
@@ -13,7 +15,7 @@
             </tr>
             {% for user_is_member in user_is_member %}
             <tr>
-                <td>{{user_is_member.username}}</a></td>
+                <td>{{user_is_member.username}}</td>
                 {% if user_is_member.is_member == True %}
                      <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
                 {%endif%}

@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>blog</title>
+    <title>{% block head_title %}{% endblock %}</title>
 </head>
 <body>
-    <header>
-        <div>
-            <h1><a href="{% url 'home' %}">Blog</a></h1>
-        </div>
+<h1>{% block title %}home{% endblock %}</h1>
+<header>
         <nav>
             <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
                 {% if user.is_authenticated  %}
                     <li><a href="{% url 'logout' %}">로그아웃</a></li>
                     <li><a href="{% url 'password_change' %}">비밀번호 변경</a></li>
+                    <li><a href="{% url 'blog_home' %}">사용자사이트</a></li>
                     {% if user.is_manager %}
-                         <li><a href="{% url 'manager_home' %}">관리자</a></li>
+                         <li><a href="{% url 'manager_home' %}">관리자사이트</a></li>
                     {%endif%}
                     {% else %}
                         <li><a href="{% url 'login' %}">로그인</a></li>
@@ -25,28 +25,15 @@
                 {% endif %}
             </ul>
         </nav>
-    </header>
-    {% if user.is_member == True or user.is_manager == True %}
-        <section>
-            {% block content %}
-            {% endblock %}
-        </section>
-        {% elif user.is_manager == False %}
-            <p>해당홈페이지 권한이없습니다.관리자에게 문의하세요</p>
-        {% else %}
-                {% block register %}
-                {% endblock %}
-                {% block login %}
-                {% endblock %}
-    {% endif %}
-    {% block footer %}
-    <footer>
-        <div>&copy; 2017. (LKH) All rights reserved.</div>
-    </footer>
-    {% endblock %}
+</header>
+{% block content %}{% endblock %}
+{% block login %}{% endblock %}
+{% block footer %}
+        <footer>
+            <div>&copy; 2017. (LKH) All rights reserved.</div>
+        </footer>
+{% endblock %}
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    {% block javascript %}
-    {% endblock %}
+{% block javascript %}{% endblock %}
 </body>
-
 </html>

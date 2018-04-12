@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from member.models import User
 from member.forms import PermissionForm
+from django.http import HttpResponse,HttpResponseRedirect
 from django.utils import timezone
 # Create your views here.
 # def user_permission_list(request):
@@ -11,7 +12,11 @@ from django.utils import timezone
 
 @login_required
 def user_permission_edit(request, pk):
-    user = get_object_or_404(User, pk=pk)
+    if request.user.is_authenticated:
+         user = get_object_or_404(User, pk=pk)
+    if request.user.is_manager == False or request.user.is_manager == False:
+        error = "로그인 또는 관리자계정으로만 접근가능합니다"
+        return HttpResponse(error)
     if request.method == 'POST':
         form = PermissionForm(request.POST, instance=user)
         if form.is_valid():

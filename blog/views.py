@@ -15,28 +15,37 @@ from django.contrib.auth.views import PasswordChangeDoneView,PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 
 
 def home(request):
     if request.user.is_authenticated:
-        if request.user.is_manager ==True:
+        if request.user.is_manager ==True :
             return redirect('manager_home')
         elif request.user.is_member==True or request.user.is_manager ==True:
             return redirect('blog_home')
-    return render(request, 'blog/home.html')
+    return render(request, 'home.html')
 
-
+@login_required
 def admin_home(request):
+    if request.user.is_authenticated:
+        if request.user.is_manager ==False or request.user.is_manager ==False :
+            error = "로그인 또는 관리자계정으로만 접근가능합니다"
+            return HttpResponse(error)
     user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager})
 
-
-class HomeView(TemplateView):
-    template_name = 'blog/home.html'
-
+@login_required
+def blog_home(request):
+    if request.user.is_authenticated:
+        if request.user.is_manager ==False or request.user.is_manager ==False :
+            error = "로그인 또는 회원계정으로만 접근가능합니다"
+            return HttpResponse(error)
+    return render(request, 'blog/home.html')
 
 
 class UserRegisterView(CreateView):
@@ -45,12 +54,13 @@ class UserRegisterView(CreateView):
     success_url = reverse_lazy('home')
 
 
-class UserPasswordChangeView(PasswordChangeView):
+class UserPasswordChangeView(PasswordChangeView,):
+
     success_url = reverse_lazy('password_change_done')
     template_name = 'registration/password_change_form.html'
 
 
-class UserPasswordDoneView(PasswordChangeDoneView):
+class UserPasswordDoneView(PasswordChangeDoneView,):
     template_name = 'registration/password_change_done.html'
 
 

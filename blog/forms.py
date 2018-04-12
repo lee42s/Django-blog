@@ -7,7 +7,7 @@ class CreateUserForm(UserCreationForm):
         model = get_user_model()
         fields = ['username', 'email','first_name','last_name']
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'username', 'placeholder': '15자 이내로 입력 가능합니다.'}),
+            'username': forms.TextInput(attrs={'class': 'username', 'placeholder': '8자 이내로 입력 가능합니다.'}),
             'email': forms.EmailInput(attrs={'class': 'email','placeholder': 'aaa@aaa.aaa'}),
             'first_name':forms.TextInput(attrs={'class': 'first_name', 'placeholder': '2자 이내로 입력 가능합니다.'}),
             'last_name': forms.TextInput(attrs={'class': 'last_name', 'placeholder': '2자 이내로 입력 가능합니다.'}),

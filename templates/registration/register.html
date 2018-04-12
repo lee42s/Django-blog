@@ -1,4 +1,7 @@
-{% block register %}
+{% extends "base.html" %}
+{% block head_title %}blog-register{% endblock %}
+{% block title %}blog-register{% endblock %}
+{% block content %}
 <h1>회원가입</h1>
 <section>
     <form method="post" action=".">
@@ -14,7 +17,6 @@
         {{ form.last_name.label_tag }} {{ form.last_name }}<br>
         {{ form.password1.label_tag }} {{ form.password1 }}<br>
         {{ form.password2.label_tag }} {{ form.password2 }}<span>{{ form.password2.errors|striptags }}</span>
-
     </fieldset>
     <div>
         <input type="submit" value="회원가입"/>
@@ -25,7 +27,6 @@
     </form>
 </section>
 {% endblock %}
-
 {% block javascript %}
     <script>
         $("#id_username").change(function () {

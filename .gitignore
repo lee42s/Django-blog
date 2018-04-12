@@ -1,8 +1,9 @@
+.gitignore
 .idea/
 *.pyc
 *~
 __pycache__
-/db.sqlite3
+db.sqlite3
 /static
 Gwlib/
 .DS_Store

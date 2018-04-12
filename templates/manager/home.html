@@ -14,14 +14,14 @@
                 <th>마지막로그인날짜</th>
             </tr>
             {% for user_is_member in user_is_member %}
+             {% if user_is_member.is_member == True %}
             <tr>
                 <td>{{user_is_member.username}}</td>
-                {% if user_is_member.is_member == True %}
-                     <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
-                {%endif%}
+                <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
                 <td>{{user_is_member.date_joined}}</td>
                 <td>{{user_is_member.last_login}}</td>
             </tr>
+            {%endif%}
             {% endfor %}
         </table>
     </section>
@@ -35,17 +35,18 @@
                   <th>마지막로그인날짜</th>
             </tr>
             {% for none_user in none_user %}
+             {% if none_user.is_member == False  %}
             <tr>
                 <td>{{none_user.username}}</td>
-                {% if none_user.is_member == False  %}
-                    <td>비회원<a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a></td>
-                {% endif %}
+                <td>비회원<a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a></td>
                 <td>{{none_user.date_joined}}</td>
                 <td>{{none_user.last_login}}</td>
             </tr>
+            {% endif %}
             {% endfor %}
         </table>
     </section>
+
      <section>
          <h1>관리자유저</h1>
         <table>
@@ -56,16 +57,17 @@
                 <th>마지막로그인날짜</th>
             </tr>
             {% for user_is_manager in user_is_manager %}
+            {% if user_is_manager.is_manager == True  %}
             <tr>
                 <td>{{user_is_manager.username}}</td>
-                {% if user_is_manager.is_manager == True %}
-                    <td>관리자<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
-                {% endif %}
+                <td>관리자<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
                 <td>{{user_is_manager.date_joined}}</td>
                 <td>{{user_is_manager.last_login}}</td>
             </tr>
+            {%endif%}
             {% endfor %}
         </table>
     </section>
 </section>
+{% block javascript %}{% endblock %}
 {% endblock %}

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'djrichtextfield',
     'social_django',
     'member',
+    'notice',
 
 ]
 

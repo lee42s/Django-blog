@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block head_title %}blog-manager{% endblock %}
+{% block title %}blog-manager{% endblock %}
+{% block content %}
+<section>
+    <h1>최근게시판 리스트</h1>
+    <table>
+        <tr>
+            <th>자성자</th>
+            <th>제목</th>
+            <th>만든날짜</th>
+            <th>수정날짜</th>
+        </tr>
+        {% for post in posts %}
+            <tr>
+                <td>{{post.author}}</td>
+                <td><a href="{% url 'post:manager_post_detail' pk=post.pk %}">{{post.title}}</a></td>
+                <td>{{post.created_date}}</td>
+                <td>{{post.modified_date}}</td>
+            </tr>
+        {% empty %}
+           <tr>
+                <td>없음</td>
+                <td>없음</td>
+                <td>없음</td>
+                <td>없음</td>
+           </tr>
+        {%endfor%}
+    </table>
+</section>
+{% endblock %}

@@ -27,21 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
-DJRICHTEXTFIELD_CONFIG = {
-    'js': ['//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'],
-    'init_template': 'djrichtextfield/init/ckeditor.js',
-     # CKEditor
-    'toolbar': [
-        {'items': ['Format', '-', 'Bold', 'Italic', '-',
-                   'RemoveFormat']},
-        {'items': ['Link', 'Unlink', 'Image', 'Table']},
-        {'items': ['Source']}
-    ],
-    'format_tags': '',
-    'width': 700
-
-}
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,13 +36,38 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djrichtextfield',
+    'ckeditor',
+    'ckeditor_uploader',
     'social_django',
     'member',
     'notice',
 
 ]
 
+###################################
+    ##  CKEDITOR CONFIGURATION ##
+####################################
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock','Pontsize'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+        ]
+    },
+}
+
+###################################
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

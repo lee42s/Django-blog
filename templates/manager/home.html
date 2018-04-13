@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block head_title %}blog-manager{% endblock %}
-{% block title %}blog-manager{% endblock %}
+{% block title %}board-manager{% endblock %}
 {% block content %}
-<a href="{%url 'post:post_list'%}">게시판</a>
+<nav>
+    <ul>
+        <li><a href="{%url 'post:manager_post_list'%}">게시판관리</a></li>
+    </ul>
+</nav>
 <section>
     <h1>회원권한</h1>
     <section>
@@ -23,6 +27,13 @@
                 <td>{{user_is_member.last_login}}</td>
             </tr>
             {%endif%}
+            {% empty %}
+                <tr>
+                    <td>없음</td>
+                    <td>없음</td>
+                    <td>없음</td>
+                    <td>없음</td>
+                </tr>
             {% endfor %}
         </table>
     </section>
@@ -44,6 +55,13 @@
                 <td>{{none_user.last_login}}</td>
             </tr>
             {% endif %}
+            {% empty %}
+            <tr>
+                <td>없음</td>
+                <td>없음</td>
+                <td>없음</td>
+                <td>없음</td>
+            </tr>
             {% endfor %}
         </table>
     </section>
@@ -66,6 +84,13 @@
                 <td>{{user_is_manager.last_login}}</td>
             </tr>
             {%endif%}
+            {% empty %}
+                <tr>
+                    <td>없음</td>
+                    <td>없음</td>
+                    <td>없음</td>
+                    <td>없음</td>
+                </tr>
             {% endfor %}
         </table>
     </section>

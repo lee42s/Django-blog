@@ -1,4 +1,5 @@
 social-auth-app-django==2.1.0
 django-allauth
 Django==2.0
-django-richtextfield==1.2.1
+pillow
+django-ckeditor

@@ -15,9 +15,9 @@
                 {% if user.is_authenticated  %}
                     <li><a href="{% url 'logout' %}">로그아웃</a></li>
                     <li><a href="{% url 'password_change' %}">비밀번호 변경</a></li>
-                    <li><a href="{% url 'blog_home' %}">사용자사이트</a></li>
                     {% if user.is_manager %}
                          <li><a href="{% url 'manager_home' %}">관리자사이트</a></li>
+                         <li><a href="{% url 'blog_home' %}">사용자사이트</a></li>
                     {%endif%}
                     {% else %}
                         <li><a href="{% url 'login' %}">로그인</a></li>
@@ -33,7 +33,7 @@
             <div>&copy; 2017. (LKH) All rights reserved.</div>
         </footer>
 {% endblock %}
-        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 {% block javascript %}{% endblock %}
 </body>
 </html>

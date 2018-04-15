@@ -1,1 +1,1 @@
-# Django-blog
+# Django-notice-board

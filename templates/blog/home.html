@@ -1,6 +1,14 @@
 {% extends "base.html" %}
-{% block head_title %}blog{% endblock %}
-{% block title %}board{% endblock %}
+{% block head_title %}notice-board{% endblock %}
+{% block title %}<a href="{% url 'home' %}">notice-board</a>{% endblock %}
 {% block content %}
+<section>
+    <h1>최근게시판 리스트<a href="{%url 'post:post_list'%}">더보기</a></h1>
+    {% for post in posts %}
+        <ul>
+            <li><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a><span>{{post.created_date|date:"M-d일"|lower}}</span></li>
+        </ul>
+     {%endfor%}
+</section>
 {% endblock %}
 {% block javascript %}{% endblock %}

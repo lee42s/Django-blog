@@ -30,8 +30,9 @@ urlpatterns = [
     # url(r'^manager/register/', MangerRegisterView.as_view(), name='manager_register'),
     url(r'^manager/$', admin_home, name='manager_home'),
     url(r'^member/', include(('member.urls','permission_edit'), namespace='member')),
-    url(r'^manager/post_list/', include(('notice.urls', 'manager_post_list'), namespace='post')),
-    url(r'^manager/post_detail', include(('notice.urls', 'manager_post_detail'), namespace='post')),
+    url(r'^blog/post_list/', include(('notice.urls', 'post_list'), namespace='post')),
+    url(r'^blog/post_detail', include(('notice.urls', 'post_detail'), namespace='post')),
+    url(r'^blog/post_new', include(('notice.urls', 'post_new'), namespace='post')),
 
     #사용자
     url(r'^blog/$', blog_home, name='blog_home'),

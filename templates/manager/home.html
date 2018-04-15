@@ -1,12 +1,7 @@
 {% extends "base.html" %}
 {% block head_title %}blog-manager{% endblock %}
-{% block title %}board-manager{% endblock %}
+{% block title %}<a href="{% url 'home' %}">manager</a>{% endblock %}
 {% block content %}
-<nav>
-    <ul>
-        <li><a href="{%url 'post:manager_post_list'%}">게시판관리</a></li>
-    </ul>
-</nav>
 <section>
     <h1>회원권한</h1>
     <section>
@@ -65,7 +60,6 @@
             {% endfor %}
         </table>
     </section>
-
      <section>
          <h1>관리자유저</h1>
         <table>
@@ -95,6 +89,32 @@
         </table>
     </section>
 </section>
-
+<section>
+    <h1>최신게시판 리스트</h1>
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>자성자</th>
+            <th>제목</th>
+            <th>날짜</th>
+        </tr>
+        {% for post in posts %}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td>{{post.author}}</td>
+                <td><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a></td>
+                <td>{{post.created_date|date:"M/d일"|lower}}</td>
+            </tr>
+        {% empty %}
+           <tr>
+                <td>없음</td>
+                <td>없음</td>
+                <td>없음</td>
+                <td>없음</td>
+           </tr>
+        {%endfor%}
+    </table>
+</section>
+<div><a href="{%url 'post:post_list'%}">게시판더보기</a></div>
 {% block javascript %}{% endblock %}
 {% endblock %}

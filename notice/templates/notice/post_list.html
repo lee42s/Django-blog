@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
-{% block head_title %}blog-manager{% endblock %}
-{% block title %}blog-manager{% endblock %}
+{% block head_title %}notice-board{% endblock %}
+{% block title %}notice-board{% endblock %}
 {% block content %}
 <section>
-    <h1>최근게시판 리스트</h1>
+    <h1>게시판 리스트</h1>
     <table>
         <tr>
+            <th>번호</th>
             <th>자성자</th>
             <th>제목</th>
-            <th>만든날짜</th>
-            <th>수정날짜</th>
+            <th>날짜</th>
         </tr>
         {% for post in posts %}
             <tr>
+                <td>{{ forloop.counter}}</td>
                 <td>{{post.author}}</td>
-                <td><a href="{% url 'post:manager_post_detail' pk=post.pk %}">{{post.title}}</a></td>
-                <td>{{post.created_date}}</td>
-                <td>{{post.modified_date}}</td>
+                <td><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a></td>
+                <td>{{post.created_date|date:"M/d일"|lower}}</td>
             </tr>
         {% empty %}
            <tr>
@@ -28,4 +28,5 @@
         {%endfor%}
     </table>
 </section>
+<a href="{% url 'post:post_new' %}">글쓰기</a>
 {% endblock %}

@@ -8,6 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth import forms as auth_forms
 from django import forms
 from member.models import User
+from notice.models import Post
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.http import HttpResponse,HttpResponseRedirect
@@ -31,21 +32,23 @@ def home(request):
 @login_required
 def admin_home(request):
     if request.user.is_authenticated:
-        if request.user.is_manager ==False or request.user.is_manager ==False :
+        if  request.user.is_manager ==False :
             error = "로그인 또는 관리자계정으로만 접근가능합니다"
             return HttpResponse(error)
     user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
-    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager})
+    posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')[:5]
+    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager,'posts':posts})
 
 @login_required
 def blog_home(request):
-    if request.user.is_authenticated:
-        if request.user.is_manager ==False or request.user.is_manager ==False :
-            error = "로그인 또는 회원계정으로만 접근가능합니다"
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_member == True:
+        if request.user.is_manager == False and request.user.is_member == False:
+            error = "접근 권한이 없습니다. 관리자에게 문의 하세요"
             return HttpResponse(error)
-    return render(request, 'blog/home.html')
+        posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')[:5]
+        return render(request, 'blog/home.html',{'posts': posts})
 
 
 class UserRegisterView(CreateView):

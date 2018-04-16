@@ -15,19 +15,18 @@
                     <li>
                         {{ user.username}}님
                         {% if user.is_manager == True %}
-                        관리자
+                        <span><a href="{% url 'manager_home' %}">관리자</a></span>
                         {%endif%}
                         {% if user.is_member == True %}
-                        회원
-                        {% else %}
-                        비회원
+                        <span>회원</span>
+                        {% elif user.is_member == False and user.is_manager == False %}
+                        <span>비회원</span>
                         {%endif%}
                     </li>
                     <li><a href="{% url 'logout' %}">로그아웃</a></li>
                     <li><a href="{% url 'password_change' %}">비밀번호 변경</a></li>
                     {% if user.is_manager %}
-                         <li><a href="{% url 'manager_home' %}">관리자사이트</a></li>
-                         <li><a href="{% url 'blog_home' %}">사용자사이트</a></li>
+                         <li><a href="{% url 'home' %}">사이트보기</a></li>
                     {%endif%}
                     {% else %}
                         <li><a href="{% url 'login' %}">로그인</a></li>

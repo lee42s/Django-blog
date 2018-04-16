@@ -1,20 +1,23 @@
 {% extends "base.html" %}
-{% block head_title %}blog-manager{% endblock %}
-{% block title %}<a href="{% url 'home' %}">manager</a>{% endblock %}
+{% block head_title %}manager{% endblock %}
+{% block title %}<a href="{% url 'manager_home' %}">manager</a>{% endblock %}
 {% block content %}
 <section>
     <h1>회원권한</h1>
     <section>
         <h1>회원유저</h1>
         <table>
+            <thead>
             <tr>
-                <th>아이디</th>
-                <th>권한</th>
-                <th>가입날짜</th>
-                <th>마지막로그인날짜</th>
+                <th scope="col">아이디</th>
+                <th scope="col">권한</th>
+                <th scope="col">가입날짜</th>
+                <th scope="col">마지막로그인날짜</th>
             </tr>
+            </thead>
             {% for user_is_member in user_is_member %}
              {% if user_is_member.is_member == True %}
+            <tbody>
             <tr>
                 <td>{{user_is_member.username}}</td>
                 <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
@@ -24,25 +27,26 @@
             {%endif%}
             {% empty %}
                 <tr>
-                    <td>없음</td>
-                    <td>없음</td>
-                    <td>없음</td>
-                    <td>없음</td>
+                    <td colspan="6">게시물이 없습니다.</td>
                 </tr>
+            </tbody>
             {% endfor %}
         </table>
     </section>
     <section>
          <h1>비회원유저</h1>
         <table>
+            <thead>
             <tr>
-                <th>아이디</th>
-                <th>권한</th>
-                <th>가입날짜</th>
-                  <th>마지막로그인날짜</th>
+                <th scope="col">아이디</th>
+                <th scope="col">권한</th>
+                <th scope="col">가입날짜</th>
+                <th scope="col">마지막로그인날짜</th>
             </tr>
+            </thead>
             {% for none_user in none_user %}
              {% if none_user.is_member == False  %}
+            <tbody>
             <tr>
                 <td>{{none_user.username}}</td>
                 <td>비회원<a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a></td>
@@ -52,25 +56,26 @@
             {% endif %}
             {% empty %}
             <tr>
-                <td>없음</td>
-                <td>없음</td>
-                <td>없음</td>
-                <td>없음</td>
+               <td colspan="6">게시물이 없습니다.</td>
             </tr>
+            </tbody>
             {% endfor %}
         </table>
     </section>
      <section>
          <h1>관리자유저</h1>
         <table>
+            <thead>
             <tr>
-                <th>아이디</th>
-                <th>권한</th>
-                <th>가입날짜</th>
-                <th>마지막로그인날짜</th>
+                <th scope="col">아이디</th>
+                <th scope="col">권한</th>
+                <th scope="col">가입날짜</th>
+                <th scope="col">마지막로그인날짜</th>
             </tr>
+            </thead>
             {% for user_is_manager in user_is_manager %}
             {% if user_is_manager.is_manager == True  %}
+            <tbody>
             <tr>
                 <td>{{user_is_manager.username}}</td>
                 <td>관리자<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
@@ -80,11 +85,9 @@
             {%endif%}
             {% empty %}
                 <tr>
-                    <td>없음</td>
-                    <td>없음</td>
-                    <td>없음</td>
-                    <td>없음</td>
+                  <td colspan="6">게시물이 없습니다.</td>
                 </tr>
+            </tbody>
             {% endfor %}
         </table>
     </section>
@@ -92,13 +95,16 @@
 <section>
     <h1>최신게시판 리스트</h1>
     <table>
+        <thead>
         <tr>
-            <th>번호</th>
-            <th>자성자</th>
-            <th>제목</th>
-            <th>날짜</th>
+            <th scope="col">번호</th>
+            <th scope="col">자성자</th>
+            <th scope="col">제목</th>
+            <th scope="col">날짜</th>
         </tr>
+        </thead>
         {% for post in posts %}
+        <tbody>
             <tr>
                 <td>{{ forloop.counter}}</td>
                 <td>{{post.author}}</td>
@@ -107,11 +113,9 @@
             </tr>
         {% empty %}
            <tr>
-                <td>없음</td>
-                <td>없음</td>
-                <td>없음</td>
-                <td>없음</td>
+                <td colspan="6">게시물이 없습니다.</td>
            </tr>
+        </tbody>
         {%endfor%}
     </table>
 </section>

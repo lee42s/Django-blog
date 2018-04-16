@@ -16,13 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
-from .views import admin_home,blog_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
-from blog import views
+from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
+from mysite import views
 from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
-    #회원,관리자로그인 시 35줄 실행 ,비회원 로그인시 에러메세지
-    url(r'^$', home, name='home'),
     #최고관리자
     url(r'^admin/', admin.site.urls),
     #관리자
@@ -35,7 +33,7 @@ urlpatterns = [
     url(r'^blog/post_new', include(('notice.urls', 'post_new'), namespace='post')),
 
     #사용자
-    url(r'^blog/$', blog_home, name='blog_home'),
+    url(r'^$', home, name='home'),
     url(r'^accounts/logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
     url(r'^auth/', include('social_django.urls', namespace='social')),

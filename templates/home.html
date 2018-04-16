@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% block head_title %}home{% endblock %}
 {% block content %}
-로그인 전 또는 비회원 홈페이지
+<section>
+    <h1>최근게시판 리스트<a href="{%url 'post:post_list'%}">더보기</a></h1>
+    {% for post in posts %}
+        <ul>
+            <li><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a><span>{{post.created_date|date:"M-d일"|lower}}</span></li>
+        </ul>
+    {% empty %}
+     <ul>
+            <li>게시물이 없습니다.</li>
+     </ul>
+     {%endfor%}
+</section>
 {% endblock %}
 

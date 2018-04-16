@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block head_title %}home-register{% endblock %}
-{% block title %}home-register{% endblock %}
+{% block head_title %}home{% endblock %}
+{% block title %}home{% endblock %}
 {% block content %}
 <h1>회원가입</h1>
 <section>
@@ -13,8 +13,6 @@
     <fieldset>
         {{ form.username.label_tag }}{{ form.username }}<span id="message">8자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.</span><br>
         {{ form.email.label_tag }} {{ form.email }}<br>
-        {{ form.first_name.label_tag }} {{ form.first_name }}<br>
-        {{ form.last_name.label_tag }} {{ form.last_name }}<br>
         {{ form.password1.label_tag }} {{ form.password1 }}<br>
         {{ form.password2.label_tag }} {{ form.password2 }}<span>{{ form.password2.errors|striptags }}</span>
     </fieldset>

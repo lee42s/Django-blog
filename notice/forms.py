@@ -1,6 +1,5 @@
 from django import forms
 from .models import Post
-from djrichtextfield.widgets import RichTextWidget
 from ckeditor.widgets import CKEditorWidget
 
 from ckeditor.fields import RichTextField
@@ -12,7 +11,6 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title':forms.TextInput(attrs={'class':'title','placeholder': '제목'}),
             'content':forms.CharField(widget=CKEditorWidget())
-
         }
         labels = {
             'title': '제목',

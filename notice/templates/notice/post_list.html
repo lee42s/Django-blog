@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
-{% block head_title %}notice-board{% endblock %}
-{% block title %}notice-board{% endblock %}
+{% block head_title %}home{% endblock %}
+{% block title %}home{% endblock %}
 {% block content %}
 <section>
     <h1>게시판 리스트</h1>
     <table>
+        <thead>
         <tr>
-            <th>번호</th>
-            <th>자성자</th>
-            <th>제목</th>
-            <th>날짜</th>
+            <th scope="col">번호</th>
+            <th scope="col">자성자</th>
+            <th scope="col">제목</th>
+            <th scope="col">날짜</th>
         </tr>
+        </thead>
         {% for post in posts %}
+        <tbody>
             <tr>
                 <td>{{ forloop.counter}}</td>
                 <td>{{post.author}}</td>
@@ -20,11 +23,9 @@
             </tr>
         {% empty %}
            <tr>
-                <td>없음</td>
-                <td>없음</td>
-                <td>없음</td>
-                <td>없음</td>
+             <td colspan="6">게시물이 없습니다.</td>
            </tr>
+        </tbody>
         {%endfor%}
     </table>
 </section>

@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth import forms as auth_forms
 from django import forms
 from member.models import User
-from notice.models import Post
+from notice.models import Post,Notice_category
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.http import HttpResponse,HttpResponseRedirect
@@ -23,7 +23,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 
 def home(request):
     posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')[:5]
-    return render(request, 'home.html',{'posts': posts})
+    category = Notice_category.objects.all()
+    return render(request, 'home.html',{'posts': posts, 'category': category})
 
 @login_required
 def admin_home(request):
@@ -35,7 +36,9 @@ def admin_home(request):
     user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
     posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')[:5]
-    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager,'posts':posts})
+    category = Notice_category.objects.all()
+    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager,
+                                                'posts':posts,'category': category})
 
 
 

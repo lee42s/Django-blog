@@ -24,7 +24,7 @@ class Notice_category(models.Model):
         return self.title
 
 class Post(models.Model):
-    category = models.ForeignKey(Notice_category,verbose_name='카테고리',default='', on_delete=models.CASCADE)
+    category = models.ForeignKey(Notice_category,verbose_name='카테고리',default='',on_delete=models.CASCADE)
     author=models.ForeignKey(User,verbose_name='작성자',on_delete=models.CASCADE)
     title = models.CharField(verbose_name='제목',max_length=200,default="")
     content = RichTextField(verbose_name='내용')

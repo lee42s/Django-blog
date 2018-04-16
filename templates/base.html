@@ -7,8 +7,20 @@
     <title>{% block head_title %}{% endblock %}</title>
 </head>
 <body>
-<h1><a href="{% url 'home' %}">{% block title %}home{% endblock %}</a></h1>
 <header>
+        <h1><a href="{% url 'home' %}">{% block title %}home{% endblock %}</a></h1>
+         <nav >
+            <ul>
+                <li>
+                    커뮤니티
+                    {% for cat in category %}
+                        <ul>
+                            <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
+                        </ul>
+                    {% endfor %}
+                </li>
+            </ul>
+         </nav>
         <nav>
             <ul>
                 {% if user.is_authenticated  %}

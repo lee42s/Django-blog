@@ -3,7 +3,9 @@
 {% block title %}home{% endblock %}
 {% block content %}
 <section>
-    <h1>게시판 리스트</h1>
+    {% for category_title in category_title %}
+    <h1>{{category_title.title }}</h1>
+    {%endfor%}
     <table>
         <thead>
         <tr>
@@ -13,8 +15,8 @@
             <th scope="col">날짜</th>
         </tr>
         </thead>
-        {% for post in posts %}
         <tbody>
+        {% for post in posts %}
             <tr>
                 <td>{{ forloop.counter}}</td>
                 <td>{{post.author}}</td>
@@ -22,12 +24,33 @@
                 <td>{{post.created_date|date:"M/d일"|lower}}</td>
             </tr>
         {% empty %}
-           <tr>
-             <td colspan="6">게시물이 없습니다.</td>
-           </tr>
-        </tbody>
+            <tr>
+            <td colspan="6">게시물이 없습니다.</td>
+            </tr>
         {%endfor%}
+        </tbody>
     </table>
 </section>
-<a href="{% url 'post:post_new' %}">글쓰기</a>
+ <a href="{% url 'post:post_new' %}">글쓰기</a>
+{% if pages.has_other_pages %}
+  <ul class="pagination">
+    {% if pages.has_previous %}
+      <li><a href="?page={{ pages.previous_page_number }}?category={{ posts.category }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in pages.paginator.page_range %}
+      {% if pages.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if pages.has_next %}
+      <li><a href="?page={{ pages.next_page_number }}?category={{ posts.category }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
 {% endblock %}

@@ -2,6 +2,11 @@
 {% block head_title %}manager{% endblock %}
 {% block title %}<a href="{% url 'manager_home' %}">manager</a>{% endblock %}
 {% block content %}
+<nav>
+    <ul>
+        <li><a href="#">게시판관리</a></li>
+    </ul>
+</nav>
 <section>
     <h1>회원권한</h1>
     <section>
@@ -98,6 +103,7 @@
         <thead>
         <tr>
             <th scope="col">번호</th>
+            <th scope="col">게시판</th>
             <th scope="col">자성자</th>
             <th scope="col">제목</th>
             <th scope="col">날짜</th>
@@ -107,6 +113,7 @@
         <tbody>
             <tr>
                 <td>{{ forloop.counter}}</td>
+                <td><a href="{%url 'post:post_list'%}?category={{ post.category }}">{{post.category.title}}</a></td>
                 <td>{{post.author}}</td>
                 <td><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a></td>
                 <td>{{post.created_date|date:"M/d일"|lower}}</td>
@@ -119,6 +126,5 @@
         {%endfor%}
     </table>
 </section>
-<div><a href="{%url 'post:post_list'%}">게시판더보기</a></div>
 {% block javascript %}{% endblock %}
 {% endblock %}

@@ -2,8 +2,13 @@
 {% block head_title %}home{% endblock %}
 {% block title %}home{% endblock %}
 {% block content %}
-<div>
-    <h1>{{post_detail.title}}</h1>
+<section>
+    {% if post_detail.category == None %}
+        <p>게시판: {{ post_detail.category }}</p>
+    {% else %}
+        <p>게시판:<a href="{% url 'post:post_list' %}?category={{ post_detail.category }} ">{{ post_detail.category.title }}</a></p>
+    {% endif %}
+    <h1>제목:{{post_detail.title}}</h1>
     <div>
     <p>
         작성자:{{post_detail.author}}
@@ -14,5 +19,5 @@
     </p>
     {{post_detail.content|safe|linebreaks}}
     </div>
-</div>
+</section>
 {% endblock %}

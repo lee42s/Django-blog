@@ -20,9 +20,9 @@
                 <th scope="col">마지막로그인날짜</th>
             </tr>
             </thead>
+            <tbody>
             {% for user_is_member in user_is_member %}
              {% if user_is_member.is_member == True %}
-            <tbody>
             <tr>
                 <td>{{user_is_member.username}}</td>
                 <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
@@ -37,6 +37,22 @@
             </tbody>
             {% endfor %}
         </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if user_is_member.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ user_is_member.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ user_is_member.number }} of {{ user_is_member.paginator.num_pages }}.
+                </span>
+                {% if user_is_member.has_next %}
+                    <a href="?page={{ user_is_member.next_page_number }}">next</a>
+                    <a href="?page={{ user_is_member.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </section>
     <section>
          <h1>비회원유저</h1>
@@ -66,6 +82,21 @@
             </tbody>
             {% endfor %}
         </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if none_user.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ none_user.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ none_user.number }} of {{ none_user.paginator.num_pages }}.
+                </span>
+                {% if none_user.has_next %}
+                    <a href="?page={{ none_user.next_page_number }}">next</a>
+                    <a href="?page={{ none_user.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </section>
      <section>
          <h1>관리자유저</h1>
@@ -95,6 +126,22 @@
             </tbody>
             {% endfor %}
         </table>
+         <div class="pagination">
+            <span class="step-links">
+                {% if user_is_manager.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ user_is_manager.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ user_is_manager.number }} of {{ user_is_member.paginator.num_pages }}.
+                </span>
+                {% if user_is_manager.has_next %}
+                    <a href="?page={{ user_is_manager.next_page_number }}">next</a>
+                    <a href="?page={{ user_is_manager.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </section>
 </section>
 <section>
@@ -125,6 +172,22 @@
         </tbody>
         {%endfor%}
     </table>
+     <div class="pagination">
+        <span class="step-links">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+     </div>
 </section>
 {% block javascript %}{% endblock %}
 {% endblock %}

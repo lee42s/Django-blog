@@ -4,33 +4,30 @@
 <section>
     {% for category in category %}
     {% if category.id == 1 %}
-     <h1>{{category.title}}<a href="{%url 'post:post_list'%}?category={{ post.category }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'post:post_list'%}?category={{ category.title }}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post in posts %}
-    {% if post.category_id == 1  %}
         <ul>
             <li><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a><span>{{post.created_date|date:"M-d일"|lower}}</span></li>
         </ul>
-    {% endif %}
     {% empty %}
      <ul>
             <li>게시물이 없습니다.</li>
      </ul>
      {%endfor%}
 </section>
+
 <section>
     {% for category in category %}
     {% if category.id == 2 %}
-     <h1>{{category.title}}<a href="{%url 'post:post_list'%}?category={{ post.category }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'post:post_list'%}?category={{ category.title }}">더보기</a></h1>
     {%endif%}
     {%endfor%}
-    {% for post in posts %}
-    {% if post.category_id == 2  %}
+    {% for post2 in posts2 %}
         <ul>
-            <li><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a><span>{{post.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'post:post_detail' pk=post2.pk %}">{{post2.title}}</a><span>{{post2.created_date|date:"M-d일"|lower}}</span></li>
         </ul>
-    {% endif %}
     {% empty %}
      <ul>
             <li>게시물이 없습니다.</li>

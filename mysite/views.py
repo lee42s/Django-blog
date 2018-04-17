@@ -19,12 +19,14 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
-    posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')[:5]
+    posts1 = Post.objects.filter(category__id=1,created_date__lte=timezone.now()).order_by('-created_date')[:5]
+    posts2 = Post.objects.filter(category__id=2,created_date__lte=timezone.now()).order_by('-created_date')[:5]
     category = Notice_category.objects.all()
-    return render(request, 'home.html',{'posts': posts, 'category': category})
+    return render(request, 'home.html',{'posts': posts1,'posts2': posts2,'category': category})
 
 @login_required
 def admin_home(request):
@@ -32,13 +34,53 @@ def admin_home(request):
         if  request.user.is_manager ==False  :
             error = "로그인 또는 관리자계정으로만 접근가능합니다"
             return HttpResponse(error)
-    user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
-    user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
-    none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')[:10]
-    posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')[:5]
+    user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')
+    none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')
+    user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')
+    posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')
     category = Notice_category.objects.all()
-    return render(request,'manager/home.html', {'user_is_member':user_is_member,'none_user':none_user,'user_is_manager':user_is_manager,
-                                                'posts':posts,'category': category})
+    #paginator_is_member
+    paginator_is_member = Paginator(user_is_member, 5)
+    page = request.GET.get('page')
+    try:
+        contacts_is_member = paginator_is_member.page(page)
+    except PageNotAnInteger:
+        contacts_is_member = paginator_is_member.page(1)
+    except EmptyPage:
+        contacts_is_member = paginator_is_member.page(paginator_is_member.num_pages)
+
+    # paginator_none_user
+    paginator_none_user = Paginator(none_user, 5)
+    page_none_user = request.GET.get('page')
+    try:
+        contacts_none_user = paginator_none_user.page(page_none_user)
+    except PageNotAnInteger:
+        contacts_none_user = paginator_none_user.page(1)
+    except EmptyPage:
+        contacts_none_user = paginator_none_user.page(paginator_none_user.num_pages)
+
+    #paginator_is_manager
+    paginator_user_is_manager = Paginator(user_is_manager, 5)
+    page_is_manager = request.GET.get('page')
+    try:
+        contacts_is_manager = paginator_user_is_manager.page(page_is_manager)
+    except PageNotAnInteger:
+        contacts_is_manager = paginator_user_is_manager.page(1)
+    except EmptyPage:
+        contacts_is_manager = paginator_user_is_manager.page(paginator_user_is_manager.num_pages)
+
+    paginator_posts = Paginator(posts, 5)
+    page_post = request.GET.get('page')
+    try:
+        contacts_post = paginator_posts.page(page_post)
+    except PageNotAnInteger:
+        contacts_post = paginator_posts.page(1)
+    except EmptyPage:
+        contacts_post = paginator_posts.page(paginator_posts.num_pages)
+
+
+    return render(request,'manager/home.html', {'user_is_member':contacts_is_member,'none_user':contacts_none_user,'user_is_manager':contacts_is_manager,
+                                                'posts':contacts_post,'category': category})
 
 
 

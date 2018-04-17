@@ -88,16 +88,33 @@ class UserRegisterView(CreateView):
     template_name = 'registration/register.html'
     form_class = CreateUserForm
     success_url = reverse_lazy('home')
-
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['category'] = Notice_category.objects.all()
+        return context
 
 class UserPasswordChangeView(PasswordChangeView,):
 
     success_url = reverse_lazy('password_change_done')
     template_name = 'registration/password_change_form.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['category'] = Notice_category.objects.all()
+        return context
 
 
 class UserPasswordDoneView(PasswordChangeDoneView,):
     template_name = 'registration/password_change_done.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['category'] = Notice_category.objects.all()
+        return context
 
 
 

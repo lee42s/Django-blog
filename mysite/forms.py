@@ -5,7 +5,7 @@ from django import forms
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email','first_name','last_name']
+        fields = ['username', 'email','first_name','last_name','is_level']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'username', 'placeholder': '8자 이내로 입력 가능합니다.'}),
             'email': forms.EmailInput(attrs={'class': 'email','placeholder': 'aaa@aaa.aaa'}),

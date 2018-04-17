@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block head_title %}manger{% endblock %}
+{% block title %}manager{% endblock %}
+{% block content %}
+<nav>
+    <ul>
+        {% if user.is_manager == True %}
+            <li><a href="{% url 'home' %}">사이트보기</a></li>
+            <li><a href="{% url 'notice:category_list' %}">게시판관리</a></li>
+        {%endif%}
+    </ul>
+</nav>
+<section>
+    <h1>게시판관리</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>카테고리</th>
+                <th>목록보기</th>
+                <th>상세보기</th>
+                <th>작성하기</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% load el_pagination_tags %}
+        {% paginate category %}
+        {% for category in category %}
+        <tr>
+            <td>{{category.title }}</td>
+            <td>{{category.get_list_auth_display}}</td>
+            <td>{{category.get_detail_auth_display}}</td>
+            <td>{{category.get_writer_auth_display}}</td>
+        </tr>
+       {% empty %}
+        <tr>
+            <td colspan="6">게시물이 없습니다.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+     {% show_pages %}
+</section>
+{% endblock %}

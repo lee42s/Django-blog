@@ -4,7 +4,10 @@
 {% block content %}
 <nav>
     <ul>
-        <li><a href="#">게시판관리</a></li>
+        {% if user.is_manager == True %}
+            <li><a href="{% url 'home' %}">사이트보기</a></li>
+            <li><a href="{% url 'notice:category_list' %}">게시판관리</a></li>
+        {%endif%}
     </ul>
 </nav>
 <section>

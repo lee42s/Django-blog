@@ -1,3 +1,4 @@
+{% load el_pagination_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +15,33 @@
                 <li>
                     커뮤니티
                     {% for cat in category %}
+                    {% if cat.id == 1 or cat.id == 2 %}
                         <ul>
                             <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
                         </ul>
+                    {%endif%}
                     {% endfor %}
                 </li>
+                 <li>
+                    Django
+                    {% for cat in category %}
+                    {% if cat.id == 4  %}
+                        <ul>
+                            <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
+                        </ul>
+                    {%endif%}
+                    {% endfor %}
+                </li>
+                {% for cat in category %}
+                {% if cat.id == 3  %}
+                    <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
+                {%endif%}
+                {% endfor %}
+                {% for cat in category %}
+                {% if cat.id == 5  %}
+                    <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
+                {%endif%}
+                {% endfor %}
             </ul>
          </nav>
         <nav>
@@ -37,9 +60,6 @@
                     </li>
                     <li><a href="{% url 'logout' %}">로그아웃</a></li>
                     <li><a href="{% url 'password_change' %}">비밀번호 변경</a></li>
-                    {% if user.is_manager %}
-                         <li><a href="{% url 'home' %}">사이트보기</a></li>
-                    {%endif%}
                     {% else %}
                         <li><a href="{% url 'login' %}">로그인</a></li>
                         <li><a href="{% url 'register' %}">회원가입</a>

@@ -21,15 +21,27 @@ def post_list(request):
     return render(request, 'notice/post_list.html', {'posts': posts,'category_title':category_title,'category':category,})
 
 
+@login_required
+def notice_category_manager(request):
+    if request.user.is_manager == False and request.user.is_member == False:
+        error =  "관리자만 이용가능합니다."
+        return HttpResponse(error)
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_member == True:
+        category =Notice_category.objects.all()[:5]
+    return render(request, 'notice/notice_category_list.html',{'category':category })
+
+
+
+
 def post_detail(request, pk):
     post_detail = Post.objects.get(pk=pk)
-    return render(request, 'notice/post_detail.html', {'post_detail': post_detail})
+    category = Notice_category.objects.all()
+    return render(request, 'notice/post_detail.html', {'post_detail': post_detail,'category':category})
 
 
 
 @login_required
 def post_new(request):
-    category = Notice_category.objects.all()
     if request.user.is_manager == False and request.user.is_member == False:
         error = "접근 권한이 없습니다. 관리자에게 문의 하세요"
         return HttpResponse(error)

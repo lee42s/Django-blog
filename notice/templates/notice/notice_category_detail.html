@@ -1,0 +1,18 @@
+{% extends 'manager/home.html' %}
+{% block head_title %}manger{% endblock %}
+{% block title %}<a href="{% url 'manager_home' %}">manager</a>{% endblock %}
+{% block content %}
+<section>
+    {%for category_detail in category_detail%}
+    <h1>{{category_detail.title}}</h1>
+    <p>
+        만든날짜:{{category_detail.created_date}}<br>
+        수정날짜:{{category_detail.modified_date}}<br>
+        목록보기:{{category_detail.get_list_auth_display}}<br>
+        상세보기:{{category_detail.get_detail_auth_display}}<br>
+        글작성:{{category_detail.get_writer_auth_display}}
+    </p>
+    {%endfor%}
+</section>
+
+{% endblock %}

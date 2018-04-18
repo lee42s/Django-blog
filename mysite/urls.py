@@ -18,28 +18,35 @@ from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
 from mysite import views
+from notice.models import Notice_category
 from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
     #최고관리자
     url(r'^admin/', admin.site.urls),
-    #관리자
+    #관리자만
     # url(r'^manager/', admin_home, name='manager_home'),29번행과 30행이 충돌 된다.(url 매핑
     # url(r'^manager/register/', MangerRegisterView.as_view(), name='manager_register'),
     url(r'^manager/$', admin_home, name='manager_home'),
-    url(r'^member/', include(('member.urls','permission_edit'), namespace='member')),
+    url(r'^manager/', include(('member.urls','permission_edit'), namespace='member')),
     url(r'^manager/', include(('notice.urls', 'category_list'), namespace='notice')),
-    #관리자/사용자
-    url(r'^blog/post_list/', include(('notice.urls', 'post_list'), namespace='post')),
-    url(r'^blog/post_detail', include(('notice.urls', 'post_detail'), namespace='post')),
-    url(r'^blog/post_new', include(('notice.urls', 'post_new'), namespace='post')),
+    url(r'^manager/', include(('notice.urls', 'category_new'), namespace='notice')),
+    url(r'^manager/', include(('notice.urls', 'category_edit'), namespace='notice')),
+    url(r'^manager/', include(('notice.urls', 'category_remove'), namespace='notice')),
 
+
+    #관리자/사용자
+    url(r'^notice/post_list/', include(('notice.urls', 'post_list'), namespace='post')),
+    url(r'^notice/post_detail', include(('notice.urls', 'post_detail'), namespace='post')),
+    url(r'^notice/post_new', include(('notice.urls', 'post_new'), namespace='post')),
 
 
     #사용자
     url(r'^$', home, name='home'),
     url(r'^accounts/logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-    url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
+    url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html',
+                                                 #로그인 페이지에서 각카테고리(gnb)나오기 위해서는 extra_context 을사용하여 카테고리퀘리셋 을적용한다
+                                                 'extra_context':{'category': Notice_category.objects.all()}}, name='login'),
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^register/', UserRegisterView.as_view(), name='register'),
 

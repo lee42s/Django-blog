@@ -19,7 +19,8 @@ class Notice_category(models.Model):
     list_auth = models.IntegerField('목록보기', choices=LEVEL_TYPE_CHOICES, null=True, blank=True)
     detail_auth = models.IntegerField('상세보기', choices=LEVEL_TYPE_CHOICES, null=True, blank=True)
     writer_auth = models.IntegerField('글쓰기', choices=LEVEL_TYPE_CHOICES, null=True, blank=True)
-
+    created_date = models.DateTimeField(verbose_name='만든날짜',auto_now_add=True,)  # auto_now_add=True생정날짜,auto_now=True수정날짜
+    modified_date = models.DateTimeField(verbose_name='수정날짜', auto_now=True)
     def __str__(self):
         return self.title
 

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post,Notice_category
 from ckeditor.widgets import CKEditorWidget
 
 from ckeditor.fields import RichTextField
@@ -18,3 +18,7 @@ class PostForm(forms.ModelForm):
             'category':'게시판 이름'
         }
 
+class Notice_categoryForm(forms.ModelForm):
+    class Meta:
+        model = Notice_category
+        fields = ('title','list_auth','detail_auth','writer_auth')

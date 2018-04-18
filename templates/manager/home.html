@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% block head_title %}manager{% endblock %}
 {% block title %}<a href="{% url 'manager_home' %}">manager</a>{% endblock %}
-{% block content %}
+{% block gnbcontent %}
 <nav>
     <ul>
-        {% if user.is_manager == True %}
+       {% if user.is_manager == True %}
             <li><a href="{% url 'home' %}">사이트보기</a></li>
             <li><a href="{% url 'notice:category_list' %}">게시판관리</a></li>
-        {%endif%}
+       {%endif%}
     </ul>
 </nav>
+{% endblock %}
+{% block content %}
 <section>
     <h1>회원권한</h1>
     <section>

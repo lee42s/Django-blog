@@ -23,17 +23,23 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
-    posts1 = Post.objects.filter(category__id=1,created_date__lte=timezone.now()).order_by('-created_date')[:5]
-    posts2 = Post.objects.filter(category__id=2,created_date__lte=timezone.now()).order_by('-created_date')[:5]
+    posts1 = Post.objects.filter(category='1',created_date__lte=timezone.now()).order_by('-created_date')[:5]#공지사항
+    posts2 = Post.objects.filter(category='2', created_date__lte=timezone.now()).order_by('-created_date')[:5]#자유게시판
+    posts3 = Post.objects.filter(category='3', created_date__lte=timezone.now()).order_by('-created_date')[:5]#겔러리게시판
+    posts4 = Post.objects.filter(category='4', created_date__lte=timezone.now()).order_by('-created_date')[:5]#Django
+    posts5 = Post.objects.filter(category='5', created_date__lte=timezone.now()).order_by('-created_date')[:5]#less
+    posts6 = Post.objects.filter(category='6', created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
+    posts7 = Post.objects.filter(category='7', created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
+    posts8 = Post.objects.filter(category='8', created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
     category = Notice_category.objects.all()
-    return render(request, 'home.html',{'posts': posts1,'posts2': posts2,'category': category})
+    return render(request, 'home.html',{'posts1': posts1,'posts2': posts2,'posts3': posts3,'posts4': posts4,'posts5': posts5,
+                                        'posts6': posts6,'posts7': posts7,'posts8': posts8,'category': category})
 
 @login_required
 def admin_home(request):
-    if request.user.is_authenticated or request.user.is_superuser == True :
-        if  request.user.is_manager ==False  :
-            error = "로그인 또는 관리자계정으로만 접근가능합니다"
-            return HttpResponse(error)
+    if request.user.is_authenticated:
+        if  request.user.is_manager ==False:
+            return redirect('login')
     user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')
     none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')
     user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')
@@ -48,7 +54,6 @@ def admin_home(request):
         contacts_is_member = paginator_is_member.page(1)
     except EmptyPage:
         contacts_is_member = paginator_is_member.page(paginator_is_member.num_pages)
-
     # paginator_none_user
     paginator_none_user = Paginator(none_user, 5)
     page_none_user = request.GET.get('page')
@@ -77,9 +82,8 @@ def admin_home(request):
         contacts_post = paginator_posts.page(1)
     except EmptyPage:
         contacts_post = paginator_posts.page(paginator_posts.num_pages)
-
-
-    return render(request,'manager/home.html', {'user_is_member':contacts_is_member,'none_user':contacts_none_user,'user_is_manager':contacts_is_manager,
+    return render(request,'manager/home.html', {'user_is_member':contacts_is_member,'none_user':contacts_none_user,
+                                                'user_is_manager':contacts_is_manager,
                                                 'posts':contacts_post,'category': category})
 
 

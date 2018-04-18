@@ -1,4 +1,3 @@
-{% load el_pagination_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,40 +9,6 @@
 <body>
 <header>
         <h1><a href="{% url 'home' %}">{% block title %}home{% endblock %}</a></h1>
-         <nav >
-            <ul>
-                <li>
-                    커뮤니티
-                    {% for cat in category %}
-                    {% if cat.id == 1 or cat.id == 2 %}
-                        <ul>
-                            <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
-                        </ul>
-                    {%endif%}
-                    {% endfor %}
-                </li>
-                 <li>
-                    Django
-                    {% for cat in category %}
-                    {% if cat.id == 4  %}
-                        <ul>
-                            <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
-                        </ul>
-                    {%endif%}
-                    {% endfor %}
-                </li>
-                {% for cat in category %}
-                {% if cat.id == 3  %}
-                    <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
-                {%endif%}
-                {% endfor %}
-                {% for cat in category %}
-                {% if cat.id == 5  %}
-                    <li><a  href="{% url 'post:post_list' %}?category={{ cat }}">{{ cat.title }}</a></li>
-                {%endif%}
-                {% endfor %}
-            </ul>
-         </nav>
         <nav>
             <ul>
                 {% if user.is_authenticated  %}
@@ -67,8 +32,8 @@
             </ul>
         </nav>
 </header>
+{% block gnbcontent %}{% endblock %}
 {% block content %}{% endblock %}
-{% block login %}{% endblock %}
 {% block footer %}
         <footer>
             <div>&copy; 2017. (LKH) All rights reserved.</div>

@@ -2,11 +2,11 @@
 {% block head_title %}home{% endblock %}
 {% block title %}home{% endblock %}
 {% block content %}
-<h2>게시판 글쓰기</h2>
+<h1>게시판 글쓰기|수정</h1>
 <form method="POST" class="post-form">
         {% csrf_token %}
         <div class="form-group">
-                <div class="form-group">{{ form.category.label_tag }}{{ form.category }}</div>
+                <div class="form-group">{{ form.category }}</div>
                 <div class="form-group">{{ form.title.label_tag }}{{ form.title }}</div>
                 {{ form.media }}
                 <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>

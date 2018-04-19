@@ -15,8 +15,7 @@ def user_permission_edit(request, pk):
     if request.user.is_authenticated:
          user = get_object_or_404(User, pk=pk)
     if request.user.is_manager == False:
-        error = "관리자계정으로만 접근가능합니다"
-        return HttpResponse(error)
+         return render(request, 'about.html')
     if request.method == 'POST':
         form = PermissionForm(request.POST, instance=user)
         if form.is_valid():

@@ -31,7 +31,7 @@ def home(request):
     posts6 = Post.objects.filter(category='6', created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
     posts7 = Post.objects.filter(category='7', created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
     posts8 = Post.objects.filter(category='8', created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
-    category = Notice_category.objects.all()
+    category = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
     return render(request, 'home.html',{'posts1': posts1,'posts2': posts2,'posts3': posts3,'posts4': posts4,'posts5': posts5,
                                         'posts6': posts6,'posts7': posts7,'posts8': posts8,'category': category})
 
@@ -44,7 +44,7 @@ def admin_home(request):
     none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')
     user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')
     posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')
-    category = Notice_category.objects.all()
+    category = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
     #paginator_is_member
     paginator_is_member = Paginator(user_is_member, 5)
     page = request.GET.get('page')
@@ -107,17 +107,17 @@ class UserPasswordChangeView(PasswordChangeView,):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['category'] = Notice_category.objects.all()
+        context['category'] = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
         return context
 
 
 class UserPasswordDoneView(PasswordChangeDoneView,):
-    template_name = 'registration/password_change_done.html'
-    def get_context_data(self, **kwargs):
+     template_name = 'registration/password_change_done.html'
+     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['category'] = Notice_category.objects.all()
+        context['category'] = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
         return context
 
 

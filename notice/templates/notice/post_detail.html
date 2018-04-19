@@ -3,7 +3,7 @@
 {% block title %}home{% endblock %}
 {% block content %}
 <section>
-    <p>게시판:<a href="{% url 'post:post_list' %}?category={{ post_detail.category_id }} ">{{ post_detail.category.title }}</a></p>
+    <p>게시판:<a href="{% url 'notice_list:post_list' %}?category={{ post_detail.category_id }} ">{{ post_detail.category.title }}</a></p>
     <h1>제목:{{post_detail.title}}</h1>
     <div>
     <p>
@@ -15,5 +15,19 @@
     </p>
     {{post_detail.content|safe|linebreaks}}
     </div>
+    <a href="{% url 'notice_edit:post_edit' pk=post_detail.pk category=post_detail.category_id %}" >
+        <button onclick="Check_edit()">수정하기</button>
+    </a>
 </section>
+{% endblock %}
+{% block javascript %}
+    <script>
+        var username='{{post_detail.author}}';
+        var login_user='{{request.user}}';
+        function Check_edit(){
+            if( username !== login_user){
+                alert('작성자아이디 가 같은 아이디 만 수정 가능합니다. ');
+            }
+        }
+    </script>
 {% endblock %}

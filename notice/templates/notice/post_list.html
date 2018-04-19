@@ -15,26 +15,26 @@
             <th scope="col">날짜</th>
         </tr>
         </thead>
-        <tbody>
         {% for post in posts %}
+        <tbody>
             <tr>
                 <td>{{ forloop.counter}}</td>
                 <td>{{post.author}}</td>
-                <td><a href="{% url 'post:post_detail' pk=post.pk %}?category={{post.category_id}}">{{post.title}}</a></td>
+                <td><a href="{% url 'notice_detail:post_detail' pk=post.pk category=post.category_id%}">{{post.title}}</a></td>
                 <td>{{post.created_date|date:"M/d일"|lower}}</td>
             </tr>
         {% empty %}
             <tr>
             <td colspan="6">게시물이 없습니다.</td>
             </tr>
-        {%endfor%}
         </tbody>
+        {%endfor%}
     </table>
 {% if posts.has_other_pages %}
 <ul class="pagination">
 {% if posts.has_previous %}
     {% for category_title in category_title %}
-        <li><a href="?page={{ posts.previous_page_number }}&category={{category_title.title}}">&laquo;</a></li>
+        <li><a href="?page={{ posts.previous_page_number }}&category={{category_title.id}}">&laquo;</a></li>
     {%endfor%}
 {% else %}
   <li class="disabled"><span>&laquo;</span></li>
@@ -44,19 +44,22 @@
     <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
   {% else %}
     {% for category_title in category_title %}
-        <li><a href="?page={{ i }}&category={{category_title.title}}">{{ i }}</a></li>
+        <li><a href="?page={{ i }}&category={{category_title.id}}">{{ i }}</a></li>
     {%endfor%}
   {% endif %}
 {% endfor %}
-{% if category.has_next %}
+{% if posts.has_next %}
     {% for category_title in category_title %}
-        <li><a href="?page={{ posts.next_page_number }}&category={{category_title.title}}">&raquo;</a></li>
+        <li><a href="?page={{ posts.next_page_number }}&category={{category_title.id}}">&raquo;</a></li>
     {%endfor%}
 {% else %}
   <li class="disabled"><span>&raquo;</span></li>
 {% endif %}
 </ul>
 {% endif %}
-<a href="{% url 'post:post_new' %}">글쓰기</a>
+{% for category_title in category_title %}
+<a href="{% url 'notice_new:post_new' %}?category={{category_title.id}}">글쓰기</a>
+{%endfor%}
 </section>
 {% endblock %}
+{% block javascript %}{% endblock %}

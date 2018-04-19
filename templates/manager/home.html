@@ -6,7 +6,7 @@
     <ul>
        {% if user.is_manager == True %}
             <li><a href="{% url 'home' %}">사이트보기</a></li>
-            <li><a href="{% url 'notice:category_list' %}">게시판관리</a></li>
+            <li><a href="{% url 'm_category_list:category_list' %}">게시판관리</a></li>
        {%endif%}
     </ul>
 </nav>
@@ -165,9 +165,9 @@
         <tbody>
             <tr>
                 <td>{{ forloop.counter}}</td>
-                <td><a href="{%url 'post:post_list'%}?category={{ post.category }}">{{post.category.title}}</a></td>
+                <td><a href="{%url 'notice_list:post_list'%}?category={{ post.category.id }}">{{post.category.title}}</a></td>
                 <td>{{post.author}}</td>
-                <td><a href="{% url 'post:post_detail' pk=post.pk %}">{{post.title}}</a></td>
+                <td><a href="{% url 'notice_detail:post_detail' pk=post.pk category=post.category.id%}">{{post.title}}</a></td>
                 <td>{{post.created_date|date:"M/d일"|lower}}</td>
             </tr>
         {% empty %}

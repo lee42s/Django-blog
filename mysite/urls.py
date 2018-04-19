@@ -29,16 +29,17 @@ urlpatterns = [
     # url(r'^manager/register/', MangerRegisterView.as_view(), name='manager_register'),
     url(r'^manager/$', admin_home, name='manager_home'),
     url(r'^manager/', include(('member.urls','permission_edit'), namespace='member')),
-    url(r'^manager/', include(('notice.urls', 'category_list'), namespace='notice')),
-    url(r'^manager/', include(('notice.urls', 'category_new'), namespace='notice')),
-    url(r'^manager/', include(('notice.urls', 'category_edit'), namespace='notice')),
-    url(r'^manager/', include(('notice.urls', 'category_remove'), namespace='notice')),
+    url(r'^manager/list', include(('notice.urls', 'category_list'), namespace='m_category_list')),
+    url(r'^manager/new', include(('notice.urls', 'category_new'), namespace='m_category_new')),
+    url(r'^manager/', include(('notice.urls', 'category_edit'), namespace='m_category_edit')),
+    url(r'^manager/', include(('notice.urls', 'category_remove'), namespace='m_category_remove')),
 
 
     #관리자/사용자
-    url(r'^notice/post_list/', include(('notice.urls', 'post_list'), namespace='post')),
-    url(r'^notice/post_detail', include(('notice.urls', 'post_detail'), namespace='post')),
-    url(r'^notice/post_new', include(('notice.urls', 'post_new'), namespace='post')),
+    url(r'^notice/', include(('notice.urls', 'post_list'), namespace='notice_list')),
+    url(r'^notice/post_detail', include(('notice.urls', 'post_detail'), namespace='notice_detail')),
+    url(r'^notice/post_list', include(('notice.urls', 'post_new'), namespace='notice_new')),
+    url(r'^notice/post_edit', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
 
 
     #사용자

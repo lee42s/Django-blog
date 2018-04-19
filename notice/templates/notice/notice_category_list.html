@@ -20,14 +20,14 @@
         {% for category_list in category_list %}
         <tr>
             <td>{{ forloop.counter}}</td>
-            <td><a href="{% url 'post:post_list' %}?category={{ category_list.id }} ">{{category_list.title }}</a></td>
+            <td><a href="{% url 'notice_list:post_list' %}?category={{ category_list.id }} ">{{category_list.title }}</a></td>
             <td>{{category_list.get_list_auth_display}}</td>
             <td>{{category_list.get_detail_auth_display}}</td>
             <td>{{category_list.get_writer_auth_display}}</td>
             <td>{{category_list.created_date|date:"M/d일"|lower}}</td>
             <td>
-                <a href="{%url 'notice:category_edit' pk=category_list.pk%}">수정</a>
-                <a href="{%url 'notice:category_remove' pk=category_list.pk%}">삭제</a>
+                <a href="{%url 'm_category_edit:category_edit' pk=category_list.pk%}">수정</a>
+                <a href="{%url 'm_category_remove:category_remove' pk=category_list.pk%}">삭제</a>
             </td>
         </tr>
        {% empty %}
@@ -58,6 +58,6 @@
     {% endif %}
   </ul>
 {% endif %}
-<a href="{% url 'notice:category_new' %}">게시판추가</a>
+<a href="{% url 'm_category_new:category_new' %}">게시판추가</a>
 </section>
 {% endblock %}

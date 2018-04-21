@@ -8,7 +8,7 @@
             {% for category in category %}
             {% if category.title == '자유게시판' or category.title == '겔러리게시판' %}
                 <ul>
-                    <li><a  href="{% url 'notice_list:post_list' %}?category={{ category.id }}">{{ category.title }}</a></li>
+                    <li><a  href="{% url 'notice_list:post_list' category=category.id%}">{{ category.title }}</a></li>
                 </ul>
             {%endif%}
             {% endfor %}
@@ -18,20 +18,20 @@
             {% for category in category %}
             {% if category.title == 'Django' or category.title == 'less' or category.title == 'HTML' or category.title == 'javascript'  %}
                 <ul>
-                    <li><a  href="{% url 'notice_list:post_list' %}?category={{ category.id }}">{{ category.title }}</a></li>
+                    <li><a  href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></li>
                 </ul>
             {%endif%}
             {% endfor %}
         </li>
         {% for category in category %}
         {% if category.title == '공지사항'  %}
-            <li><a  href="{% url 'notice_list:post_list' %}?category={{ category.id }}">{{ category.title }}</a></li>
+            <li><a  href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></li>
         {%endif%}
         {% endfor %}
 
         {% for category in category %}
         {% if category.title == '비회원게시판'  %}
-            <li><a  href="{% url 'notice_list:post_list' %}?category={{ category.id }}">{{ category.title }}</a></li>
+            <li><a  href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></li>
         {%endif%}
         {% endfor %}
     </ul>
@@ -41,7 +41,7 @@
 <section>
     {% for category in category %}
     {% if category.title == '공지사항'%}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post1 in posts1 %}
@@ -57,12 +57,15 @@
 <section>
     {% for category in category %}
     {% if category.title == '자유게시판' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id %}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post2 in posts2 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post2.pk category=post2.category_id %}">{{post2.title}}</a><span>{{post2.created_date|date:"M-d일"|lower}}</span></li>
+            <li>
+                <a href="{% url 'notice_detail:post_detail' pk=post2.pk category=post2.category_id %}">{{post2.title}}</a>
+                <span>{{post2.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -73,7 +76,7 @@
 <section>
     {% for category in category %}
     {% if category.title == '겔러리게시판' or category.title == '겔러리게시판' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post3 in posts3 %}
@@ -89,7 +92,7 @@
 <section>
     {% for category in category %}
     {% if category.title == 'Django' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post4 in posts4 %}
@@ -105,7 +108,7 @@
 <section>
     {% for category in category %}
     {% if category.title == 'less' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post5 in posts5 %}
@@ -121,7 +124,7 @@
 <section>
     {% for category in category %}
     {% if category.title == 'HTML' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post6 in posts6 %}
@@ -137,7 +140,7 @@
 <section>
     {% for category in category %}
     {% if category.title == 'javascript' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post7 in posts7 %}
@@ -153,7 +156,7 @@
 <section>
     {% for category in category %}
     {% if category.title == '비회원게시판' %}
-     <h1>{{category.title}}<a href="{%url 'notice_list:post_list'%}?category={{ category.id }}">더보기</a></h1>
+     <h1>{{category.title}}<a href="{%url 'notice_list:post_list' category=category.id%}">더보기</a></h1>
     {%endif%}
     {%endfor%}
     {% for post8 in posts8 %}

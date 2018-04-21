@@ -3,7 +3,7 @@
 {% block title %}home{% endblock %}
 {% block content %}
 <section>
-    <p>게시판:<a href="{% url 'notice_list:post_list' %}?category={{ post_detail.category_id }} ">{{ post_detail.category.title }}</a></p>
+    <h1>게시판:<a href="{% url 'notice_list:post_list' category=post_detail.category_id %} ">{{ post_detail.category.title }}</a></h1>
     <h1>제목:{{post_detail.title}}</h1>
     <div>
     <p>
@@ -13,20 +13,33 @@
         만든날짜:{{post_detail.created_date}}<br>
         수정날짜:{{post_detail.modified_date}}
     </p>
-    {{post_detail.content|safe|linebreaks}}
+    {{post_detail.content|safe|linebreaks|striptags}}
     </div>
-    <a href="{% url 'notice_edit:post_edit' pk=post_detail.pk category=post_detail.category_id %}" >
-        <button onclick="Check_edit()">수정하기</button>
-    </a>
+    <button onclick="check_edit()">
+        <a href="{% url 'notice_edit:post_edit' pk=post_detail.pk category=post_detail.category_id %}">
+            수정하기
+        </a>
+    </button>
+    <button onclick="check_remove()">
+        <a href="{% url 'notice_remove:post_remove' pk=post_detail.pk category=post_detail.category_id %}">
+            삭제하기
+        </a>
+    </button>
 </section>
 {% endblock %}
 {% block javascript %}
     <script>
         var username='{{post_detail.author}}';
         var login_user='{{request.user}}';
-        function Check_edit(){
+        var manager ='{{request.user.is_manager}}';
+        function check_edit(){
             if( username !== login_user){
-                alert('작성자아이디 가 같은 아이디 만 수정 가능합니다. ');
+                alert('작성자 만 수정 가능합니다. ');
+            }
+        }
+        function check_remove(){
+            if( username !== login_user){
+                alert('작성자 만 삭제 가능합니다. ');
             }
         }
     </script>

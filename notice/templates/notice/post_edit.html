@@ -2,11 +2,14 @@
 {% block head_title %}home{% endblock %}
 {% block title %}home{% endblock %}
 {% block content %}
-<h1>게시판 글쓰기|수정</h1>
-<form method="POST" class="post-form">
+{% for category in category_id %}
+<div>
+        <h1>게시판:<a href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></h1>
+</div>
+{%endfor%}
+<form method="POST" id="f_write" onsubmit="f_word_tiltering()" >
         {% csrf_token %}
-        <div class="form-group">
-                <div class="form-group">{{ form.category }}</div>
+        <div id="f_writer" >
                 <div class="form-group">{{ form.title.label_tag }}{{ form.title }}</div>
                 {{ form.media }}
                 <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>
@@ -15,5 +18,31 @@
 </form>
 {% endblock %}
 {% block javascript %}
+<script>
+      function f_word_tiltering(){
+                var subject=$("#title").val();
+                var content=$("#content").val();
+                $.ajax({
+                        url:"{% url 'validate_content' %}",
+                        dataType: 'json',
+                        type:"GET",
+                        data:{
+                        "subject": subject,
+                        "content": content
+                        },
+                        success:function(data){
+                                if(data.is_taken_subject === true ){
+                                var error_message = data.error_message;
+                                alert('제목에 금지단어'+'("'+subject+'")'+error_message);
+                                }
+                                if(data.is_taken_content === true){
+                                var error_message = data.error_message;
+                                alert('내용에 금지단어'+'("'+content+'")'+error_message);
+                                }
 
+                        },
+                        
+                })
+        }
+</script>
 {% endblock %}

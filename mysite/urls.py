@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
+from notice.views import ajax_word_filtering
 from mysite import views
 from notice.models import Notice_category
 from django.contrib.auth.decorators import login_required, permission_required
@@ -29,8 +30,8 @@ urlpatterns = [
     # url(r'^manager/register/', MangerRegisterView.as_view(), name='manager_register'),
     url(r'^manager/$', admin_home, name='manager_home'),
     url(r'^manager/', include(('member.urls','permission_edit'), namespace='member')),
-    url(r'^manager/list', include(('notice.urls', 'category_list'), namespace='m_category_list')),
-    url(r'^manager/new', include(('notice.urls', 'category_new'), namespace='m_category_new')),
+    url(r'^manager/list/', include(('notice.urls', 'category_list'), namespace='m_category_list')),
+    url(r'^manager/new/', include(('notice.urls', 'category_new'), namespace='m_category_new')),
     url(r'^manager/', include(('notice.urls', 'category_edit'), namespace='m_category_edit')),
     url(r'^manager/', include(('notice.urls', 'category_remove'), namespace='m_category_remove')),
 
@@ -38,15 +39,18 @@ urlpatterns = [
     #관리자/사용자
     url(r'^notice/', include(('notice.urls', 'post_list'), namespace='notice_list')),
     url(r'^notice/post_detail', include(('notice.urls', 'post_detail'), namespace='notice_detail')),
-    url(r'^notice/post_list', include(('notice.urls', 'post_new'), namespace='notice_new')),
-    url(r'^notice/post_edit', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
+    url(r'^notice/post_list/', include(('notice.urls', 'post_new'), namespace='notice_new')),
+    url(r'^notice/', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
+    url(r'^notice/', include(('notice.urls', 'post_remove'), namespace='notice_remove')),
+    url(r'^word_filtering/', include(('notice.urls', 'word_filtering'), namespace='word_filtering_manager')),
+
 
 
     #사용자
     url(r'^$', home, name='home'),
     url(r'^accounts/logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
+    # 로그인 페이지에서 각카테고리(gnb)나오기 위해서는 extra_context 을사용하여 카테고리퀘리셋 을적용한다
     url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html',
-                                                 #로그인 페이지에서 각카테고리(gnb)나오기 위해서는 extra_context 을사용하여 카테고리퀘리셋 을적용한다
                                                  'extra_context':{'category': Notice_category.objects.all()}}, name='login'),
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^register/', UserRegisterView.as_view(), name='register'),
@@ -54,7 +58,7 @@ urlpatterns = [
     url(r'^accounts/password_change/$', UserPasswordChangeView.as_view(), name='password_change'),
     url(r'^accounts/password_change_done/$', UserPasswordDoneView.as_view(),name='password_change_done'),
 
-
+    url(r'^ajax/validate_content/$', ajax_word_filtering, name="validate_content"),
     #ajax유저아이디검사
     url(r'^ajax/validate_username/$', views.validate_username, name="validate_username"),
     # text위젯

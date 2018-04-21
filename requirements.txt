@@ -2,4 +2,3 @@ social-auth-app-django==2.1.0
 django-allauth
 pillow
 django-ckeditor
-django-el-pagination

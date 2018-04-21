@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'social_django',
     'member',
     'notice',
-    'el_pagination',
 
 ]
 
@@ -64,6 +63,7 @@ CKEDITOR_CONFIGS = {
             ['RemoveFormat', 'Source'],
             {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+
         ]
     },
 }

@@ -2,8 +2,8 @@
 {% block head_title %}manager{% endblock %}
 {% block title %}manager{% endblock %}
 {% block content %}
-<h2>카테고리 추가</h2>
 <form method="POST" class="post-form">
+        <h1>게시판관리</h1>
         {% csrf_token %}
         <div class="form-group">
                 <div class="form-group">{{ form.title.label_tag }}{{ form.title }}</div>
@@ -15,5 +15,4 @@
 </form>
 {% endblock %}
 {% block javascript %}
-
 {% endblock %}

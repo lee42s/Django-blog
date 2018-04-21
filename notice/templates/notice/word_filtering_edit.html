@@ -1,0 +1,11 @@
+{% extends 'manager/home.html' %}
+{% block content%}
+<form method="POST" class="post-form">
+        <h1>비방글관리</h1>
+        {% csrf_token %}
+        <div class="form-group">
+                <div class="form-group">{{ form.title.label_tag }}{{ form.text }}</div>
+        </div>
+<button type="submit"  class="btn btn-default">저장</button>
+</form>
+{%endblock%}

@@ -37,8 +37,8 @@ def home(request):
 
 @login_required
 def admin_home(request):
-    if request.user.is_authenticated:
-        if  request.user.is_manager ==False:
+    if request.user.is_authenticated or request.user.is_superuser == True or request.user.is_manager ==True:
+        if request.user.is_manager ==False and request.user.is_superuser == False:
             return redirect('login')
     user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')
     none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')

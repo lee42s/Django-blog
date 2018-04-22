@@ -16,12 +16,12 @@
                 {% if user.is_authenticated  %}
                     <li>
                         {{ user.username}}님
-                        {% if user.is_manager == True %}
+                        {% if user.is_manager == True and user.is_member == False%}
                         <span><a href="{% url 'manager_home' %}">관리자</a></span>
                         {%endif%}
-                        {% if user.is_member == True %}
+                        {% if user.is_member == True and user.is_manager == False  %}
                         <span>회원</span>
-                        {% elif user.is_member == False and user.is_manager == False %}
+                        {% elif user.is_member == False and user.is_manager == False  %}
                         <span>비회원</span>
                         {%endif%}
                     </li>

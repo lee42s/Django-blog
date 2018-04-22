@@ -14,7 +14,7 @@ from django.utils import timezone
 def user_permission_edit(request, pk):
     if request.user.is_authenticated:
          user = get_object_or_404(User, pk=pk)
-    if request.user.is_manager == False:
+    if request.user.is_manager == False and request.user.is_superuser == False:
          return render(request, 'about.html')
     if request.method == 'POST':
         form = PermissionForm(request.POST, instance=user)

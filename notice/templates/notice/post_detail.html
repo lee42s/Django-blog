@@ -3,7 +3,7 @@
 {% block title %}home{% endblock %}
 {% block content %}
 <section>
-    <h1>게시판:<a href="{% url 'notice_list:post_list' category=post_detail.category_id %} ">{{ post_detail.category.title }}</a></h1>
+    <h1>게시판:<a href="{% url 'notice_list:post_list' category=post_detail.category_id %}">{{ post_detail.category.title }}</a></h1>
     <h1>제목:{{post_detail.title}}</h1>
     <div>
     <p>
@@ -15,6 +15,7 @@
     </p>
     {{post_detail.content|safe|linebreaks|striptags}}
     </div>
+    {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
     <button onclick="check_edit()">
         <a href="{% url 'notice_edit:post_edit' pk=post_detail.pk category=post_detail.category_id %}">
             수정하기
@@ -25,16 +26,55 @@
             삭제하기
         </a>
     </button>
+    {%endif%}
 </section>
+<section id="comment_list">
+    <h1>댓글목록</h1>
+    {% for comment in comment_post.all %}
+    <ul>
+        <li>
+            작성자: {{ comment.author }}
+            <a href="">수정</a>
+            <ul>
+                <li>등록일: {{ comment.created_date }}</li>
+                <li>{{ comment.text|linebreaksbr }}</li>
+            </ul>
+        </li>
+    </ul>
+    {% empty%}
+        <p>일등으로 댓글 달어보자! *^ ^*</p>
+    {%endfor%}
+</section>
+{% include 'notice/comment_form.html' %}
 {% endblock %}
+
 {% block javascript %}
-    <script>
+<script>
+      function f_word_tiltering(){
+                var comment=$(".comment").val();
+                $.ajax({
+                        url:"{% url 'validate_comment' %}",
+                        dataType: 'json',
+                        type:"GET",
+                        data:{
+                        "comment":comment
+                        },
+                        success:function(data){
+                            if(data.is_taken_comment === true ){
+                            var error_message = data.error_message;
+                           window.alert('댓글에 금지단어'+'("'+comment+'")'+error_message);
+                            }
+                        },
+
+                })
+        }
+
         var username='{{post_detail.author}}';
         var login_user='{{request.user}}';
         var manager ='{{request.user.is_manager}}';
         function check_edit(){
             if( username !== login_user){
-                alert('작성자 만 수정 가능합니다. ');
+                alert('작성자 만 수정 가능합니다. ')
             }
         }
         function check_remove(){
@@ -42,5 +82,5 @@
                 alert('작성자 만 삭제 가능합니다. ');
             }
         }
-    </script>
+ </script>
 {% endblock %}

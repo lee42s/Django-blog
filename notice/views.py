@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from notice.models import Post,Notice_category,Word_filtering
+from notice.models import Post,Notice_category,Word_filtering,Comment
 from django.http import HttpResponse,HttpResponseRedirect,Http404
-from notice.forms import PostForm,Notice_categoryForm,Word_filteringForm
+from notice.forms import PostForm,Notice_categoryForm,Word_filteringForm,CommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.http import JsonResponse
@@ -14,12 +14,12 @@ from django.db.models.functions import Length
 
 # Create your views here.
 
-def post_list(request,category):
+def post_list(request, category):
     category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
     category_title = Notice_category.objects.filter(id=category)
     for list_auth in category_title:
         try :
-            if request.user.is_level <= list_auth.list_auth:
+            if request.user.is_level <= list_auth.list_auth or request.user.is_superuser == True or request.user.is_manager == True:
                 posts = Post.objects.filter(category_id=category,
                                             created_date__lte=timezone.now()).order_by('-created_date')
             else:
@@ -37,28 +37,50 @@ def post_list(request,category):
     return render(request, 'notice/post_list.html', {'posts': posts,'category_title':category_title,'category':category1,})
 
 
-def post_detail(request,pk,category):
+def post_detail(request, pk, category):
     category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
     category_id=Notice_category.objects.filter(id=category)
     for detail_auth in category_id:
         try :
-            if request.user.is_level <= detail_auth.detail_auth:
-                post_detail = Post.objects.get(pk=pk)
+            if request.user.is_level <= detail_auth.detail_auth or request.user.is_superuser == True or request.user.is_manager == True:
+                post_detail = Post.objects.get(pk=pk, category=category)
             else:
                 return render(request, 'about.html',{'category':category1})
         except:
             return redirect('register')
-    return render(request, 'notice/post_detail.html', {'post_detail': post_detail,'category':category1})
+    post = get_object_or_404(Post, pk=pk)
+    comment_post = Comment.objects.filter(post_id=pk,created_date__lte=timezone.now()).order_by('-created_date')[:2]
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            word_content = Word_filtering.objects.filter(id=1, text__contains=comment.text).exists()
+            if word_content == True:
+                comment.author = request.user
+                comment.post = post
+            else:
+                comment.author = request.user
+                comment.post = post
+                comment.save()
+                return redirect('notice_detail:post_detail', pk=post.pk, category=category)
+    else:
+        form = CommentForm()
+    return render(request, 'notice/post_detail.html',
+                  {'post_detail': post_detail,'category':category1,'form': form,'comment_post':comment_post})
+
+
+
 
 
 @login_required
 def post_new(request,category):
-    if request.user.is_authenticated or request.user.is_manager == True :
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True :
         ctgry = category
         category_id = Notice_category.objects.filter(id=ctgry)
         category1 = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
         for writer_auth in category_id:
-            if request.method == "POST" and request.user.is_level <= writer_auth.writer_auth:
+            if request.method == "POST" and request.user.is_level <= writer_auth.writer_auth \
+                    or request.user.is_manager == True or request.user.is_superuser == True:
                 form = PostForm(request.POST)
                 if form.is_valid():
                     post = form.save(commit=False)
@@ -66,8 +88,8 @@ def post_new(request,category):
                     word_content = Word_filtering.objects.filter(id=1,text__contains=post.content).exists()
                     word_subject = Word_filtering.objects.filter(id=1,text__contains=post.title).exists()
                     if word_content or word_subject:
-                        post.title = post.content
-                        post.cotent = post.title
+                        return render(request, 'notice/post_edit.html',
+                                      {'form': form, 'category': category1, 'category_id': category_id})
                     else:
                         post.author = request.user
                         post.category = writer_auth
@@ -85,7 +107,7 @@ def post_edit(request,pk,category):
     post_author=Post.objects.filter(id=pk)
     category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
     for username in post_author:
-        if request.user.id == username.author_id or request.user.is_manager == True:
+        if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             category_id = Notice_category.objects.filter(id=category)
             post_edit = get_object_or_404(Post, pk=pk, category=category)
         else:
@@ -97,8 +119,9 @@ def post_edit(request,pk,category):
                 word_content = Word_filtering.objects.filter(id=1, text__contains=post_edit.content).exists()
                 word_subject = Word_filtering.objects.filter(id=1, text__contains=post_edit.title).exists()
                 if word_content or word_subject:
-                    return render(request, 'notice/post_edit.html',
-                                  {'form': form, 'category': category1, 'category_id': category_id})
+                    post = form.save(commit=False)
+                    post.title = post_edit.title
+                    post.content = post_edit.content
                 else:
                     post = form.save(commit=False)
                     post.author = request.user
@@ -114,21 +137,18 @@ def post_edit(request,pk,category):
 def post_remove(request, pk, category):
     post_author = Post.objects.filter(id=pk)
     for username in post_author:
-        if request.user.id == username.author_id or request.user.is_manager == True :
+        if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             post = get_object_or_404(Post, pk=pk, category=category)
             post.delete()
         else:
             return redirect('notice_detail:post_detail', pk=pk, category=category)
     return redirect('notice_list:post_list', category=category)
 
-
-
-
 @login_required
 def notice_category_manager(request):
-    if request.user.is_manager == False  :
+    if request.user.is_manager == False and request.user.is_superuser == False :
         return render(request, 'about.html')
-    if request.user.is_authenticated or request.user.is_manager == True:
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True:
         category_list =Notice_category.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')
         category=Notice_category.objects.all()
         page = request.GET.get('page', 1)
@@ -145,9 +165,9 @@ def notice_category_manager(request):
 
 @login_required
 def new_notice_category_manager(request):
-    if request.user.is_manager == False:
+    if request.user.is_manager == False and request.user.is_superuser == False:
         return render(request, 'about.html')
-    if request.user.is_authenticated or request.user.is_manager == True:
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True:
         if request.method == "POST":
             form = Notice_categoryForm(request.POST)
             if form.is_valid():
@@ -161,9 +181,9 @@ def new_notice_category_manager(request):
 
 @login_required
 def notice_category_edit(request, pk):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True:
         category = get_object_or_404(Notice_category, pk=pk)
-    if request.user.is_manager == False:
+    if request.user.is_manager == False and request.user.is_superuser == False:
         return render(request, 'about.html')
     if request.method == 'POST':
         form = Notice_categoryForm(request.POST, instance=category)
@@ -182,17 +202,18 @@ def notice_category_edit(request, pk):
 
 @login_required
 def notice_category_remove(request, pk):
-    if request.user.is_authenticated and request.user.is_manager == True:
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True:
         category = get_object_or_404(Notice_category, pk=pk)
         category.delete()
-    if request.user.is_manager == False:
+    if request.user.is_manager == False and request.user.is_superuser == False:
         return render(request, 'about.html')
     return redirect('m_category_list:category_list')
 
+@login_required
 def word_filtering(request,pk):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True:
         word_filtering= get_object_or_404(Word_filtering, pk=pk)
-    if request.user.is_manager == False:
+    if request.user.is_manager == False and request.user.is_superuser == False:
         return render(request, 'about.html')
     if request.method == 'POST':
         form = Word_filteringForm(request.POST, instance=word_filtering)
@@ -205,18 +226,26 @@ def word_filtering(request,pk):
         form = Word_filteringForm(instance=word_filtering)
         return render(request, 'notice/word_filtering_edit.html',{'form': form})
 
-
-
 def ajax_word_filtering(request):
     post_subject= request.GET.get('subject')
     post_content= request.GET.get('content')
     data={
-        'is_taken_subject': Word_filtering.objects.filter(id=1,text__contains=post_subject).exists(),
-        'is_taken_content': Word_filtering.objects.filter(id=1,text__contains=post_content).exists(),
+        'is_taken_subject': Word_filtering.objects.filter(text__contains=post_subject).exists(),
+        'is_taken_content': Word_filtering.objects.filter(text__contains=post_content).exists(),
     }
     if data['is_taken_subject']:
         data['error_message'] = '가 포함되어있습니다'
     if data['is_taken_content']:
+        data['error_message'] = '가 포함되어있습니다'
+
+    return JsonResponse(data)
+
+def ajax_comment_word_filtering(request):
+    comment_text= request.GET.get('comment')
+    data={
+        'is_taken_comment': Word_filtering.objects.filter(text__contains=comment_text).exists(),
+    }
+    if data['is_taken_comment']:
         data['error_message'] = '가 포함되어있습니다'
     return JsonResponse(data)
 

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post,Notice_category,Word_filtering
+from .models import Post,Notice_category,Word_filtering,Comment
 from ckeditor.widgets import CKEditorWidget
 
 from ckeditor.fields import RichTextField
@@ -22,20 +22,20 @@ class Word_filteringForm(forms.ModelForm):
         model = Word_filtering
         fields = ['text']
 
-# class CommentForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = Comment
-#         fields = ['text']
-#         widgets = {
-#             'text': forms.Textarea(attrs={'class': 'text', 'placeholder': '내용을 입력해주세요'}),
-#         }
-#         labels = {
-#             'text':'내용'
-#         }
-#     def __init__(self, *args, **kwargs):
-#         super(CommentForm, self).__init__(*args, **kwargs)
-#         self.fields['text'].widget.attrs['maxlength'] = 8
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'comment', 'placeholder': '댓글 을 입력해주세요'}),
+        }
+        labels = {
+            'text':'댓글'
+        }
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['text'].widget.attrs['maxlength'] = 200
 
 
 class Notice_categoryForm(forms.ModelForm):

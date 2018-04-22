@@ -13,7 +13,11 @@
                 <div class="form-group">{{ form.title.label_tag }}{{ form.title }}</div>
                 {{ form.media }}
                 <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>
-                <div>{{ file.as_table }}</div>
+                {% for category in category_id %}
+                {% if category.title != "겔러리게시판" %}
+                <div>{{ file.as_table }}<p>첨부할 파일를 선택해 주세요.</p></div>
+                {%endif%}
+                {%endfor%}
                 {% for category in category_id %}
                 {% if category.title == "겔러리게시판" %}
                         <div>{{ imges.as_table }}<p>첨부할 이미지를 선택해 주세요.</p></div>

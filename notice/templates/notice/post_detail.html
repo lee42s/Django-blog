@@ -2,6 +2,7 @@
 {% block head_title %}home{% endblock %}
 {% block title %}home{% endblock %}
 {% block content %}
+{% load static %}
 <section>
     <h1>게시판:<a href="{% url 'notice_list:post_list' category=post_detail.category_id %}">{{ post_detail.category.title }}</a></h1>
     <h1>제목:{{post_detail.title}}</h1>
@@ -14,6 +15,19 @@
         수정날짜:{{post_detail.modified_date}}
     </p>
     {{post_detail.content|safe|linebreaks|striptags}}
+    {% for imges in imges %}
+    <div>
+        <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:30%;">
+    </div>
+     <P>
+         이미지파일:<a href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">{{ imges.imgename }}</a>
+     </P>
+    {%endfor%}
+    {% for files in files %}
+     <p>
+         파일:<a href="{% get_media_prefix %}{{ files }}" download="{% get_media_prefix %}{{ files }}">{{ files.filename }}</a>
+     </p>
+    {%endfor%}
     </div>
     {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
     <button onclick="check_edit()">
@@ -30,57 +44,84 @@
 </section>
 <section id="comment_list">
     <h1>댓글목록</h1>
-    {% for comment in comment_post.all %}
+    {% for comment in comment_post %}
     <ul>
         <li>
             작성자: {{ comment.author }}
-            <a href="">수정</a>
             <ul>
                 <li>등록일: {{ comment.created_date }}</li>
-                <li>{{ comment.text|linebreaksbr }}</li>
+                <li>
+                    {{ comment.text|linebreaksbr }}
+                    {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+                    <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
+                        삭제
+                    </a>
+                    {%endif%}
+                </li>
             </ul>
         </li>
     </ul>
     {% empty%}
-        <p>일등으로 댓글 달어보자! *^ ^*</p>
+        <p>댓글 이 없습니다 .</p>
     {%endfor%}
+    <div class="pagination">
+        <span class="step-links">
+            {% if  comment_post.has_previous %}
+                <a href="?page={{  comment_post.previous_page_number }}">이전댓글</a>
+            {% endif %}
+            {% if  comment_post.has_next %}
+                <a href="?page={{  comment_post.next_page_number }}">다음댓글</a>
+            {% endif %}
+        </span>
+    </div>
 </section>
 {% include 'notice/comment_form.html' %}
 {% endblock %}
 
 {% block javascript %}
 <script>
-      function f_word_tiltering(){
-                var comment=$(".comment").val();
-                $.ajax({
-                        url:"{% url 'validate_comment' %}",
-                        dataType: 'json',
-                        type:"GET",
-                        data:{
-                        "comment":comment
-                        },
-                        success:function(data){
-                            if(data.is_taken_comment === true ){
-                            var error_message = data.error_message;
-                           window.alert('댓글에 금지단어'+'("'+comment+'")'+error_message);
-                            }
-                        },
+    String.prototype.popupView = function () {
+    var img_view = this;
+    var x = x + 20 ;
+    var y = y + 30 ;
+    htmlz = "<html><head><title>이미지크게보기</title><style>body{margin:0;cursor:hand;}</style></head><body scroll=auto onload='width1=document.all.Timage.width;if(width1>1024)width1=1024;height1=document.all.Timage.height;if(height1>768)height1=768;top.window.resizeTo(width1+30,height1+54);' onclick='top.window.close();'><img src='"+img_view+"' title='클릭하시면 닫힙니다.' name='Timage' id='Timage'></body></html>"
+    imagez = window.open('', "image", "width="+ 100 +", height="+ 100 +", top=0,left=0,scrollbars=auto,resizable=1,toolbar=0,menubar=0,location=0,directories=0,status=1");
+    imagez.document.open();
+    imagez.document.write(htmlz)
+    imagez.document.close();
+    }
 
-                })
-        }
 
-        var username='{{post_detail.author}}';
-        var login_user='{{request.user}}';
-        var manager ='{{request.user.is_manager}}';
-        function check_edit(){
-            if( username !== login_user){
-                alert('작성자 만 수정 가능합니다. ')
-            }
+    function f_word_tiltering(){
+        var comment =$(".comment").val()
+        $.ajax({
+            url:"{% url 'validate_comment' %}",
+            dataType: 'json',
+            type:"GET",
+            data: {
+                'comment': comment
+            },
+            success:function(data){
+                if(data.is_taken_comment === true ){
+                var error_message = data.error_message;
+                window.alert('댓글에 금지단어'+'("'+comment+'")'+error_message);
+                }
+            },
+
+        })
+    }
+    var username='{{post_detail.author}}';
+    var login_user='{{request.user}}';
+    var manager ='{{request.user.is_manager}}';
+    function check_edit(){
+        if( username !== login_user){
+            alert('작성자 만 수정 가능합니다. ')
         }
-        function check_remove(){
-            if( username !== login_user){
-                alert('작성자 만 삭제 가능합니다. ');
-            }
+    }
+    function check_remove(){
+        if( username !== login_user){
+            alert('작성자 만 삭제 가능합니다. ');
         }
+    }
  </script>
 {% endblock %}

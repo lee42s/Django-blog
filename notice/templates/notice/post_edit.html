@@ -7,12 +7,19 @@
         <h1>게시판:<a href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></h1>
 </div>
 {%endfor%}
-<form method="POST" id="f_write" onsubmit="f_word_tiltering()" >
+<form method="POST" id="f_write" onsubmit="f_word_tiltering()" enctype="multipart/form-data" >
         {% csrf_token %}
         <div id="f_writer" >
                 <div class="form-group">{{ form.title.label_tag }}{{ form.title }}</div>
                 {{ form.media }}
                 <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>
+                <div>{{ file.as_table }}</div>
+                {% for category in category_id %}
+                {% if category.title == "겔러리게시판" %}
+                        <div>{{ imges.as_table }}<p>첨부할 이미지를 선택해 주세요.</p></div>
+                {%endif%}
+                {%endfor%}
+
         </div>
 <button type="submit"  class="btn btn-default">저장</button>
 </form>

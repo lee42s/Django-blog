@@ -4,7 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 from django.utils import timezone
-
+import os
 # Create your models here.
 
 class Notice_category(models.Model):
@@ -37,6 +37,36 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class File(models.Model):
+    file =models.FileField(upload_to='files/%Y/%m/%d/',null=True)
+    created_date =models.DateTimeField(auto_now_add=True)
+    post =models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
+
+    def filename(self):
+        return os.path.basename(self.file.name)
+
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        super(File,self).delete(*args, **kwargs)
+
+    def __str__(self):
+        return  self.file.name
+
+class Imges(models.Model):
+    imges =models.ImageField(upload_to='imges/%Y/%m/%d/',height_field=None, width_field=None,null=True)
+    created_date =models.DateTimeField(auto_now_add=True)
+    post =models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
+
+    def imgename(self):
+        return os.path.basename(self.imges.name)
+
+    def delete(self, *args, **kwargs):
+        self.imges.delete()
+        super(Imges,self).delete(*args, **kwargs)
+
+    def __str__(self):
+        return  self.imges.name
+
 
 class Comment(models.Model):
     author = models.ForeignKey(User, verbose_name='작성자', on_delete=models.CASCADE,default='')
@@ -47,8 +77,6 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
 
-    def get_edit_url(self):
-        reverse('notice_comment_edit:comment_edit',args=[self.post.pk, self.pk])
 
 class Word_filtering(models.Model):
     text = models.TextField(verbose_name='내용')

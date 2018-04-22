@@ -20,6 +20,8 @@ from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserP
 from notice.views import ajax_word_filtering,ajax_comment_word_filtering
 from mysite import views
 from notice.models import Notice_category
+from django.conf.urls.static import static
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
@@ -34,7 +36,7 @@ urlpatterns = [
     url(r'^manager/new/', include(('notice.urls', 'category_new'), namespace='m_category_new')),
     url(r'^manager/', include(('notice.urls', 'category_edit'), namespace='m_category_edit')),
     url(r'^manager/', include(('notice.urls', 'category_remove'), namespace='m_category_remove')),
-
+    url(r'^word_filtering/', include(('notice.urls', 'word_filtering'), namespace='word_filtering_manager')),
 
     #사용자
     url(r'^notice/', include(('notice.urls', 'post_list'), namespace='notice_list')),
@@ -42,8 +44,10 @@ urlpatterns = [
     url(r'^notice/post_list/', include(('notice.urls', 'post_new'), namespace='notice_new')),
     url(r'^notice/', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
     url(r'^notice/', include(('notice.urls', 'post_remove'), namespace='notice_remove')),
-    url(r'^ajax_comment_edit/', include(('notice.urls', 'comment_edit'), namespace='notice_comment_edit')),
-    url(r'^word_filtering/', include(('notice.urls', 'word_filtering'), namespace='word_filtering_manager')),
+    url(r'^notice/', include(('notice.urls', 'comment_remove'), namespace='notice_comment_remove')),
+
+
+
     url(r'^$', home, name='home'),
     url(r'^accounts/logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 
@@ -60,9 +64,11 @@ urlpatterns = [
 
 
 
+
     #ajax유저아이디검사
     url(r'^ajax/validate_username/$', views.validate_username, name="validate_username"),
     # text위젯
     # url(r'^djrichtextfield/', include('djrichtextfield.urls'))
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
+urlpatterns += static('media', document_root=settings.MEDIA_ROOT)

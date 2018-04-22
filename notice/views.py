@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from notice.models import Post,Notice_category,Word_filtering,Comment
+from notice.models import Post,Notice_category,Word_filtering,Comment,File,Imges
 from django.http import HttpResponse,HttpResponseRedirect,Http404
-from notice.forms import PostForm,Notice_categoryForm,Word_filteringForm,CommentForm
+from notice.forms import PostForm,Notice_categoryForm,Word_filteringForm,CommentForm,FlieForm,ImgesForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.http import JsonResponse
+from django.views import generic
 from django.views.decorators.csrf import csrf_protect,requires_csrf_token
 import json
 from django.db.models.functions import Length
@@ -40,6 +41,7 @@ def post_list(request, category):
 def post_detail(request, pk, category):
     category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
     category_id=Notice_category.objects.filter(id=category)
+
     for detail_auth in category_id:
         try :
             if request.user.is_level <= detail_auth.detail_auth or request.user.is_superuser == True or request.user.is_manager == True:
@@ -49,7 +51,19 @@ def post_detail(request, pk, category):
         except:
             return redirect('register')
     post = get_object_or_404(Post, pk=pk)
-    comment_post = Comment.objects.filter(post_id=pk,created_date__lte=timezone.now()).order_by('-created_date')[:2]
+    #파일,이미지
+    files = post.file_set.all()
+    imges = post.imges_set.all()
+    # 댓글 페이지
+    comment_post = Comment.objects.filter(post_id=pk,created_date__lte=timezone.now()).order_by('-created_date')
+    paginator_comment = Paginator(comment_post, 5)
+    page = request.GET.get('page')
+    try:
+        contacts_comment = paginator_comment.page(page)
+    except PageNotAnInteger:
+        contacts_comment = paginator_comment.page(1)
+    except EmptyPage:
+        contacts_comment = paginator_comment.page(paginator_comment.num_pages)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -66,10 +80,7 @@ def post_detail(request, pk, category):
     else:
         form = CommentForm()
     return render(request, 'notice/post_detail.html',
-                  {'post_detail': post_detail,'category':category1,'form': form,'comment_post':comment_post})
-
-
-
+                  {'post_detail': post_detail,'category':category1,'form': form,'comment_post':contacts_comment,'files':files, 'imges': imges,})
 
 
 @login_required
@@ -94,12 +105,35 @@ def post_new(request,category):
                         post.author = request.user
                         post.category = writer_auth
                         post.save()
+                        # 이미지,파일
+                        upflis = request.FILES.getlist('file')
+                        for upfl in upflis:
+                            file = File()
+                            file.file = upfl
+                            file.post = post
+                            file.save()
+                        upimges = request.FILES.getlist('imges')
+                        for upim in upimges:
+                            imges = Imges()
+                            imges.imges = upim
+                            imges.post = post
+                            imges.save()
+
                         return redirect('notice_detail:post_detail', pk=post.pk, category=ctgry)
             if not request.user.is_level <= writer_auth.writer_auth:
                 return render(request, 'about.html',{'category':category1})
             else:
                 form = PostForm()
-    return render(request, 'notice/post_edit.html', {'form':form,'category':category1,'category_id':category_id})
+                imges = ImgesForm()
+                file = FlieForm()
+    return render(request, 'notice/post_edit.html', {'form':form,'category':category1,'category_id':category_id,'file': file,'imges':imges})
+
+@login_required
+def comment_remove(request, pk,comment_pk,category):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    if request.user == comment.author or request.user.is_superuser==True or request.user.is_manager == True:
+         comment.delete()
+    return redirect('notice_detail:post_detail', pk=pk,category=category)
 
 
 @login_required
@@ -128,10 +162,13 @@ def post_edit(request,pk,category):
                     post.title = post_edit.title
                     post.content = post_edit.content
                     post.save()
+
                     return redirect('notice_detail:post_detail', pk=post.pk, category=category)
         else:
             form = PostForm(instance=post_edit)
     return render(request, 'notice/post_edit.html', {'form': form,'category':category1,'category_id': category_id})
+
+
 
 @login_required
 def post_remove(request, pk, category):
@@ -143,6 +180,8 @@ def post_remove(request, pk, category):
         else:
             return redirect('notice_detail:post_detail', pk=pk, category=category)
     return redirect('notice_list:post_list', category=category)
+
+
 
 @login_required
 def notice_category_manager(request):
@@ -241,11 +280,17 @@ def ajax_word_filtering(request):
     return JsonResponse(data)
 
 def ajax_comment_word_filtering(request):
-    comment_text= request.GET.get('comment')
+    comment_text = request.GET.get('comment')
     data={
-        'is_taken_comment': Word_filtering.objects.filter(text__contains=comment_text).exists(),
+         'is_taken_comment': Word_filtering.objects.filter(text__contains=comment_text).exists(),
     }
     if data['is_taken_comment']:
         data['error_message'] = '가 포함되어있습니다'
     return JsonResponse(data)
+
+
+
+
+
+
 

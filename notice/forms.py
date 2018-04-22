@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post,Notice_category,Word_filtering,Comment
+from .models import Post,Notice_category,Word_filtering,Comment,File,Imges
 from ckeditor.widgets import CKEditorWidget
 
 from ckeditor.fields import RichTextField
@@ -16,6 +16,16 @@ class PostForm(forms.ModelForm):
             'title': '제목',
             'content': '내용',
         }
+
+class FlieForm(forms.ModelForm):
+    class Meta:
+        model =File
+        fields =['file',]
+
+class ImgesForm(forms.ModelForm):
+    class Meta:
+        model =Imges
+        fields =['imges',]
 
 class Word_filteringForm(forms.ModelForm):
     class Meta:

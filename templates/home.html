@@ -28,7 +28,6 @@
             <li><a  href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></li>
         {%endif%}
         {% endfor %}
-
         {% for category in category %}
         {% if category.title == '비회원게시판'  %}
             <li><a  href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></li>
@@ -46,7 +45,7 @@
     {%endfor%}
     {% for post1 in posts1 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post1.pk  category=post1.category_id%}">{{post1.title}}</a><span>{{post2.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post1.pk  category=post1.category_id%}">{{post1.title}}</a><span>{{post1.created_date|date:"M-d일"|lower}}</span></li>
         </ul>
     {% empty %}
      <ul>

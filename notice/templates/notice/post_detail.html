@@ -14,7 +14,7 @@
         만든날짜:{{post_detail.created_date}}<br>
         수정날짜:{{post_detail.modified_date}}
     </p>
-    {{post_detail.content|safe|linebreaks|striptags}}
+    {{post_detail.content|safe|linebreaks}}
     {% for imges in imges %}
     <div>
         <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:30%;">

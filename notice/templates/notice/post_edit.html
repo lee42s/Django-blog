@@ -19,12 +19,12 @@
                 {%endif%}
                 {%endfor%}
                 {% for category in category_id %}
-                {% if category.title == "겔러리게시판" %}
+                {% if category.title == "겔러리게시판" or category.title == "공지사항" or category.title == "Django" or category.title == "less" or category.title == "HTML" or category.title == "javascript" %}
                         <div>{{ imges.as_table }}<p>첨부할 이미지를 선택해 주세요.</p></div>
                 {%endif%}
                 {%endfor%}
-
         </div>
+        {{ form.content.value|striptags }}
 <button type="submit"  class="btn btn-default">저장</button>
 </form>
 {% endblock %}
@@ -32,14 +32,16 @@
 <script>
       function f_word_tiltering(){
                 var subject=$("#title").val();
-                var content=$("#content").val();
+                var content=CKEDITOR.instances.id_content.getData();
+                var html_content = content.replace(/(<([^>]+)>)/ig,"");//html제거
+                var cleanr_content = html_content.replace(/\n/ig,"");//엔터값제거
                 $.ajax({
                         url:"{% url 'validate_content' %}",
                         dataType: 'json',
-                        type:"GET",
+                        type:"POST",
                         data:{
                         "subject": subject,
-                        "content": content
+                        "content": cleanr_content
                         },
                         success:function(data){
                                 if(data.is_taken_subject === true ){
@@ -48,7 +50,7 @@
                                 }
                                 if(data.is_taken_content === true){
                                 var error_message = data.error_message;
-                                alert('내용에 금지단어'+'("'+content+'")'+error_message);
+                                alert('내용에 금지단어'+'("'+cleanr_content+'")'+error_message);
                                 }
 
                         },

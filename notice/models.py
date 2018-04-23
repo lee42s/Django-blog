@@ -30,7 +30,7 @@ class Post(models.Model):
     category = models.ForeignKey(Notice_category,verbose_name='카테고리',default='',on_delete=models.CASCADE)
     author=models.ForeignKey(User,verbose_name='작성자',on_delete=models.CASCADE)
     title = models.CharField(verbose_name='제목',max_length=200,default="")
-    content = models.TextField(verbose_name='내용',default="")
+    content = RichTextField(verbose_name='내용')
     created_date=models.DateTimeField(verbose_name='만든날짜',auto_now_add=True)#auto_now_add=True생정날짜,auto_now=True수정날짜
     modified_date = models.DateTimeField(verbose_name='수정날짜',auto_now=True)
 

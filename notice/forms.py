@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
         fields = ['title','content']
         widgets = {
             'title':forms.TextInput(attrs={'class':'title','id':'title','placeholder': '제목을 입력하세요'}),
-            'content':forms.Textarea(attrs={'class':'content','id':'content','placeholder': '내용을 입력하세요'}),
+            'content':forms.CharField(widget=CKEditorWidget()),
         }
         labels = {
             'title': '제목',

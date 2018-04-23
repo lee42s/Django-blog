@@ -9,10 +9,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.http import JsonResponse
 from django.views import generic
-from django.views.decorators.csrf import csrf_protect,requires_csrf_token
+from django.views.decorators.csrf import csrf_protect,requires_csrf_token,csrf_exempt
 import json
 from django.db.models.functions import Length
-
+import re #html태그 제거
 # Create your views here.
 
 def post_list(request, category):
@@ -96,11 +96,13 @@ def post_new(request,category):
                 if form.is_valid():
                     post = form.save(commit=False)
                     #66,67행 글 제목과 내용  중에 비방글 내용이 존재 시 Ture을 반환한다.
-                    word_content = Word_filtering.objects.filter(id=1,text__contains=post.content).exists()
+                    cleanr = re.compile('<.*?>')#문자타입안에html태그제거
+                    cleanc_html = re.sub(cleanr, '', post.content)#문자타입안에html태그제거
+                    cleanr_content=cleanc_html.replace(" ","")#문자안에공백제거
+                    word_content = Word_filtering.objects.filter(id=1,text__contains=cleanr_content).exists()
                     word_subject = Word_filtering.objects.filter(id=1,text__contains=post.title).exists()
                     if word_content or word_subject:
-                        return render(request, 'notice/post_edit.html',
-                                      {'form': form, 'category': category1, 'category_id': category_id})
+                        redirect('notice_new:post_new' ,category=category)
                     else:
                         post.author = request.user
                         post.category = writer_auth
@@ -150,7 +152,10 @@ def post_edit(request,pk,category):
             form = PostForm(request.POST, instance=post_edit)
             if form.is_valid():
                 # 66,67행 글 제목과 내용  중에 비방글 내용이 존재 시 Ture을 반환한다.
-                word_content = Word_filtering.objects.filter(id=1, text__contains=post_edit.content).exists()
+                cleanr = re.compile('<.*?>')  # 문자타입안에html태그제거
+                cleanc_html = re.sub(cleanr, '', post_edit.content)  # 문자타입안에html태그제거
+                cleanr_content = cleanc_html.replace(" ", "")  # 문자안에공백제거
+                word_content = Word_filtering.objects.filter(id=1, text__contains=cleanr_content).exists()
                 word_subject = Word_filtering.objects.filter(id=1, text__contains=post_edit.title).exists()
                 if word_content or word_subject:
                     post = form.save(commit=False)
@@ -265,12 +270,17 @@ def word_filtering(request,pk):
         form = Word_filteringForm(instance=word_filtering)
         return render(request, 'notice/word_filtering_edit.html',{'form': form})
 
+
+@csrf_exempt
 def ajax_word_filtering(request):
-    post_subject= request.GET.get('subject')
-    post_content= request.GET.get('content')
+    post_subject= request.POST.get('subject')
+    post_content= request.POST.get('content')
+    cleanr = re.compile('<.*?>')  # 문자타입안에html태그제거
+    cleanc_html = re.sub(cleanr, '', post_content)  # 문자타입안에html태그제거
+    cleanr_content = cleanc_html.replace("\n", "")  # 엔터값제거
     data={
         'is_taken_subject': Word_filtering.objects.filter(text__contains=post_subject).exists(),
-        'is_taken_content': Word_filtering.objects.filter(text__contains=post_content).exists(),
+        'is_taken_content': Word_filtering.objects.filter(text__contains=cleanr_content).exists(),
     }
     if data['is_taken_subject']:
         data['error_message'] = '가 포함되어있습니다'
@@ -279,6 +289,7 @@ def ajax_word_filtering(request):
 
     return JsonResponse(data)
 
+
 def ajax_comment_word_filtering(request):
     comment_text = request.GET.get('comment')
     data={
@@ -286,6 +297,7 @@ def ajax_comment_word_filtering(request):
     }
     if data['is_taken_comment']:
         data['error_message'] = '가 포함되어있습니다'
+
     return JsonResponse(data)
 
 

@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block head_title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <script src="{%static 'js/ajax_csrf_token.js'%}"></script>
 </head>
 <body>
 <header>
@@ -17,12 +16,12 @@
                 {% if user.is_authenticated  %}
                     <li>
                         {{ user.username}}님
-                        {% if user.is_manager == True and user.is_member == False%}
+                        {% if user.is_manager == True or user.is_superuser == True%}
                         <span><a href="{% url 'manager_home' %}">관리자</a></span>
                         {%endif%}
-                        {% if user.is_member == True and user.is_manager == False  %}
+                        {% if user.is_member == True and user.is_manager == False and user.is_superuser == False  %}
                         <span>회원</span>
-                        {% elif user.is_member == False and user.is_manager == False  %}
+                        {% elif user.is_member == False and user.is_manager == False and user.is_superuser == False %}
                         <span>비회원</span>
                         {%endif%}
                     </li>

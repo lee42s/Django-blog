@@ -45,7 +45,11 @@
     {%endfor%}
     {% for post1 in posts1 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post1.pk  category=post1.category_id%}">{{post1.title}}</a><span>{{post1.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post1.pk  category=post1.category_id%}">
+                {{post1.title}}
+                </a>
+                <span>{{post1.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -80,7 +84,9 @@
     {%endfor%}
     {% for post3 in posts3 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">{{post3.title}}</a><span>{{post3.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">
+                {{post3.title}}</a><span>{{post3.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -96,7 +102,9 @@
     {%endfor%}
     {% for post4 in posts4 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post4.pk category=post4.category_id %}">{{post4.title}}</a><span>{{post4.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post4.pk category=post4.category_id %}">
+                {{post4.title}}</a><span>{{post4.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -112,7 +120,9 @@
     {%endfor%}
     {% for post5 in posts5 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post5.pk category=post5.category_id %}">{{post5.title}}</a><span>{{post5.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post5.pk category=post5.category_id %}">
+                {{post5.title}}</a><span>{{post5.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -128,7 +138,9 @@
     {%endfor%}
     {% for post6 in posts6 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post6.pk category=post6.category_id %}">{{post6.title}}</a><span>{{post6.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post6.pk category=post6.category_id %}">
+                {{post6.title}}</a><span>{{post6.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -144,7 +156,9 @@
     {%endfor%}
     {% for post7 in posts7 %}
         <ul>
-            <li><a href="{% url 'notice_list:post_detail' pk=post7.pk category=post7.category_id %}">{{post7.title}}</a><span>{{post6.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_list:post_detail' pk=post7.pk category=post7.category_id %}">
+                {{post7.title}}</a><span>{{post6.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>
@@ -160,7 +174,9 @@
     {%endfor%}
     {% for post8 in posts8 %}
         <ul>
-            <li><a href="{% url 'notice_detail:post_detail' pk=post8.pk category=post8.category_id%}">{{post8.title}}</a><span>{{post8.created_date|date:"M-d일"|lower}}</span></li>
+            <li><a href="{% url 'notice_detail:post_detail' pk=post8.pk category=post8.category_id%}">
+                {{post8.title}}</a><span>{{post8.created_date|date:"M-d일"|lower}}</span>
+            </li>
         </ul>
     {% empty %}
      <ul>

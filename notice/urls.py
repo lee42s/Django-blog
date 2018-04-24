@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     #사용자
-    url(r'^list/(?P<category>\d+)/$', views.post_list, name='post_list'),
+    url(r'^list/categroy(?P<category>\d+)/$', views.post_list, name='post_list'),
     url(r'^detail/(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^new/categroy(?P<category>\d+)/$', views.post_new, name='post_new'),
     url(r'^edit/(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.post_edit,  name='post_edit'),

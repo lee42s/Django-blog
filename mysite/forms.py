@@ -8,7 +8,7 @@ class CreateUserForm(UserCreationForm):
         fields = ['username', 'email','first_name','last_name','is_level']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'username', 'placeholder': '8자 이내로 입력 가능합니다.'}),
-            'email': forms.EmailInput(attrs={'class': 'email','placeholder': 'aaa@aaa.aaa'}),
+            'email': forms.EmailInput(attrs={'class': 'email','placeholder': 'your@email.com'}),
         }
         labels = {
             'username': '아이디',

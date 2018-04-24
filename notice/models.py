@@ -38,7 +38,7 @@ class Post(models.Model):
         return self.title
 
 class File(models.Model):
-    file =models.FileField(upload_to='files/%Y/%m/%d/',null=True)
+    file =models.FileField(upload_to='files/%Y/%m/%d/',null=True,blank=True)
     created_date =models.DateTimeField(auto_now_add=True)
     post =models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
 
@@ -53,7 +53,8 @@ class File(models.Model):
         return  self.file.name
 
 class Imges(models.Model):
-    imges =models.ImageField(upload_to='imges/%Y/%m/%d/',height_field=None, width_field=None,null=True)
+    imges =models.ImageField(upload_to='imges/%Y/%m/%d/',height_field=None, width_field=None,null=True,blank=True)
+    #blank=True는 not required
     created_date =models.DateTimeField(auto_now_add=True)
     post =models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
 

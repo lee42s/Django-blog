@@ -15,16 +15,15 @@
                 <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>
                 {% for category in category_id %}
                 {% if category.title != "겔러리게시판" %}
-                <div>{{ file.as_table }}<p>첨부할 파일를 선택해 주세요.</p></div>
+                <div>{{ file.as_p }}</div>
                 {%endif%}
                 {%endfor%}
                 {% for category in category_id %}
                 {% if category.title == "겔러리게시판" or category.title == "공지사항" or category.title == "Django" or category.title == "less" or category.title == "HTML" or category.title == "javascript" %}
-                        <div>{{ imges.as_table }}<p>첨부할 이미지를 선택해 주세요.</p></div>
+                        <div>{{ imges.as_p }}</div>
                 {%endif%}
                 {%endfor%}
         </div>
-        {{ form.content.value|striptags }}
 <button type="submit"  class="btn btn-default">저장</button>
 </form>
 {% endblock %}

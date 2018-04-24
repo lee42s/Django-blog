@@ -50,17 +50,19 @@
             작성자: {{ comment.author }}
             <ul>
                 <li>등록일: {{ comment.created_date }}</li>
-                <li>
+                <li id="li_text">
                     {{ comment.text|linebreaksbr }}
-                    {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
-                    <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
-                        삭제
-                    </a>
-                    {%endif%}
                 </li>
+                {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+                <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
+                    삭제
+                </a>
+                 <button onclick="comment_change_input()">수정</button>
+                {%endif%}
             </ul>
         </li>
     </ul>
+    "{% url 'comment_edit' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}"
     {% empty%}
         <p>댓글 이 없습니다 .</p>
     {%endfor%}
@@ -91,8 +93,21 @@
     imagez.document.close();
     }
 
+    
+    
+    function comment_change_input(){
+            var comment=$("#li_text").text();
+            var comment_input="<input type='text' id='comment_input'/>";
+            var li_text_el=document.getElementById('li_text');
+            li_text_el.innerHTML=comment_input;
+            var input_comment_el=document.getElementById('comment_input');
+            input_comment_el.value=comment;
+    }
+    function comment_edit(){
+      
+    }
     function f_word_tiltering(){
-        var comment =$(".comment").val()
+        var comment =$(".comment").text()
         $.ajax({
             url:"{% url 'validate_comment' %}",
             dataType: 'json',

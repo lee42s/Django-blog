@@ -26,6 +26,7 @@ class ImgesForm(forms.ModelForm):
     class Meta:
         model =Imges
         fields =['imges',]
+      
 class Word_filteringForm(forms.ModelForm):
     class Meta:
         model = Word_filtering

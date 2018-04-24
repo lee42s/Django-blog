@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
-from notice.views import ajax_word_filtering,ajax_comment_word_filtering
+from notice.views import ajax_word_filtering,ajax_comment_word_filtering,ajax_comment_edit
 from mysite import views
 from notice.models import Notice_category
 from django.conf.urls.static import static
@@ -40,7 +40,7 @@ urlpatterns = [
 
     #사용자
     url(r'^notice/', include(('notice.urls', 'post_list'), namespace='notice_list')),
-    url(r'^notice/post_detail/', include(('notice.urls', 'post_detail'), namespace='notice_detail')),
+    url(r'^notice/', include(('notice.urls', 'post_detail'), namespace='notice_detail')),
     url(r'^notice/post_list/', include(('notice.urls', 'post_new'), namespace='notice_new')),
     url(r'^notice/', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
     url(r'^notice/', include(('notice.urls', 'post_remove'), namespace='notice_remove')),
@@ -62,9 +62,8 @@ urlpatterns = [
     url(r'^ajax/validate_content/$', ajax_word_filtering, name="validate_content"),
     url(r'^ajax/validate_comment/$', ajax_comment_word_filtering, name="validate_comment"),
 
-
-
-
+    url(r'ajax/comment_edit/comment(?P<comment_pk>\d+)/post(?P<pk>\d+)/categroy(?P<category>\d+)/$', ajax_comment_edit,
+        name='comment_edit'),
     #ajax유저아이디검사
     url(r'^ajax/validate_username/$', views.validate_username, name="validate_username"),
     # text위젯

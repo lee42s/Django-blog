@@ -155,6 +155,7 @@ def post_edit(request,pk,category):
                 cleanr = re.compile('<.*?>')  # 문자타입안에html태그제거
                 cleanc_html = re.sub(cleanr, '', post_edit.content)  # 문자타입안에html태그제거
                 cleanr_content = cleanc_html.replace(" ", "")  # 문자안에공백제거
+                # 글제목과 내용중에 비방글을 필터링해준다.
                 word_content = Word_filtering.objects.filter(id=1, text__contains=cleanr_content).exists()
                 word_subject = Word_filtering.objects.filter(id=1, text__contains=post_edit.title).exists()
                 if word_content or word_subject:
@@ -300,9 +301,22 @@ def ajax_comment_word_filtering(request):
 
     return JsonResponse(data)
 
+@csrf_exempt
+def ajax_comment_edit(request,comment_pk,pk,category):
+    comment = get_object_or_404(Comment, id=comment_pk)
+    post=get_object_or_404(Post,pk=pk)
+    if request.is_ajax():
+        template = 'notice/comment_form.html'
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post=post
+            comment.author=request.user
+            comment.save()
 
-
-
-
+    else:
+        form =CommentForm(instance=comment)
+        return render(request, 'notice/comment_form.html', {'form': form})
 
 

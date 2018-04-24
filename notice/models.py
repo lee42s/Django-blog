@@ -39,6 +39,7 @@ class Post(models.Model):
 
 class File(models.Model):
     file =models.FileField(upload_to='files/%Y/%m/%d/',null=True,blank=True)
+
     created_date =models.DateTimeField(auto_now_add=True)
     post =models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
 

@@ -45,23 +45,16 @@
 <section id="comment_list">
     <h1>댓글목록</h1>
     {% for comment in comment_post %}
-    <ul>
-        <li>
-            작성자: {{ comment.author }}
-            <ul>
-                <li>등록일: {{ comment.created_date }}</li>
-                <li id="li_text">
-                    {{ comment.text|linebreaksbr }}
-                </li>
-                {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
-                <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
-                    삭제
-                </a>
-                 <button onclick="comment_change_input()">수정</button>
-                {%endif%}
-            </ul>
-        </li>
-    </ul>
+    <section>
+        <p>작성자: {{ comment.author }}<br> <span>등록일: {{ comment.created_date }}</span></p>
+        <p><span id="span_comment">{{ comment.text|linebreaksbr }}</span></p>
+        {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+        <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
+            삭제
+        </a>
+        <button onclick="comment_change_input()">수정</button>
+        {%endif%}
+    </div>
     "{% url 'comment_edit' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}"
     {% empty%}
         <p>댓글 이 없습니다 .</p>
@@ -93,21 +86,19 @@
     imagez.document.close();
     }
 
-    
-    
     function comment_change_input(){
-            var comment=$("#li_text").text();
-            var comment_input="<input type='text' id='comment_input'/>";
-            var li_text_el=document.getElementById('li_text');
-            li_text_el.innerHTML=comment_input;
-            var input_comment_el=document.getElementById('comment_input');
-            input_comment_el.value=comment;
+        var comment,comment_input;
+        comment=$('#span_comment').text();
+        var input_text ="<textarea  id='comment_textarea' style='width:50%;height:200;border:1;overflow:visible;text-overflow:ellipsis;' ></textarea>";
+        $('#span_comment').replaceWith(input_text);
+        comment_input=document.getElementById('comment_textarea');
+        comment_input.value=comment;
     }
     function comment_edit(){
       
     }
     function f_word_tiltering(){
-        var comment =$(".comment").text()
+        var comment =$(".comment").val()
         $.ajax({
             url:"{% url 'validate_comment' %}",
             dataType: 'json',

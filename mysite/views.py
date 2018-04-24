@@ -24,22 +24,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
     category = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
-    category_title1 = Notice_category.objects.filter(title ='공지사항')
-    category_title2 = Notice_category.objects.filter(title='자유게시판')
-    category_title3 = Notice_category.objects.filter(title='겔러리게시판')
-    category_title4 = Notice_category.objects.filter(title='Django')
-    category_title5 = Notice_category.objects.filter(title='less')
-    category_title6 = Notice_category.objects.filter(title='HTML')
-    category_title7 = Notice_category.objects.filter(title='javascript')
-    category_title8 = Notice_category.objects.filter(title='비회원게시판')
-    posts1 = Post.objects.filter(category=category_title1,created_date__lte=timezone.now()).order_by('-created_date')[:5]#공지사항
-    posts2 = Post.objects.filter(category=category_title2, created_date__lte=timezone.now()).order_by('-created_date')[:5]#자유게시판
-    posts3 = Post.objects.filter(category=category_title3, created_date__lte=timezone.now()).order_by('-created_date')[:5]#겔러리게시판
-    posts4 = Post.objects.filter(category=category_title4, created_date__lte=timezone.now()).order_by('-created_date')[:5]#Django
-    posts5 = Post.objects.filter(category=category_title5, created_date__lte=timezone.now()).order_by('-created_date')[:5]#less
-    posts6 = Post.objects.filter(category=category_title6, created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
-    posts7 = Post.objects.filter(category=category_title7, created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
-    posts8 = Post.objects.filter(category=category_title8, created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
+    posts1 = Post.objects.filter(category=1,created_date__lte=timezone.now()).order_by('-created_date')[:5]#공지사항
+    posts2 = Post.objects.filter(category=2, created_date__lte=timezone.now()).order_by('-created_date')[:5]#자유게시판
+    posts3 = Post.objects.filter(category=3, created_date__lte=timezone.now()).order_by('-created_date')[:5]#겔러리게시판
+    posts4 = Post.objects.filter(category=4, created_date__lte=timezone.now()).order_by('-created_date')[:5]#Django
+    posts5 = Post.objects.filter(category=5, created_date__lte=timezone.now()).order_by('-created_date')[:5]#less
+    posts6 = Post.objects.filter(category=6, created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
+    posts7 = Post.objects.filter(category=7, created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
+    posts8 = Post.objects.filter(category=8, created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
     return render(request, 'home.html',{'posts1': posts1,'posts2': posts2,'posts3': posts3,'posts4': posts4,'posts5': posts5,
                                     'posts6': posts6,'posts7': posts7,'posts8': posts8,'category': category})
 

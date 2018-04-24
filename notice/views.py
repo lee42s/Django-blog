@@ -90,8 +90,7 @@ def post_new(request,category):
         category_id = Notice_category.objects.filter(id=ctgry)
         category1 = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
         for writer_auth in category_id:
-            if request.method == "POST" and request.user.is_level <= writer_auth.writer_auth \
-                    or request.user.is_manager == True or request.user.is_superuser == True:
+            if request.method == "POST" and request.user.is_level <= writer_auth.writer_auth or request.user.is_manager == True or request.user.is_superuser == True:
                 form = PostForm(request.POST)
                 if form.is_valid():
                     post = form.save(commit=False)
@@ -122,12 +121,12 @@ def post_new(request,category):
                             imges.save()
 
                         return redirect('notice_detail:post_detail', pk=post.pk, category=ctgry)
-            if not request.user.is_level <= writer_auth.writer_auth:
-                return render(request, 'about.html',{'category':category1})
+                else:
+                    form = PostForm()
+                    imges = ImgesForm()
+                    file = FlieForm()
             else:
-                form = PostForm()
-                imges = ImgesForm()
-                file = FlieForm()
+                return render(request, 'about.html', {'category': category1})
     return render(request, 'notice/post_edit.html', {'form':form,'category':category1,'category_id':category_id,'file': file,'imges':imges})
 
 @login_required
@@ -255,9 +254,9 @@ def notice_category_remove(request, pk):
     return redirect('m_category_list:category_list')
 
 @login_required
-def word_filtering(request,pk):
+def word_filtering(request):
     if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True:
-        word_filtering= get_object_or_404(Word_filtering, pk=pk)
+        word_filtering= get_object_or_404(Word_filtering,)
     if request.user.is_manager == False and request.user.is_superuser == False:
         return render(request, 'about.html')
     if request.method == 'POST':
@@ -266,7 +265,7 @@ def word_filtering(request,pk):
             word_filtering = form.save(commit=False)
             word_filtering.text = word_filtering.text
             word_filtering.save()
-            return redirect('word_filtering_manager:word_filtering',pk=pk)
+            return redirect('word_filtering_manager:word_filtering')
     else:
         form = Word_filteringForm(instance=word_filtering)
         return render(request, 'notice/word_filtering_edit.html',{'form': form})

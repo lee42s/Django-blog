@@ -47,15 +47,14 @@
     {% for comment in comment_post %}
     <section>
         <p>작성자: {{ comment.author }}<br> <span>등록일: {{ comment.created_date }}</span></p>
-        <p><span id="span_comment">{{ comment.text|linebreaksbr }}</span></p>
+        <p><span id="span_comment{{comment.id}}">{{ comment.text|linebreaksbr }}</span></p>
         {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
         <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
             삭제
         </a>
-        <button onclick="comment_change_input()">수정</button>
+        <button onclick="comment_change_input({{comment.id}})">수정</button>
         {%endif%}
     </div>
-    "{% url 'comment_edit' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}"
     {% empty%}
         <p>댓글 이 없습니다 .</p>
     {%endfor%}
@@ -86,16 +85,50 @@
     imagez.document.close();
     }
 
-    function comment_change_input(){
-        var comment,comment_input;
-        comment=$('#span_comment').text();
-        var input_text ="<textarea  id='comment_textarea' style='width:50%;height:200;border:1;overflow:visible;text-overflow:ellipsis;' ></textarea>";
-        $('#span_comment').replaceWith(input_text);
-        comment_input=document.getElementById('comment_textarea');
-        comment_input.value=comment;
+    function comment_change_input(comment_id){
+        var el_id=comment_id;
+        var span_comment_el =document.getElementById('span_comment'+el_id);
+        var comment =$(span_comment_el).text();
+        var textarea="<textarea ";
+        var textarea_id="id=comment_textarea"+el_id+" ";
+        var textarea_style ="style='width:25%;height:200;border:1;overflow:visible;text-overflow:ellipsis;resize:none;'>"
+        var textarea_end ="</textarea>"
+        var comment_textarea = textarea+textarea_id+textarea_style+textarea_end;
+        var button_start="<button id=comment_edit"+el_id+" ";
+        var button_end="type='submit' onclick=comment_edit("+el_id+")>"+"저장</button>"
+        var button_edit =button_start+button_end
+        $(span_comment_el).replaceWith(comment_textarea+button_edit);
+        var comment_textarea_el =document.getElementById('comment_textarea'+el_id);
+        comment_textarea_el.value=comment;
+        
     }
-    function comment_edit(){
-      
+    function comment_edit(comment_id){
+        var el_id=comment_id;
+        var comment_textarea_el =document.getElementById('comment_textarea'+el_id);
+        var comment =$(comment_textarea_el).val();
+        $.ajax({
+            url:"{% url 'comment_edit' %}",
+            dataType:'json',
+            type:"POST",
+            data:{
+                'comment_id':el_id,
+                'comment':comment
+            },
+            success:function(data){
+                if(data.edit_comment === data.comment ){
+                    var span_start ="<span"+" ";
+                    var span_id="id=span_comment"+data.comment_id;
+                    var span_end="></span>";
+                    var span_comment=span_start+span_id+span_end;
+                    var button_el=document.getElementById("comment_edit"+data.comment_id);
+                    $(comment_textarea_el).replaceWith(span_comment);
+                    var span_comment_el=document.getElementById('span_comment'+data.comment_id);
+                    $(button_el).replaceWith();
+                    $(span_comment_el).text(comment);
+                }
+            },
+        })
+
     }
     function f_word_tiltering(){
         var comment =$(".comment").val()

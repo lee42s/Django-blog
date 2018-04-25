@@ -286,7 +286,6 @@ def ajax_word_filtering(request):
         data['error_message'] = '가 포함되어있습니다'
     if data['is_taken_content']:
         data['error_message'] = '가 포함되어있습니다'
-
     return JsonResponse(data)
 
 
@@ -301,21 +300,18 @@ def ajax_comment_word_filtering(request):
     return JsonResponse(data)
 
 @csrf_exempt
-def ajax_comment_edit(request,comment_pk,pk,category):
-    comment = get_object_or_404(Comment, id=comment_pk)
-    post=get_object_or_404(Post,pk=pk)
-    if request.is_ajax():
-        template = 'notice/comment_form.html'
-    if request.method == 'POST':
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post=post
-            comment.author=request.user
-            comment.save()
+def ajax_comment_edit(request):
+    comment_id = request.POST.get('comment_id')
+    number_comment_id=int(comment_id)
+    comment = request.POST.get('comment')
+    comment_edit=Comment.objects.get(id= number_comment_id)
+    comment_edit.text= comment
+    comment_edit.save()
+    data={
+        'comment_edit_text':comment_edit.text,
+        'comment_id':comment_id
+    }
+    return JsonResponse(data)
 
-    else:
-        form =CommentForm(instance=comment)
-        return render(request, 'notice/comment_form.html', {'form': form})
 
 

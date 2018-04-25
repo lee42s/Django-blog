@@ -62,8 +62,7 @@ urlpatterns = [
     url(r'^ajax/validate_content/$', ajax_word_filtering, name="validate_content"),
     url(r'^ajax/validate_comment/$', ajax_comment_word_filtering, name="validate_comment"),
 
-    url(r'ajax/comment_edit/comment(?P<comment_pk>\d+)/post(?P<pk>\d+)/categroy(?P<category>\d+)/$', ajax_comment_edit,
-        name='comment_edit'),
+    url(r'ajax/comment_edit/$', ajax_comment_edit, name='comment_edit'),
     #ajax유저아이디검사
     url(r'^ajax/validate_username/$', views.validate_username, name="validate_username"),
     # text위젯

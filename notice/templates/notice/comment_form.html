@@ -3,7 +3,7 @@
     <form method="POST" onsubmit="f_word_tiltering()" id="comment_form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">댓글등록</button>
+        <div><button type="submit">댓글등록</button></div>
     </form>
 </section>
 {% endblock %}

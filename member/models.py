@@ -9,9 +9,9 @@ class User(AbstractUser):
     level2 = 2
     level3 = 3
     LEVEL_TYPE_CHOICES = (
-        (level1,'최고 권한'),
-        (level2, '일반 권한'),
-        (level3, '최하위 권한'),
+        (level1, 'manager 권한'),
+        (level2, 'family 권한'),
+        (level3, 'normal 권한'),
     )
     is_level = models.IntegerField('권한레벨',choices=LEVEL_TYPE_CHOICES,null=True,blank=True,default='3')
 

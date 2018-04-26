@@ -17,10 +17,10 @@
     {{post_detail.content|safe|linebreaks}}
     {% for imges in imges %}
     <div>
-        <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:30%;">
+        <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:35%;height:400px;">
     </div>
      <P>
-         이미지파일:<a href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">{{ imges.imgename }}</a>
+         이미지파일:<a href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">다운로드</a>
      </P>
     {%endfor%}
     {% for files in files %}
@@ -115,17 +115,16 @@
                 'comment':comment
             },
             success:function(data){
-                if(data.edit_comment === data.comment ){
-                    var span_start ="<span"+" ";
-                    var span_id="id=span_comment"+data.comment_id;
-                    var span_end="></span>";
-                    var span_comment=span_start+span_id+span_end;
-                    var button_el=document.getElementById("comment_edit"+data.comment_id);
-                    $(comment_textarea_el).replaceWith(span_comment);
-                    var span_comment_el=document.getElementById('span_comment'+data.comment_id);
-                    $(button_el).replaceWith();
-                    $(span_comment_el).text(comment);
-                }
+                var span_start ="<span"+" ";
+                var span_id="id=span_comment"+data.comment_id;
+                var span_end="></span>";
+                var span_comment=span_start+span_id+span_end;
+                var button_el=document.getElementById("comment_edit"+data.comment_id);
+                $(comment_textarea_el).replaceWith(span_comment);
+                var span_comment_el=document.getElementById('span_comment'+data.comment_id);
+                $(button_el).replaceWith();
+                $(span_comment_el).text(comment);
+                
             },
         })
 
@@ -152,7 +151,7 @@
     var login_user='{{request.user}}';
     var manager ='{{request.user.is_manager}}';
     function check_edit(){
-        if( username !== login_user){
+        if( username !== login_user ){
             alert('작성자 만 수정 가능합니다. ')
         }
     }

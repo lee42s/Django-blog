@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
-from notice.views import ajax_word_filtering,ajax_comment_word_filtering,ajax_comment_edit
+from notice.views import ajax_word_filtering,ajax_comment_word_filtering,ajax_comment_edit,post_search
 from mysite import views
 from notice.models import Notice_category
 from django.conf.urls.static import static
 from django.conf import settings
+from notice.forms import PostSearchForm
 from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
@@ -45,7 +46,7 @@ urlpatterns = [
     url(r'^notice/', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
     url(r'^notice/', include(('notice.urls', 'post_remove'), namespace='notice_remove')),
     url(r'^notice/', include(('notice.urls', 'comment_remove'), namespace='notice_comment_remove')),
-
+    url(r'^notice/post_search$', post_search, name='post_search'),
 
 
     url(r'^$', home, name='home'),
@@ -53,15 +54,17 @@ urlpatterns = [
 
     # 로그인 페이지에서 각카테고리(gnb)나오기 위해서는 extra_context 을사용하여 카테고리퀘리셋 을적용한다
     url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html',
-                                                 'extra_context':{'category': Notice_category.objects.all()}}, name='login'),
+                                                 'extra_context':{'category': Notice_category.objects.all(),'searchForm':PostSearchForm()}}, name='login'),
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^register/', UserRegisterView.as_view(), name='register'),
     url(r'^accounts/password_change/$', UserPasswordChangeView.as_view(), name='password_change'),
     url(r'^accounts/password_change_done/$', UserPasswordDoneView.as_view(),name='password_change_done'),
 
+    #ajax게시글 내용단어필터링
     url(r'^ajax/validate_content/$', ajax_word_filtering, name="validate_content"),
+    #ajax댓글 내용단어필터링
     url(r'^ajax/validate_comment/$', ajax_comment_word_filtering, name="validate_comment"),
-
+    #ajax댓글수정
     url(r'ajax/comment_edit/$', ajax_comment_edit, name='comment_edit'),
     #ajax유저아이디검사
     url(r'^ajax/validate_username/$', views.validate_username, name="validate_username"),

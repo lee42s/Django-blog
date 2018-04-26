@@ -4,21 +4,23 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from notice.models import Post,Notice_category,Word_filtering,Comment,File,Imges
 from django.http import HttpResponse,HttpResponseRedirect,Http404
-from notice.forms import PostForm,Notice_categoryForm,Word_filteringForm,CommentForm,FlieForm,ImgesForm
+from notice.forms import PostForm,Notice_categoryForm,Word_filteringForm,CommentForm,FlieForm,ImgesForm,PostSearchForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.http import JsonResponse
+from django.views.generic.edit import FormView
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect,requires_csrf_token,csrf_exempt
 import json
 from django.db.models.functions import Length
+from django.db.models import Q#or 쿼리셋 사용할경우
 import re #html태그 제거
 # Create your views here.
 
 def post_list(request, category):
     category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
-    category_title = Notice_category.objects.filter(id=category)
-    for list_auth in category_title:
+    category_id = Notice_category.objects.filter(id=category)
+    for list_auth in category_id:
         try :
             if request.user.is_level <= list_auth.list_auth or request.user.is_superuser == True or request.user.is_manager == True:
                 posts = Post.objects.filter(category_id=category,
@@ -35,7 +37,8 @@ def post_list(request, category):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'notice/post_list.html', {'posts': posts,'category_title':category_title,'category':category1,})
+    searchForm = PostSearchForm()
+    return render(request, 'notice/post_list.html', {'posts': posts,'category_id':category_id,'category':category1,'searchForm':searchForm})
 
 
 def post_detail(request, pk, category):
@@ -79,55 +82,60 @@ def post_detail(request, pk, category):
                 return redirect('notice_detail:post_detail', pk=post.pk, category=category)
     else:
         form = CommentForm()
+        searchForm = PostSearchForm()
     return render(request, 'notice/post_detail.html',
-                  {'post_detail': post_detail,'category':category1,'form': form,'comment_post':contacts_comment,'files':files, 'imges': imges,})
+                  {'post_detail': post_detail,'category':category1,'form': form,
+                   'comment_post':contacts_comment,'files':files, 'imges': imges,'searchForm':searchForm})
 
 
 @login_required
 def post_new(request,category):
     if request.user.is_authenticated or request.user.is_manager == True or request.user.is_superuser == True :
         ctgry = category
+        searchForm = PostSearchForm()
         category_id = Notice_category.objects.filter(id=ctgry)
         category1 = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
         for writer_auth in category_id:
-            if request.method == "POST" and request.user.is_level <= writer_auth.writer_auth or request.user.is_manager == True or request.user.is_superuser == True:
+            if request.method == "POST" or request.user.is_level <= writer_auth.writer_auth \
+                    or request.user.is_manager == True or request.user.is_superuser == True:
                 form = PostForm(request.POST)
-                if form.is_valid():
-                    post = form.save(commit=False)
-                    #66,67행 글 제목과 내용  중에 비방글 내용이 존재 시 Ture을 반환한다.
-                    cleanr = re.compile('<.*?>')#문자타입안에html태그제거
-                    cleanc_html = re.sub(cleanr, '', post.content)#문자타입안에html태그제거
-                    cleanr_content=cleanc_html.replace(" ","")#문자안에공백제거
-                    word_content = Word_filtering.objects.filter(id=1,text__contains=cleanr_content).exists()
-                    word_subject = Word_filtering.objects.filter(id=1,text__contains=post.title).exists()
-                    if word_content or word_subject:
-                        redirect('notice_new:post_new' ,category=category)
-                    else:
-                        post.author = request.user
-                        post.category = writer_auth
-                        post.save()
-                        # 이미지,파일
-                        upflis = request.FILES.getlist('file')
-                        for upfl in upflis:
-                            file = File()
-                            file.file = upfl
-                            file.post = post
-                            file.save()
-                        upimges = request.FILES.getlist('imges')
-                        for upim in upimges:
-                            imges = Imges()
-                            imges.imges = upim
-                            imges.post = post
-                            imges.save()
-
-                        return redirect('notice_detail:post_detail', pk=post.pk, category=ctgry)
-                else:
-                    form = PostForm()
-                    imges = ImgesForm()
-                    file = FlieForm()
             else:
-                return render(request, 'about.html', {'category': category1})
-    return render(request, 'notice/post_edit.html', {'form':form,'category':category1,'category_id':category_id,'file': file,'imges':imges})
+                return render(request, 'about.html', {'category': category1,'searchForm':searchForm})
+        if form.is_valid():
+            post = form.save(commit=False)
+            #66,67행 글 제목과 내용  중에 비방글 내용이 존재 시 Ture을 반환한다.
+            cleanr = re.compile('<.*?>')#문자타입안에html태그제거
+            cleanc_html = re.sub(cleanr, '', post.content)#문자타입안에html태그제거
+            cleanr_content=cleanc_html.replace(" ","")#문자안에공백제거
+            word_content = Word_filtering.objects.filter(id=1,text__contains=cleanr_content).exists()
+            word_subject = Word_filtering.objects.filter(id=1,text__contains=post.title).exists()
+            if word_content or word_subject:
+                redirect('notice_new:post_new' ,category=category)
+            else:
+                post.author = request.user
+                post.category = writer_auth
+                post.save()
+                # 이미지,파일
+                upflis = request.FILES.getlist('file')
+                for upfl in upflis:
+                    file = File()
+                    file.file = upfl
+                    file.post = post
+                    file.save()
+                upimges = request.FILES.getlist('imges')
+                for upim in upimges:
+                    imges = Imges()
+                    imges.imges = upim
+                    imges.post = post
+                    imges.save()
+
+                return redirect('notice_detail:post_detail', pk=post.pk, category=ctgry)
+        else:
+            form = PostForm()
+            imges = ImgesForm()
+            file = FlieForm()
+    return render(request, 'notice/post_edit.html', {'form':form,'category':category1,
+                                                     'category_id':category_id,'file': file,'imges':imges,'searchForm':searchForm})
 
 @login_required
 def comment_remove(request, pk,comment_pk,category):
@@ -171,7 +179,8 @@ def post_edit(request,pk,category):
                     return redirect('notice_detail:post_detail', pk=post.pk, category=category)
         else:
             form = PostForm(instance=post_edit)
-    return render(request, 'notice/post_edit.html', {'form': form,'category':category1,'category_id': category_id})
+            searchForm = PostSearchForm()
+    return render(request, 'notice/post_edit.html', {'form': form,'category':category1,'category_id': category_id,'searchForm':searchForm})
 
 
 
@@ -308,10 +317,18 @@ def ajax_comment_edit(request):
     comment_edit.text= comment
     comment_edit.save()
     data={
-        'comment_edit_text':comment_edit.text,
-        'comment_id':comment_id
+        # 'comment_edit_text':comment_edit.text,
+        'result':True
     }
     return JsonResponse(data)
 
 
 
+def post_search(request):
+    if 'search_word' in request.POST and request.POST.get('search_word'):
+        sWord = request.POST.get('search_word','')
+        post=Post.objects.all()
+        results = post.filter(title__icontains=sWord).distinct()
+        SearchForm = PostSearchForm()
+        category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
+    return render(request, 'notice/post_search_list.html', {'results': results,'query': sWord,'SearchForm':SearchForm,'category':category1})

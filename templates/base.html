@@ -20,9 +20,9 @@
                         <span><a href="{% url 'manager_home' %}">관리자</a></span>
                         {%endif%}
                         {% if user.is_member == True and user.is_manager == False and user.is_superuser == False  %}
-                        <span>회원</span>
+                        <span>FAMILY</span>
                         {% elif user.is_member == False and user.is_manager == False and user.is_superuser == False %}
-                        <span>비회원</span>
+                        <span>NORMAL</span>
                         {%endif%}
                     </li>
                     <li><a href="{% url 'logout' %}">로그아웃</a></li>

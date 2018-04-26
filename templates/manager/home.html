@@ -16,7 +16,7 @@
 <section>
     <h1>회원권한</h1>
     <section>
-        <h1>회원유저</h1>
+        <h1>FAMILY-회원</h1>
         <table>
             <thead>
             <tr>
@@ -28,14 +28,12 @@
             </thead>
             <tbody>
             {% for user_is_member in user_is_member %}
-             {% if user_is_member.is_member == True %}
             <tr>
                 <td>{{user_is_member.username}}</td>
-                <td>회원<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
+                <td>FAMILY<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
                 <td>{{user_is_member.date_joined}}</td>
                 <td>{{user_is_member.last_login}}</td>
             </tr>
-            {%endif%}
             {% empty %}
                 <tr>
                     <td colspan="6">게시물이 없습니다.</td>
@@ -61,7 +59,7 @@
         </div>
     </section>
     <section>
-         <h1>비회원유저</h1>
+         <h1>NORMAL-회원</h1>
         <table>
             <thead>
             <tr>
@@ -72,15 +70,13 @@
             </tr>
             </thead>
             {% for none_user in none_user %}
-             {% if none_user.is_member == False  %}
             <tbody>
             <tr>
                 <td>{{none_user.username}}</td>
-                <td>비회원<a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a></td>
+                <td>NORMAL<a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a></td>
                 <td>{{none_user.date_joined}}</td>
                 <td>{{none_user.last_login}}</td>
             </tr>
-            {% endif %}
             {% empty %}
             <tr>
                <td colspan="6">게시물이 없습니다.</td>
@@ -105,7 +101,7 @@
         </div>
     </section>
      <section>
-         <h1>관리자유저</h1>
+         <h1>manager-회원</h1>
         <table>
             <thead>
             <tr>
@@ -116,15 +112,13 @@
             </tr>
             </thead>
             {% for user_is_manager in user_is_manager %}
-            {% if user_is_manager.is_manager == True  %}
             <tbody>
             <tr>
                 <td>{{user_is_manager.username}}</td>
-                <td>관리자<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
+                <td>manager<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
                 <td>{{user_is_manager.date_joined}}</td>
                 <td>{{user_is_manager.last_login}}</td>
             </tr>
-            {%endif%}
             {% empty %}
                 <tr>
                   <td colspan="6">게시물이 없습니다.</td>

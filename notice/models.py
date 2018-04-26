@@ -13,9 +13,9 @@ class Notice_category(models.Model):
     level2 = 2
     level3 = 3
     LEVEL_TYPE_CHOICES = (
-        (level1, '최고 권한'),
-        (level2, '일반 권한'),
-        (level3, '최하위 권한'),
+        (level1, 'manager 권한'),
+        (level2, 'family 권한'),
+        (level3, 'normal 권한'),
     )
     list_auth = models.IntegerField('목록보기', choices=LEVEL_TYPE_CHOICES, null=True, blank=True)
     detail_auth = models.IntegerField('상세보기', choices=LEVEL_TYPE_CHOICES, null=True, blank=True)

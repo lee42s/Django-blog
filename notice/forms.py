@@ -52,3 +52,6 @@ class Notice_categoryForm(forms.ModelForm):
     class Meta:
         model = Notice_category
         fields = ['title','list_auth','detail_auth','writer_auth']
+
+class PostSearchForm(forms.Form):
+    search_word = forms.CharField(label='검색')

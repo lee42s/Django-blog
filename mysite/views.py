@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth import forms as auth_forms
 from django import forms
 from member.models import User
-from notice.models import Post,Notice_category
+from notice.models import Post,Notice_category,Imges
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.http import HttpResponse,HttpResponseRedirect
@@ -20,30 +20,52 @@ from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from notice.forms import PostSearchForm
+from django.db.models import Q
 
 def home(request):
     category = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
-    posts1 = Post.objects.filter(category=1,created_date__lte=timezone.now()).order_by('-created_date')[:5]#공지사항
-    posts2 = Post.objects.filter(category=2, created_date__lte=timezone.now()).order_by('-created_date')[:5]#자유게시판
-    posts3 = Post.objects.filter(category=3, created_date__lte=timezone.now()).order_by('-created_date')[:5]#겔러리게시판
-    posts4 = Post.objects.filter(category=4, created_date__lte=timezone.now()).order_by('-created_date')[:5]#Django
-    posts5 = Post.objects.filter(category=5, created_date__lte=timezone.now()).order_by('-created_date')[:5]#less
-    posts6 = Post.objects.filter(category=6, created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
-    posts7 = Post.objects.filter(category=7, created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
-    posts8 = Post.objects.filter(category=8, created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
+    category_title=['공지사항','자유게시판','겔러리게시판','Django','less','HTML','javascript','NORMAL-회원게시판']
+    for category_title in category_title:
+        if category_title == '공지사항':
+            category_id1 = Notice_category.objects.filter(title=category_title)
+        if  category_title == '자유게시판':
+            category_id2 = Notice_category.objects.filter(title=category_title)
+        if category_title == '겔러리게시판':
+            category_id3 = Notice_category.objects.filter(title=category_title)
+        if category_title == 'Django':
+            category_id4 = Notice_category.objects.filter(title=category_title)
+        if category_title == 'less':
+            category_id5 = Notice_category.objects.filter(title=category_title)
+        if category_title == 'HTML':
+            category_id6 = Notice_category.objects.filter(title=category_title)
+        if category_title == 'javascript':
+            category_id7 = Notice_category.objects.filter(title=category_title)
+        if category_title == 'NORMAL-회원게시판':
+            category_id8 = Notice_category.objects.filter(title=category_title)
+    posts1 = Post.objects.filter(category=category_id1,created_date__lte=timezone.now()).order_by('-created_date')[:5]#공지사항
+    posts2 = Post.objects.filter(category=category_id2, created_date__lte=timezone.now()).order_by('-created_date')[:5]#자유게시판
+    posts3 = Post.objects.filter(category=category_id3, created_date__lte=timezone.now()).order_by('-created_date')[:5]#겔러리게시판
+    posts4 = Post.objects.filter(category=category_id4, created_date__lte=timezone.now()).order_by('-created_date')[:5]#Django
+    posts5 = Post.objects.filter(category=category_id5, created_date__lte=timezone.now()).order_by('-created_date')[:5]#less
+    posts6 = Post.objects.filter(category=category_id6, created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
+    posts7 = Post.objects.filter(category=category_id7, created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
+    posts8 = Post.objects.filter(category=category_id8, created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
+    imges = Imges.objects.filter(post_id=posts3)[:5]
+    searchForm = PostSearchForm()
     return render(request, 'home.html',{'posts1': posts1,'posts2': posts2,'posts3': posts3,'posts4': posts4,'posts5': posts5,
-                                    'posts6': posts6,'posts7': posts7,'posts8': posts8,'category': category})
+                                    'posts6': posts6,'posts7': posts7,'posts8': posts8,'category': category ,'imges':imges,'searchForm':searchForm})
 
 @login_required
 def admin_home(request):
     if request.user.is_authenticated or request.user.is_superuser == True or request.user.is_manager ==True:
         if request.user.is_manager ==False and request.user.is_superuser == False:
             return redirect('login')
-    user_is_member=User.objects.filter(is_member=True,date_joined__lte=timezone.now()).order_by('-date_joined')
-    none_user = User.objects.filter(is_member=False,is_manager=False, date_joined__lte=timezone.now()).order_by('-date_joined')
-    user_is_manager = User.objects.filter(is_manager=True, date_joined__lte=timezone.now()).order_by('-date_joined')
+    user_is_member=User.objects.filter(is_member=True,is_manager=False,is_superuser=False,date_joined__lte=timezone.now()).order_by('-date_joined')
+    none_user = User.objects.filter(is_member=False,is_manager=False,is_superuser=False,date_joined__lte=timezone.now()).order_by('-date_joined')
+    user_is_manager = User.objects.filter(Q(is_manager=True)|Q(is_superuser=True),date_joined__lte=timezone.now()).order_by('-date_joined')
     posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')
+
     category = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
     #paginator_is_member
     paginator_is_member = Paginator(user_is_member, 5)
@@ -97,6 +119,7 @@ class UserRegisterView(CreateView):
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['category'] = Notice_category.objects.all()
+        context['searchForm']=PostSearchForm()
         return context
 
 class UserPasswordChangeView(PasswordChangeView,):
@@ -108,6 +131,7 @@ class UserPasswordChangeView(PasswordChangeView,):
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['category'] = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
+        context['searchForm'] = PostSearchForm()
         return context
 
 
@@ -118,6 +142,7 @@ class UserPasswordDoneView(PasswordChangeDoneView,):
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['category'] = Notice_category.objects.all()#gnb카티고리을 불러오는 쿼리셋
+        context['searchForm'] = PostSearchForm()
         return context
 
 

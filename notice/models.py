@@ -66,6 +66,7 @@ class Imges(models.Model):
         self.imges.delete()
         super(Imges,self).delete(*args, **kwargs)
 
+
     def __str__(self):
         return  self.imges.name
 

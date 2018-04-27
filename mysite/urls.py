@@ -46,6 +46,8 @@ urlpatterns = [
     url(r'^notice/', include(('notice.urls', 'post_edit'), namespace='notice_edit')),
     url(r'^notice/', include(('notice.urls', 'post_remove'), namespace='notice_remove')),
     url(r'^notice/', include(('notice.urls', 'comment_remove'), namespace='notice_comment_remove')),
+    url(r'^notice/', include(('notice.urls', 'imges_remove'), namespace='notice_imges_remove')),
+    url(r'^notice/', include(('notice.urls', 'files_remove'), namespace='notice_files_remove')),
     url(r'^notice/post_search$', post_search, name='post_search'),
 
 

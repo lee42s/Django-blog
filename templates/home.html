@@ -228,11 +228,11 @@
                 </a>
                 <span>{{post3.created_date|date:"m-d"|lower}}</span>
                 {% for imges in imges %}
-                {%if imges.post_id != post3.id%}
+                {% if imges.post_id == post3.id  %}
                 <div>
                     <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:15%;height:200px;">
                 </div>
-                {%endif%}
+                {% endif %}
                 {%endfor%}
             </li>
         </ul>

@@ -2,3 +2,4 @@ social-auth-app-django==2.1.0
 django-allauth
 pillow
 django-ckeditor
+django ~=1.11.8

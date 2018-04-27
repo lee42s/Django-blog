@@ -10,7 +10,8 @@ urlpatterns = [
     url(r'^edit/(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.post_edit,  name='post_edit'),
     url(r'remove/(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.post_remove, name='post_remove'),
     url(r'remove/comment(?P<comment_pk>\d+)/post(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.comment_remove, name='comment_remove'),
-
+    url(r'remove/imges(?P<imge_pk>\d+)/post(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.imges_remove, name='imges_remove'),
+    url(r'remove/files(?P<file_pk>\d+)/post(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.files_remove, name='files_remove'),
 
 
     #관리자

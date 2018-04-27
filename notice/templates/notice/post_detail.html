@@ -18,6 +18,7 @@
     {% for imges in imges %}
     <div>
         <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:35%;height:400px;">
+        <a href="{% url 'notice_imges_remove:imges_remove' imge_pk=imges.id pk=post_detail.pk category=post_detail.category_id %}">삭제하기</a>
     </div>
      <P>
          이미지파일:<a href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">다운로드</a>
@@ -25,7 +26,8 @@
     {%endfor%}
     {% for files in files %}
      <p>
-         파일:<a href="{% get_media_prefix %}{{ files }}" download="{% get_media_prefix %}{{ files }}">{{ files.filename }}</a>
+         파일:<a href="{% get_media_prefix %}{{ files }}" download="{% get_media_prefix %}{{ files }}">다운로드</a>
+           <a href="{% url 'notice_files_remove:files_remove' file_pk=files.id pk=post_detail.pk category=post_detail.category_id %}">삭제하기</a>
      </p>
     {%endfor%}
     </div>
@@ -151,13 +153,13 @@
     var login_user='{{request.user}}';
     var manager ='{{request.user.is_manager}}';
     function check_edit(){
-        if( username !== login_user ){
-            alert('작성자 만 수정 가능합니다. ')
+        if( username !== login_user || manager ==false ){
+            alert('작성자 만 수정 가능합니다.')
         }
     }
     function check_remove(){
-        if( username !== login_user){
-            alert('작성자 만 삭제 가능합니다. ');
+        if( username !== login_user || manager ==false){
+            alert('작성자 만 삭제 가능합니다.');
         }
     }
  </script>

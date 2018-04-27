@@ -15,12 +15,16 @@
                 <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>
                 {% for category in category_id %}
                 {% if category.title != "겔러리게시판" %}
-                <div>{{ file.as_p }}</div>
+                 <div>
+                         {{ file.as_p }}
+                 </div>
                 {%endif%}
                 {%endfor%}
                 {% for category in category_id %}
                 {% if category.title == "겔러리게시판" or category.title == "공지사항" or category.title == "Django" or category.title == "less" or category.title == "HTML" or category.title == "javascript" %}
-                        <div>{{ imges.as_p }}</div>
+                        <div>
+                                {{ imges.as_p }}
+                        </div>
                 {%endif%}
                 {%endfor%}
         </div>

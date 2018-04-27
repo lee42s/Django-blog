@@ -50,8 +50,8 @@ def home(request):
     posts5 = Post.objects.filter(category=category_id5, created_date__lte=timezone.now()).order_by('-created_date')[:5]#less
     posts6 = Post.objects.filter(category=category_id6, created_date__lte=timezone.now()).order_by('-created_date')[:5]#HTML
     posts7 = Post.objects.filter(category=category_id7, created_date__lte=timezone.now()).order_by('-created_date')[:5]#javascript
-    posts8 = Post.objects.filter(category=category_id8, created_date__lte=timezone.now()).order_by('-created_date')[:5]#비회원게시판
-    imges = Imges.objects.filter(post_id=posts3)[:5]
+    posts8 = Post.objects.filter(category=category_id8, created_date__lte=timezone.now()).order_by('-created_date')[:5]#NORMAL-회원게시판
+    imges = Imges.objects.all()
     searchForm = PostSearchForm()
     return render(request, 'home.html',{'posts1': posts1,'posts2': posts2,'posts3': posts3,'posts4': posts4,'posts5': posts5,
                                     'posts6': posts6,'posts7': posts7,'posts8': posts8,'category': category ,'imges':imges,'searchForm':searchForm})

@@ -16,8 +16,11 @@
                 {% if user.is_authenticated  %}
                     <li>
                         {{ user.username}}님
-                        {% if user.is_manager == True or user.is_superuser == True%}
+                        {% if user.is_manager == True and user.is_superuser == False%}
                         <span><a href="{% url 'manager_home' %}">관리자</a></span>
+                        {%endif%}
+                         {% if  user.is_superuser == True%}
+                        <span><a href="{% url 'manager_home' %}">최고관리자</a></span>
                         {%endif%}
                         {% if user.is_member == True and user.is_manager == False and user.is_superuser == False  %}
                         <span>FAMILY</span>

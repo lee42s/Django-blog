@@ -13,12 +13,18 @@
         <input id="{{ form.username.id_for_label }}" maxlength="8" placeholder="8자 이내로 입력 가능합니다." name="{{ form.username.html_name }}" type="text" />
     </div>
     <div>
-    <label for="{{ form.password.id_for_label }}">패스워드</label>
-    <input id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
+        <label for="{{ form.password.id_for_label }}">패스워드</label>
+        <input id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
     </div>
     <input type="submit" value="로그인" />
     <input type="hidden" name="next" value="{{ next }}" />
     <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+    <div>
+        <p>FAMILY-회원아이디:zxcvgh18</p>
+        <p>FAMILY-회원패스워드:zxc123456</p>
+        <p>NORMAL-회원아이디:test123</p>
+        <p>NORMAL-회원패스워드:xptmxm123</p>
+    </div>
 </form>
 {% endblock %}
 {% block javascript %}

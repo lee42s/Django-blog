@@ -118,12 +118,12 @@
             },
             success:function(data){
                 var span_start ="<span"+" ";
-                var span_id="id=span_comment"+data.comment_id;
+                var span_id="id=span_comment"+el_id;
                 var span_end="></span>";
                 var span_comment=span_start+span_id+span_end;
-                var button_el=document.getElementById("comment_edit"+data.comment_id);
+                var button_el=document.getElementById("comment_edit"+el_id);
                 $(comment_textarea_el).replaceWith(span_comment);
-                var span_comment_el=document.getElementById('span_comment'+data.comment_id);
+                var span_comment_el=document.getElementById('span_comment'+el_id);
                 $(button_el).replaceWith();
                 $(span_comment_el).text(comment);
                 

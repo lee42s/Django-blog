@@ -18,7 +18,11 @@
     {% for imges in imges %}
     <div>
         <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:35%;height:400px;">
-        <a href="{% url 'notice_imges_remove:imges_remove' imge_pk=imges.id pk=post_detail.pk category=post_detail.category_id %}">삭제하기</a>
+        {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+        <a href="{% url 'notice_imges_remove:imges_remove' imge_pk=imges.id pk=post_detail.pk category=post_detail.category_id %}">
+            삭제하기
+        </a>
+        {%endif%}
     </div>
      <P>
          이미지파일:<a href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">다운로드</a>
@@ -27,7 +31,11 @@
     {% for files in files %}
      <p>
          파일:<a href="{% get_media_prefix %}{{ files }}" download="{% get_media_prefix %}{{ files }}">다운로드</a>
-           <a href="{% url 'notice_files_remove:files_remove' file_pk=files.id pk=post_detail.pk category=post_detail.category_id %}">삭제하기</a>
+         {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+         <a href="{% url 'notice_files_remove:files_remove' file_pk=files.id pk=post_detail.pk category=post_detail.category_id %}">
+             삭제하기
+         </a>
+         {%endif%}
      </p>
     {%endfor%}
     </div>

@@ -1,0 +1,85 @@
+/*desktop*/
+@media all and (min-width: 768px) {
+    .wrap{
+        padding: 0px;
+    }
+    .logo>a{
+        padding-left: 0px;
+    }
+    .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover{
+        background-color: black;
+    }
+    .dropdown-menu{
+        background-color: black;
+    }
+    .info{
+        margin-top: 5px;
+    }
+    .info>li>a{
+        font-size: 13px;
+    }
+    .gnb{
+        margin-top: 5px;
+    }
+    .search_form{
+        padding-top:95px;
+        margin-bottom: 0px;
+    }
+    .item{
+        width: 49%;
+        float: left;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 10px 20px;
+    }
+    .margin-left{
+        margin-left:2%;
+    }
+    .gallery{
+        width: 100%;
+        padding: 10px 20px;
+    }
+    .normal{
+        padding: 10px 20px;
+    }
+    .gallery>ul>li{
+        float: left;
+        width: 20%;
+        padding: 10px 20px;
+    }
+    .gallery>ul>li>img{
+      height: 116px;
+    }
+    .pw_chang{
+        margin-top:80px;
+        min-height:475px;
+    }
+    .pw_chang>h1{
+        text-align: center;
+    }
+    .pw_chang>p{
+        text-align: center;
+    }
+    .pw_form_chang>ul{
+        width: 50%;
+        margin: 0px auto;
+    }
+    /*footer*/
+    .footer{
+        padding: 50px 0px
+    }
+    .footerinfo{
+        padding: 0px 150px;
+    }
+    .copy{
+        float: left;
+        padding-right: 15px;
+    }
+    .address{
+        float: left;
+        padding-right: 15px;
+    }
+    .tel{
+        float: left;
+    }
+}

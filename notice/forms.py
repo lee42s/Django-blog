@@ -38,7 +38,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'class': 'comment', 'placeholder': '댓글 을 입력해주세요','row':0,'cols':100,'style':'resize:none;'}),
+            'text': forms.Textarea(attrs={'class':'comment', 'placeholder': '댓글 을 입력해주세요','row':0,'cols':100,'style':'resize:none;'}),
         }
         labels = {
             'text':'댓글'
@@ -54,4 +54,4 @@ class Notice_categoryForm(forms.ModelForm):
         fields = ['title','list_auth','detail_auth','writer_auth']
 
 class PostSearchForm(forms.Form):
-    search_word = forms.CharField(label='검색')
+    search_word = forms.CharField(label='search_word',widget=forms.TextInput(attrs={'class':'form-control','placeholder': '검색어를 입력해주세요'}))

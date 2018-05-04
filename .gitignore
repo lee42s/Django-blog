@@ -3,8 +3,5 @@
 *.pyc
 *~
 __pycache__
-db.sqlite3
 Gwlib/
 .DS_Store
-/imges
-/files

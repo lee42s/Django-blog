@@ -1,31 +1,37 @@
 {% extends "home.html" %}
-{% block head_title %}home{% endblock %}
-{% block title %}home{% endblock %}
+{% block head_title %}NOTICE{% endblock %}
+{% block title %}NOTICE{% endblock %}
 {% block content %}
-<form action="." method="post">
-    {% csrf_token %}
-    {% if form.errors %}
-        <p>아이디 나 비밀번호가 일치하지 않습니다.</p>
-    {% endif %}
-    <p>아이디와 비밀번호를 입력하세요.</p>
-    <div>
-        <label for="{{ form.username.id_for_label }}">아이디</label>
-        <input id="{{ form.username.id_for_label }}" maxlength="8" placeholder="8자 이내로 입력 가능합니다." name="{{ form.username.html_name }}" type="text" />
-    </div>
-    <div>
-        <label for="{{ form.password.id_for_label }}">패스워드</label>
-        <input id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
-    </div>
-    <input type="submit" value="로그인" />
-    <input type="hidden" name="next" value="{{ next }}" />
-    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-    <div>
-        <p>FAMILY-회원아이디:zxcvgh18</p>
-        <p>FAMILY-회원패스워드:zxc123456</p>
-        <p>NORMAL-회원아이디:test123</p>
-        <p>NORMAL-회원패스워드:xptmxm123</p>
-    </div>
-</form>
+<section class="wrap login_section">
+    <h1>
+        <span class="glyphicon glyphicon-log-in"></span>
+        로그인
+    </h1>
+    <form action="." method="post" class="login_form">
+        {% csrf_token %}
+        {% if form.errors %}
+            <p class="error">아이디 나 비밀번호가 일치하지 않습니다.</p>
+        {% endif %}
+        <p>아이디와 비밀번호를 입력하세요.</p>
+        <div>
+            <label class="hidden" for="{{ form.username.id_for_label }}">아이디</label>
+            <input id="{{ form.username.id_for_label }}" maxlength="8" placeholder="8자 이내로 입력 가능합니다." name="{{ form.username.html_name }}" type="text" />
+        </div>
+        <div>
+            <label class="hidden" for="{{ form.password.id_for_label }}">패스워드</label>
+            <input id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
+        </div>
+        <input type="submit" value="로그인" />
+        <input type="hidden" name="next" value="{{ next }}" />
+        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+        <div>
+            <p>FAMILY-회원아이디:zxcvgh18</p>
+            <p>FAMILY-회원패스워드:zxc123456</p>
+            <p>NORMAL-회원아이디:test123</p>
+            <p>NORMAL-회원패스워드:xptmxm123</p>
+        </div>
+    </form>
+</section>
 {% endblock %}
 {% block javascript %}
 <script>

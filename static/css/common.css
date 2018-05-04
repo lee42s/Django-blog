@@ -1,0 +1,79 @@
+@charset "utf-8";
+/*font*/
+@import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+/*reset*/
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+nav,
+section {
+  display: block;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+* {
+  box-sizing: border-box;
+}
+*:focus {
+  outline: none !important;
+}
+body {
+  margin: 0px;
+  font-family: 'Nanum Myeongjo', serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+ul {
+  font-size: 0px;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+li {
+  display: inline-block;
+  zoom: 1;
+}
+p {
+  margin: 0px;
+}
+img {
+  vertical-align: top;
+  border: 0px;
+  width: 100%;
+}
+.hidden {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  overflow: hidden;
+  font-size: 0.1%;
+  line-height: 0.1%;
+  width: 0.1%;
+  height: 0.1%;
+}
+.wrap {
+  margin: 0px auto;
+  max-width: 980px;
+  padding: 0px 20px;
+}

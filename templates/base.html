@@ -3,45 +3,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block head_title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pw_change.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pc_media.css' %}">
 </head>
 <body>
 <header>
-        <h1><a href="{% url 'home' %}">{% block title %}home{% endblock %}</a></h1>
-        <nav>
-            <ul>
+    <nav class="wrap clearfix gnb navbar navbar-inverse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+            </button>
+            <h1 class="logo">
+                <a  href="{% url 'home' %}">
+                    {% block title %}NOTICE{% endblock %}
+                </a>
+            </h1>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="info nav navbar-nav navbar-right">
                 {% if user.is_authenticated  %}
                     <li>
-                        {{ user.username}}님
                         {% if user.is_manager == True and user.is_superuser == False%}
-                        <span><a href="{% url 'manager_home' %}">관리자</a></span>
+                        <a  href="{% url 'manager_home' %}">
+                            {{ user.username}}님<span class="rating_manager">관리자</span>
+                        </a>
                         {%endif%}
-                         {% if  user.is_superuser == True%}
-                        <span><a href="{% url 'manager_home' %}">최고관리자</a></span>
+                        {% if  user.is_superuser == True%}
+                        <a href="{% url 'manager_home' %}">
+                            {{ user.username}}님 
+                            <span class="rating_admin">최고관리자</span>
+                        </a>
                         {%endif%}
                         {% if user.is_member == True and user.is_manager == False and user.is_superuser == False  %}
-                        <span>FAMILY</span>
+                        {{ user.username}}님 <span class="rating_family">FAMILY</span>
                         {% elif user.is_member == False and user.is_manager == False and user.is_superuser == False %}
-                        <span>NORMAL</span>
+                        {{ user.username}}님<span class="rating_normal">NORMAL</span>
                         {%endif%}
                     </li>
-                    <li><a href="{% url 'logout' %}">로그아웃</a></li>
-                    <li><a href="{% url 'password_change' %}">비밀번호 변경</a></li>
+                    <li class="logout ">
+                        <a href="{% url 'logout' %}">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            로그아웃
+                        </a>
+                    </li>
+                    <li class="pd_change">
+                        <a href="{% url 'password_change' %}">
+                            <span class="glyphicon glyphicon-cog"></span>
+                            비밀번호 변경
+                        </a>
+                    </li>
                     {% else %}
-                        <li><a href="{% url 'login' %}">로그인</a></li>
-                        <li><a href="{% url 'register' %}">회원가입</a>
+                    <li class="login">
+                        <a href="{% url 'login' %}">
+                            <span class="glyphicon glyphicon-log-in"></span>
+                            로그인
+                        </a>
+                    </li>
+                    <li class="register">
+                        <a href="{% url 'register' %}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            회원가입
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
-        </nav>
-</header>
 {% block gnbcontent %}{% endblock %}
 {% block content %}{% endblock %}
 {% block footer %}
-        <footer>
-            <div>&copy; 2017. (LKH) All rights reserved.</div>
+        <footer class="footer">
+            <div class="wrap clearfix footerinfo">
+                <p class="copy">&copy; 2017. (LKH) All rights reserved.</p>
+                <address class="address">
+                    전라북도 익산시 금마면 고도3길23
+                </address>
+                <p class="tel">
+                    TEL : 010-4824-6318
+                </p>
+            </div>
         </footer>
 {% endblock %}
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>

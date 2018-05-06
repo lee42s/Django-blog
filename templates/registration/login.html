@@ -15,16 +15,16 @@
         <p>아이디와 비밀번호를 입력하세요.</p>
         <div>
             <label class="hidden" for="{{ form.username.id_for_label }}">아이디</label>
-            <input id="{{ form.username.id_for_label }}" maxlength="8" placeholder="8자 이내로 입력 가능합니다." name="{{ form.username.html_name }}" type="text" />
+            <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="8" placeholder="8자 이내로 입력 가능합니다." name="{{ form.username.html_name }}" type="text" />
         </div>
         <div>
             <label class="hidden" for="{{ form.password.id_for_label }}">패스워드</label>
-            <input id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
+            <input class="form-control" id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
         </div>
-        <input type="submit" value="로그인" />
+        <input class="btn btn-default" type="submit" value="로그인" />
         <input type="hidden" name="next" value="{{ next }}" />
-        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-        <div>
+        <a class="btn btn-default" href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+        <div class="member">
             <p>FAMILY-회원아이디:zxcvgh18</p>
             <p>FAMILY-회원패스워드:zxc123456</p>
             <p>NORMAL-회원아이디:test123</p>

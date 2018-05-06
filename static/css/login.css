@@ -1,17 +1,23 @@
 .login_section{
-    margin-top: 25px;
-    min-height: 405px;
+    margin-top: 50px;
+    min-height: 330px;
 }
 .login_section>h1{
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 20px;
 }
-.login_form{
-   
+#id_username{
+    margin-bottom: 15px;
+}
+#id_password{
+    margin-bottom: 15px;
 }
 .login_form>p{
     font-size: 13px;
     margin-bottom: 15px;
     color: #00c8c8;
+}
+.member{
+    margin-top: 15px;
 }

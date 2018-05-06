@@ -2,8 +2,11 @@
 <section>
     <form method="POST" onsubmit="f_word_tiltering()" id="comment_form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div><button type="submit">댓글등록</button></div>
+        <label class="hidden" for="{{ form.text.id_for_label }}">제목</label>
+        {{ form.text }}
+        <div>
+            <button class='btn btn-default' type="submit">댓글등록</button>
+        </div>
     </form>
 </section>
 {% endblock %}

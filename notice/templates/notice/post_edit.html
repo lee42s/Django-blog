@@ -1,35 +1,41 @@
 {% extends 'home.html' %}
-{% block head_title %}home{% endblock %}
-{% block title %}home{% endblock %}
+{% block head_title %}NOTICE{% endblock %}
+{% block title %}NOTICE{% endblock %}
 {% block content %}
 {% for category in category_id %}
-<div>
-        <h1>게시판:<a href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></h1>
-</div>
+<section class="wrap writer_edit">
+<h1>게시판:<a href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></h1>
 {%endfor%}
 <form method="POST" id="f_write" onsubmit="f_word_tiltering()" enctype="multipart/form-data" >
         {% csrf_token %}
         <div id="f_writer" >
-                <div class="form-group">{{ form.title.label_tag }}{{ form.title }}</div>
+                <div class="form-group">
+                <label class="hidden" for="{{ form.title.id_for_label }}">제목</label>
+                {{ form.title }}
+                </div>
+                <div>
                 {{ form.media }}
-                <div class="form-group">{{ form.content.label_tag }}{{ form.content }}</div>
+                <label class="hidden" for="{{ form.content.id_for_label }}">제목</label>
+                {{ form.content }}
+                </div>
                 {% for category in category_id %}
                 {% if category.title != "겔러리게시판" %}
-                 <div>
-                         {{ file.as_p }}
-                 </div>
+                <div class="file_div">
+                        {{ file.as_p }}
+                </div>
                 {%endif%}
                 {%endfor%}
                 {% for category in category_id %}
                 {% if category.title == "겔러리게시판" or category.title == "공지사항" or category.title == "Django" or category.title == "less" or category.title == "HTML" or category.title == "javascript" %}
-                        <div>
-                                {{ imges.as_p }}
-                        </div>
+                <div>
+                        {{ imges.as_p }}
+                </div>
                 {%endif%}
                 {%endfor%}
         </div>
 <button type="submit"  class="btn btn-default">저장</button>
 </form>
+</section>
 {% endblock %}
 {% block javascript %}
 <script>
@@ -37,7 +43,7 @@
                 var subject=$("#title").val();
                 var content=CKEDITOR.instances.id_content.getData();
                 var html_content = content.replace(/(<([^>]+)>)/ig,"");//html제거
-                var cleanr_content = html_content.replace(/\n/ig,"");//엔터값제거
+                var cleanr_content = html_content.replace(/\n/ig,"");//엔터제거
                 $.ajax({
                         url:"{% url 'validate_content' %}",
                         dataType: 'json',

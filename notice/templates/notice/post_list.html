@@ -1,12 +1,12 @@
 {% extends 'home.html' %}
-{% block head_title %}home{% endblock %}
-{% block title %}home{% endblock %}
+{% block head_title %}NOTICE{% endblock %}
+{% block title %}NOTICE{% endblock %}
 {% block content %}
-<section id="list">
+<section class="list_section wrap">
     {% for category_id in category_id %}
     <h1>{{category_id.title }}</h1>
     {%endfor%}
-    <table>
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">번호</th>
@@ -31,9 +31,9 @@
         {%endfor%}
     </table>
 {% if posts.has_other_pages %}
-<ul class="pagination">
+<ul class="pagination ">
 {% if posts.has_previous %}
-    {% for category_title in category_title %}
+    {% for category_id in category_id %}
         <li><a href="?page={{ posts.previous_page_number }}&category={{category_id.id}}">&laquo;</a></li>
     {%endfor%}
 {% else %}
@@ -43,7 +43,7 @@
   {% if posts.number == i %}
     <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
   {% else %}
-    {% for category_title in category_title %}
+    {% for category_id in category_id %}
         <li><a href="?page={{ i }}&category={{category_id.id}}">{{ i }}</a></li>
     {%endfor%}
   {% endif %}
@@ -58,7 +58,11 @@
 </ul>
 {% endif %}
 {% for category_id in category_id %}
-<button><a href="{% url 'notice_new:post_new' category=category_id.id %}">글쓰기</a></button>
+<a class="writer_btn_a" href="{% url 'notice_new:post_new' category=category_id.id %}">
+    <button class="btn btn-default writer_btn">
+     쓰기
+    </button>
+</a>
 {%endfor%}
 </section>
 {% endblock %}

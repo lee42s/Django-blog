@@ -18,17 +18,17 @@
             <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="8" placeholder="8자 이내로 입력 가능합니다." name="{{ form.username.html_name }}" type="text" />
         </div>
         <div>
-            <label class="hidden" for="{{ form.password.id_for_label }}">패스워드</label>
-            <input class="form-control" id="{{ form.password.id_for_label }}" maxlength="12" name="{{ form.password.html_name }}" type="password" />
+            <label class="hidden" for="{{ form.password.id_for_label }}">비밀번호</label>
+            <input class="form-control" id="{{ form.password.id_for_label }}" placeholder="비빌번호" maxlength="12" name="{{ form.password.html_name }}" type="password" />
         </div>
-        <input class="btn btn-default" type="submit" value="로그인" />
+        <input class="btn btn-default btn_login" type="submit" value="로그인" />
         <input type="hidden" name="next" value="{{ next }}" />
         <a class="btn btn-default" href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
         <div class="member">
             <p>FAMILY-회원아이디:zxcvgh18</p>
-            <p>FAMILY-회원패스워드:zxc123456</p>
+            <p>FAMILY-회원비밀번호:zxc123456</p>
             <p>NORMAL-회원아이디:test123</p>
-            <p>NORMAL-회원패스워드:xptmxm123</p>
+            <p>NORMAL-회원비밀번호:xptmxm123</p>
         </div>
     </form>
 </section>

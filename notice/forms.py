@@ -9,7 +9,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title','content']
         widgets = {
-            'title':forms.TextInput(attrs={'class':'title','id':'title','placeholder': '제목을 입력하세요'}),
+            'title':forms.TextInput(attrs={'class':'title form-control','id':'title','placeholder': '제목을 입력하세요'}),
             'content':forms.CharField(widget=CKEditorWidget()),
         }
         labels = {
@@ -38,7 +38,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'class':'comment', 'placeholder': '댓글 을 입력해주세요','row':0,'cols':100,'style':'resize:none;'}),
+            'text': forms.Textarea(attrs={'class':'comment form-control', 'placeholder': '댓글 을 입력해주세요','row':0,'cols':100,'style':'resize:none;'}),
         }
         labels = {
             'text':'댓글'

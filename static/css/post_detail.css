@@ -1,0 +1,135 @@
+.post_detail_section{
+    margin-top: 50px;
+    min-height:230px;
+    padding: 0px 10px;
+}
+.post_detail_section>h1{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.post_detail_section>h1>a:hover{
+    color: gold;
+    text-decoration: none;
+}
+.post_detail{
+    border: 1px solid #c6cacc;
+    padding: 0px 20px;
+}
+.post_detail_info{
+    border-bottom: 1px solid #c6cacc;
+    width: 100%;
+    margin: 0px auto
+}
+.post_detail_info>p{
+    font-size: 15px;
+}
+.post_detail_info>h2{
+    font-size: 25px;
+    font-weight: bold;
+    margin: 20px 0px;
+}
+.post_detail_info>p{
+    display: block;
+}
+.author{
+    margin-bottom: 5px;
+}
+.created_date{
+    margin-bottom: 5px;
+}
+.modified_date{
+    margin-bottom: 20px;
+}
+.content_div{
+    margin: 20px 0px;
+}
+.img_div{
+    width: 100%;
+    height: auto;
+}
+.comment{
+    width: 100%;
+}
+.imges{
+    margin-bottom: 15px;
+}
+.imges_a:hover, .files_a:hover{
+    text-decoration: none;
+    color: gold;
+}
+.files{
+    margin-bottom: 15px;
+}
+.div_post_btn{
+   margin: 15px 0px;
+}
+.btn_post_new_a{
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
+}
+.btn_post_list_a{
+    display: inline-block;
+    float: left;
+}
+.btn_post_edit_a{
+    display: inline-block;
+    float: right;
+    margin-left: 5px;
+}
+.btn_post_remove_a{
+    display: inline-block;
+    float: right;
+}
+.comment_list{
+    border: 1px solid #c6cacc;
+    padding: 0px 20px;
+    margin-top: 20px;
+}
+.comment_list>h3{
+    font-size: 25px;
+    font-weight: bold;
+    margin: 20px 0px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #c6cacc;
+}
+.comment_list_div{
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #c6cacc;
+}
+.comment_info{
+    font-size: 15px;
+    margin-bottom: 15px;
+    padding: 10px 0px;
+}
+.comment_text{
+    padding: 10px 10px;
+    border: 1px solid #c6cacc;
+    margin-bottom: 15px;
+}
+.author_user{
+    color: skyblue;
+    font-weight: bold;
+}
+.step-links{
+    margin-bottom: 15px;
+}
+.step-links>a{
+    font-size: 15px;
+    color: skyblue;
+}
+.step-links>a:hover{
+    color: gold;
+    text-decoration: none;
+}
+.btn_comment_edit{
+    margin-top: 10px;
+}
+#comment_form{
+    margin-bottom: 25px;
+}
+.comment {
+    margin-bottom: 15px; 
+}

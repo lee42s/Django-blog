@@ -1,87 +1,112 @@
 {% extends 'home.html' %}
-{% block head_title %}home{% endblock %}
-{% block title %}home{% endblock %}
+{% block head_title %}NOTICE{% endblock %}
+{% block title %}NOTICE{% endblock %}
 {% block content %}
 {% load static %}
-<section>
-    <h1>게시판:<a href="{% url 'notice_list:post_list' category=post_detail.category_id %}">{{ post_detail.category.title }}</a></h1>
-    <h1>제목:{{post_detail.title}}</h1>
-    <div>
-    <p>
-        작성자:{{post_detail.author}}
-    </p>
-    <p>
-        만든날짜:{{post_detail.created_date}}<br>
-        수정날짜:{{post_detail.modified_date}}
-    </p>
-    {{post_detail.content|safe|linebreaks}}
-    {% for imges in imges %}
-    <div>
-        <img onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}' style="width:35%;height:400px;">
+<section class="wrap post_detail_section">
+    <h1>
+        게시판:<a href="{% url 'notice_list:post_list' category=post_detail.category_id %}">
+        {{ post_detail.category.title }}</a>
+    </h1>
+    <div class="post_detail">
+        <div class="post_detail_info">
+            <h2>제목: {{post_detail.title}}</h2>
+            <p class="author">
+                작성자: <span class="author_user">{{post_detail.author}}</span>
+            </p>
+            <p class="created_date">
+                만든날짜: {{post_detail.created_date}}
+            </p>
+            <p class="modified_date">
+                수정날짜: {{post_detail.modified_date}}
+            </p>
+        </div>
+        <div class="content_div">
+            {{post_detail.content|safe|linebreaks}}
+        </div>
+        {% for imges in imges %}
+        <div class="img_div">
+            <img class="thumbnail" onclick="this.src.popupView()" src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}'>
+        </div>
+        <P class="imges">
+            이미지파일:<a class="imges_a" href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">다운로드</a>
+            {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+            <a class="btn btn-default writer_btn"  href="{% url 'notice_imges_remove:imges_remove' imge_pk=imges.id pk=post_detail.pk category=post_detail.category_id %}">
+                삭제하기
+            </a>
+            {%endif%}
+        </P>
+        {%endfor%}
+        {% for files in files %}
+        <p class="files">
+            파일:<a class="files_a" href="{% get_media_prefix %}{{ files }}" download="{% get_media_prefix %}{{ files }}">다운로드</a>
+            {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+            <a class="btn btn-default writer_btn" href="{% url 'notice_files_remove:files_remove' file_pk=files.id pk=post_detail.pk category=post_detail.category_id %}">
+                삭제하기
+            </a>
+            {%endif%}
+        </p>
+        {%endfor%}
+    </div>
+    <div class="div_post_btn clearfix">
+            <a class="btn_post_new_a"  href="{% url 'notice_new:post_new' category=post_detail.category_id %}">
+                <button class="btn btn-default">
+                 쓰기
+                </button>
+            </a>
+            <a class="btn_post_list_a" href="{% url 'notice_list:post_list' category=post_detail.category_id %}">
+                <button class="btn btn-default">
+                 목록
+                </button>  
+            </a>
         {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
-        <a href="{% url 'notice_imges_remove:imges_remove' imge_pk=imges.id pk=post_detail.pk category=post_detail.category_id %}">
-            삭제하기
-        </a>
+            <a class="btn_post_edit_a" href="{% url 'notice_edit:post_edit' pk=post_detail.pk category=post_detail.category_id %}">
+                <button class="btn btn-default" onclick="check_edit()">
+                 수정하기
+                </button>
+            </a>
+            <a class="btn_post_remove_a" href="{% url 'notice_remove:post_remove' pk=post_detail.pk category=post_detail.category_id %}">
+                <button class="btn btn-default" onclick="check_remove()">
+                 삭제하기
+                </button>
+            </a>
         {%endif%}
     </div>
-     <P>
-         이미지파일:<a href="{% get_media_prefix %}{{ imges }}" download="{% get_media_prefix %}{{ imges }}">다운로드</a>
-     </P>
-    {%endfor%}
-    {% for files in files %}
-     <p>
-         파일:<a href="{% get_media_prefix %}{{ files }}" download="{% get_media_prefix %}{{ files }}">다운로드</a>
-         {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
-         <a href="{% url 'notice_files_remove:files_remove' file_pk=files.id pk=post_detail.pk category=post_detail.category_id %}">
-             삭제하기
-         </a>
-         {%endif%}
-     </p>
-    {%endfor%}
-    </div>
-    {% if post_detail.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
-    <button onclick="check_edit()">
-        <a href="{% url 'notice_edit:post_edit' pk=post_detail.pk category=post_detail.category_id %}">
-            수정하기
-        </a>
-    </button>
-    <button onclick="check_remove()">
-        <a href="{% url 'notice_remove:post_remove' pk=post_detail.pk category=post_detail.category_id %}">
-            삭제하기
-        </a>
-    </button>
-    {%endif%}
-</section>
-<section id="comment_list">
-    <h1>댓글목록</h1>
-    {% for comment in comment_post %}
-    <section>
-        <p>작성자: {{ comment.author }}<br> <span>등록일: {{ comment.created_date }}</span></p>
-        <p><span id="span_comment{{comment.id}}">{{ comment.text|linebreaksbr }}</span></p>
-        {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
-        <a href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
-            삭제
-        </a>
-        <button onclick="comment_change_input({{comment.id}})">수정</button>
-        {%endif%}
-    </div>
-    {% empty%}
-        <p>댓글 이 없습니다 .</p>
-    {%endfor%}
-    <div class="pagination">
-        <span class="step-links">
-            {% if  comment_post.has_previous %}
-                <a href="?page={{  comment_post.previous_page_number }}">이전댓글</a>
-            {% endif %}
-            {% if  comment_post.has_next %}
-                <a href="?page={{  comment_post.next_page_number }}">다음댓글</a>
-            {% endif %}
-        </span>
-    </div>
-</section>
+    <div id="comment_list" class="comment_list">
+        <h3>댓글목록</h3>
+        {% for comment in comment_post %}
+        <div class="comment_list_div">
+            <p class="comment_info">
+                작성자: <span class="author_user">{{ comment.author }}</span><br>
+                <span>등록일: {{ comment.created_date }}</span>
+            </p>
+            <p class="comment_text">
+                <span id="span_comment{{comment.id}}">{{ comment.text|linebreaksbr }}</span>
+            </p>
+            {% if comment.author == request.user or request.user.is_manager == True or request.user.is_superuser == True%}
+            <a class="btn btn-default" href="{% url 'notice_comment_remove:comment_remove' comment_pk=comment.id pk=post_detail.pk category=post_detail.category_id%}">
+                삭제
+            </a>
+            <button class="btn btn-default" onclick="comment_change_input({{comment.id}})">수정</button>
+            {%endif%}
+        </div>
+        {% empty%}
+            <p>댓글 이 없습니다 .</p>
+        {%endfor%}
+        <div class="pagination">
+            <p class="step-links">
+                {% if  comment_post.has_previous %}
+                    <a href="?page={{  comment_post.previous_page_number }}">이전댓글</a>
+                {% endif %}
+                {% if  comment_post.has_next %}
+                    <a href="?page={{  comment_post.next_page_number }}">다음댓글</a>
+                {% endif %}
+            </p>
+        </div>
 {% include 'notice/comment_form.html' %}
+    </div>
+</section>
 {% endblock %}
-
 {% block javascript %}
 <script>
     String.prototype.popupView = function () {
@@ -100,11 +125,11 @@
         var span_comment_el =document.getElementById('span_comment'+el_id);
         var comment =$(span_comment_el).text();
         var textarea="<textarea ";
-        var textarea_id="id=comment_textarea"+el_id+" ";
-        var textarea_style ="style='width:25%;height:200;border:1;overflow:visible;text-overflow:ellipsis;resize:none;'>"
+        var textarea_id="id=comment_textarea"+el_id+" "+"class='form-control'";
+        var textarea_style ="style='width:100%;height:200;border:1;overflow:visible;text-overflow:ellipsis;resize:none;'>"
         var textarea_end ="</textarea>"
         var comment_textarea = textarea+textarea_id+textarea_style+textarea_end;
-        var button_start="<button id=comment_edit"+el_id+" ";
+        var button_start="<button id=comment_edit"+el_id+" "+"class='btn btn-default btn_comment_edit'";
         var button_end="type='submit' onclick=comment_edit("+el_id+")>"+"저장</button>"
         var button_edit =button_start+button_end
         $(span_comment_el).replaceWith(comment_textarea+button_edit);

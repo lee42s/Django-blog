@@ -1,0 +1,26 @@
+.writer_edit{
+    margin-top: 50px;
+    min-height: 330px;
+}
+.writer_edit>h1{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.writer_edit>h1>a:hover,.writer_edit>h1>a:focus{
+    text-decoration: none;
+    color: gold;
+}
+#cke_id_content{
+    width: 100% !important;
+    margin-bottom: 20px;
+}
+.django-ckeditor-widget{
+    width: 100%;
+}
+#id_imges{
+    margin-bottom: 20px;
+}
+.file_div{
+    margin-bottom: 10px;
+}

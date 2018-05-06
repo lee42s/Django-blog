@@ -66,6 +66,7 @@
     font-size: 15px;
 }
 .gallery>ul>li{
+    display: block;
     padding: 10px 0px;
 }
 .gallery>ul>li>img{

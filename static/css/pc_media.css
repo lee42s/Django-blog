@@ -46,6 +46,7 @@
         padding: 10px 20px;
     }
     .gallery>ul>li{
+        display: inline-block;
         float: left;
         width: 20%;
         padding: 10px 20px;
@@ -89,12 +90,57 @@
     #id_password{
         margin-bottom: 25px;
     }
+    .register_section{
+        margin-top:80px;
+        min-height:475px;
+    }
+    .register_section>h1{
+        text-align: center;
+        margin-bottom:40px;
+    }
+    .register_form{
+        width: 50%;
+        margin: 0px auto;
+    }
+    .email{
+        margin-bottom: 25px;
+    } 
+    #id_password1{
+        margin-bottom: 25px;
+    }
+    #id_password2{
+        margin-bottom: 25px;
+    }
+    .list_section{
+        margin-top:80px;
+        min-height:475px;
+    }
+    .post_detail_info>p{
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .img_div{
+        width: 50%;
+    }
+    .div_post_btn{
+        margin: 25px 0px;
+    }
+    .comment_list_div{
+        padding-bottom: 25px;
+    }
+    .btn_post_new_a{
+        margin-right: 15px;
+    }
+    .btn_post_edit_a{
+        margin-left: 15px;
+    }
     /*footer*/
     .footer{
+        margin-top: 65px;
         padding: 50px 0px
     }
     .footerinfo{
-        padding: 0px 150px;
+        padding: 5px  150px;
     }
     .copy{
         float: left;

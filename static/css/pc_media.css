@@ -21,6 +21,9 @@
     .gnb{
         margin-top: 5px;
     }
+    .gnb>li>a{
+        padding-top: 10px;
+    }   
     .search_form{
         padding-top:95px;
         margin-bottom: 0px;

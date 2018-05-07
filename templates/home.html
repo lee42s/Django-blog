@@ -69,175 +69,181 @@
 </form>
 {%endblock%}
 {% block content %}
-<div class="wrap clearfix">
-    <section class="item">
-        {% for category in category %}
-        {% if category.title == '공지사항'%}
+<div class="wrap">
+    <div class="clearfix">
+        <section class="item item1">
+            {% for category in category %}
+            {% if category.title == '공지사항'%}
+                <h1>
+                    {{category.title}}
+                    <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
+                        <span class="glyphicon glyphicon-plus plus"></span>
+                    </a>
+                </h1>
+            {%endif%}
+            {%endfor%}
+            <ul>
+                {% for post1 in posts1 %}
+                <li>
+                    <a href="{% url 'notice_detail:post_detail' pk=post1.pk  category=post1.category_id%}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        {{post1.title|truncatechars:16}}
+                    </a>
+                    <span class="date">{{post1.created_date|date:"M/d"|lower}}</span>
+                </li>
+                {% empty %}
+                <li>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    게시물이 없습니다.
+                </li>
+                {%endfor%}
+            </ul>
+        </section>
+        <section class="item item2 margin-left">
+            {% for category in category %}
+            {% if category.title == '자유게시판' %}
+                <h1>
+                    {{category.title}}
+                    <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id %}">
+                        <span class="glyphicon glyphicon-plus plus"></span>
+                    </a>
+                </h1>
+            {%endif%}
+            {%endfor%}
+            <ul>
+                {% for post2 in posts2 %}
+                <li>
+                    <a href="{% url 'notice_detail:post_detail' pk=post2.pk category=post2.category_id %}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        {{post2.title|truncatechars:16}}
+                    </a>
+                    <span class="date">{{post2.created_date|date:"M/d"|lower}}</span>
+                </li>
+                {% empty %}
+                <li>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    게시물이 없습니다.
+                </li>
+                {%endfor%}
+            </ul>
+        </section>
+    </div>
+    <div class="clearfix">
+        <section class="item item3">
+            {% for category in category %}
+            {% if category.title == 'Django' %}
+            <h1>
+                    {{category.title}}
+                    <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
+                        <span class="glyphicon glyphicon-plus plus"></span>
+                    </a>
+            </h1>
+            {%endif%}
+            {%endfor%}
+            <ul>
+                {% for post4 in posts4 %}
+                <li>
+                    <a href="{% url 'notice_detail:post_detail' pk=post4.pk category=post4.category_id %}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        {{post4.title|truncatechars:16}}
+                    </a>
+                    <span class="date">{{post4.created_date|date:"M/d"|lower}}</span>
+                </li>
+                {% empty %}
+                <li>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    게시물이 없습니다.
+                </li>
+                {%endfor%}
+            </ul>
+        </section>
+        <section class="item item4 margin-left">
+            {% for category in category %}
+            {% if category.title == 'less' %}
             <h1>
                 {{category.title}}
                 <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
-                    <span class="glyphicon glyphicon-plus plus"></span>
+                        <span class="glyphicon glyphicon-plus plus"></span>
                 </a>
             </h1>
-        {%endif%}
-        {%endfor%}
-        <ul>
-            {% for post1 in posts1 %}
-            <li>
-                <a href="{% url 'notice_detail:post_detail' pk=post1.pk  category=post1.category_id%}">
-                    <span class="glyphicon glyphicon-minus"></span>
-                    {{post1.title}}
-                </a>
-                <span class="date">{{post1.created_date|date:"M/d"|lower}}</span>
-            </li>
-            {% empty %}
-            <li>
-                <span class="glyphicon glyphicon-minus"></span>
-                게시물이 없습니다.
-            </li>
+            {%endif%}
             {%endfor%}
-        </ul>
-    </section>
-    <section class="item margin-left">
-        {% for category in category %}
-        {% if category.title == '자유게시판' %}
+            <ul>
+                {% for post5 in posts5 %}
+                <li>
+                    <a href="{% url 'notice_detail:post_detail' pk=post5.pk category=post5.category_id %}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        {{post5.title|truncatechars:16}}
+                    </a>
+                    <span class="date">{{post5.created_date|date:"M/d"|lower}}</span>
+                </li>
+                {% empty %}
+                <li>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    게시물이 없습니다.
+                </li>
+                {%endfor%}
+            </ul>
+        </section>
+    </div>
+    <div class="clearfix">
+        <section class="item item5">
+            {% for category in category %}
+            {% if category.title == 'HTML' %}
             <h1>
                 {{category.title}}
-                <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id %}">
-                    <span class="glyphicon glyphicon-plus plus"></span>
+                <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
+                        <span class="glyphicon glyphicon-plus plus"></span>
                 </a>
             </h1>
-        {%endif%}
-        {%endfor%}
-        <ul>
-            {% for post2 in posts2 %}
-            <li>
-                <a href="{% url 'notice_detail:post_detail' pk=post2.pk category=post2.category_id %}">
-                    <span class="glyphicon glyphicon-minus"></span>
-                    {{post2.title}}
-                </a>
-                <span class="date">{{post2.created_date|date:"M/d"|lower}}</span>
-            </li>
-            {% empty %}
-            <li>
-                <span class="glyphicon glyphicon-minus"></span>
-                게시물이 없습니다.
-            </li>
+            {%endif%}
             {%endfor%}
-        </ul>
-    </section>
-    <section class="item">
-        {% for category in category %}
-        {% if category.title == 'Django' %}
-        <h1>
+            <ul>
+                {% for post6 in posts6 %}
+                <li>
+                    <a href="{% url 'notice_detail:post_detail' pk=post6.pk category=post6.category_id %}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        {{post6.title|truncatechars:16}}
+                    </a>
+                    <span class="date">{{post6.created_date|date:"M/d"|lower}}</span>
+                </li>
+                {% empty %}
+                <li>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    게시물이 없습니다.
+                </li>
+                {%endfor%}
+            </ul>
+        </section>
+        <section class="item item6 margin-left">
+            {% for category in category %}
+            {% if category.title == 'javascript' %}
+            <h1>
                 {{category.title}}
                 <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
-                    <span class="glyphicon glyphicon-plus plus"></span>
+                        <span class="glyphicon glyphicon-plus plus"></span>
                 </a>
-        </h1>
-        {%endif%}
-        {%endfor%}
-        <ul>
-            {% for post4 in posts4 %}
-            <li>
-                <a href="{% url 'notice_detail:post_detail' pk=post4.pk category=post4.category_id %}">
-                    <span class="glyphicon glyphicon-minus"></span>
-                    {{post4.title}}
-                </a>
-                <span class="date">{{post4.created_date|date:"M/d"|lower}}</span>
-            </li>
-            {% empty %}
-            <li>
-                <span class="glyphicon glyphicon-minus"></span>
-                게시물이 없습니다.
-            </li>
+            </h1>
+            {%endif%}
             {%endfor%}
-        </ul>
-    </section>
-    <section class="item margin-left">
-        {% for category in category %}
-        {% if category.title == 'less' %}
-        <h1>
-            {{category.title}}
-            <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
-                    <span class="glyphicon glyphicon-plus plus"></span>
-            </a>
-        </h1>
-        {%endif%}
-        {%endfor%}
-        <ul>
-            {% for post5 in posts5 %}
-            <li>
-                <a href="{% url 'notice_detail:post_detail' pk=post5.pk category=post5.category_id %}">
+            <ul>
+                {% for post7 in posts7 %}
+                <li>
+                    <a href="{% url 'notice_list:post_detail' pk=post7.pk category=post7.category_id %}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        {{post7.title|truncatechars:16}}
+                    </a>
+                    <span class="date">{{post7.created_date|date:"M/d"|lower}}</span>
+                </li>
+                {% empty %}
+                <li>
                     <span class="glyphicon glyphicon-minus"></span>
-                    {{post5.title}}
-                </a>
-                <span class="date">{{post5.created_date|date:"M/d"|lower}}</span>
-            </li>
-            {% empty %}
-            <li>
-                <span class="glyphicon glyphicon-minus"></span>
-                게시물이 없습니다.
-            </li>
-            {%endfor%}
-        </ul>
-    </section>
-    <section class="item">
-        {% for category in category %}
-        {% if category.title == 'HTML' %}
-        <h1>
-            {{category.title}}
-            <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
-                    <span class="glyphicon glyphicon-plus plus"></span>
-            </a>
-        </h1>
-        {%endif%}
-        {%endfor%}
-        <ul>
-            {% for post6 in posts6 %}
-            <li>
-                <a href="{% url 'notice_detail:post_detail' pk=post6.pk category=post6.category_id %}">
-                    <span class="glyphicon glyphicon-minus"></span>
-                    {{post6.title}}
-                </a>
-                <span class="date">{{post6.created_date|date:"M/d"|lower}}</span>
-            </li>
-            {% empty %}
-            <li>
-                <span class="glyphicon glyphicon-minus"></span>
-                게시물이 없습니다.
-            </li>
-            {%endfor%}
-        </ul>
-    </section>
-    <section class="item margin-left">
-        {% for category in category %}
-        {% if category.title == 'javascript' %}
-        <h1>
-            {{category.title}}
-            <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">
-                    <span class="glyphicon glyphicon-plus plus"></span>
-            </a>
-        </h1>
-        {%endif%}
-        {%endfor%}
-        <ul>
-            {% for post7 in posts7 %}
-            <li>
-                <a href="{% url 'notice_list:post_detail' pk=post7.pk category=post7.category_id %}">
-                    <span class="glyphicon glyphicon-minus"></span>
-                    {{post7.title}}
-                </a>
-                <span class="date">{{post7.created_date|date:"M/d"|lower}}</span>
-            </li>
-            {% empty %}
-            <li>
-                <span class="glyphicon glyphicon-minus"></span>
-                게시물이 없습니다.
-            </li>
-            {%endfor%}
-        </ul>
-    </section>
+                    게시물이 없습니다.
+                </li>
+                {%endfor%}
+            </ul>
+        </section>
+    </div>
 </div>
 <div class="wrap">
     <section class="normal">
@@ -256,7 +262,7 @@
                 <li>
                     <a href="{% url 'notice_detail:post_detail' pk=post8.pk category=post8.category_id%}">
                         <span class="glyphicon glyphicon-minus"></span>
-                        {{post8.title}}
+                        {{post8.title|truncatechars:16}}
                     </a>
                     <span class="date">{{post8.created_date|date:"M/d"|lower}}</span>
                 </li>
@@ -284,12 +290,14 @@
                     <li>
                         <a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">
                             <span class="glyphicon glyphicon-minus"></span>
-                            {{post3.title}}
+                            {{post3.title|truncatechars:16}}
                         </a>
                         <span class="date">{{post3.created_date|date:"M/d"|lower}}</span>
                         {% for imges in imges %}
                             {% if imges.post_id == post3.id  %}
+                            <a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">
                                 <img class="thumbnail"  src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}'>
+                            </a>
                             {% endif %}
                         {%endfor%}
                     </li>

@@ -9,14 +9,13 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title','content']
         widgets = {
-            'title':forms.TextInput(attrs={'class':'title form-control','id':'title','placeholder': '제목을 입력하세요'}),
+            'title':forms.TextInput(attrs={'class': 'title form-control','id': 'title', 'placeholder': '제목을 입력하세요'}),
             'content':forms.CharField(widget=CKEditorWidget()),
         }
         labels = {
             'title': '제목',
             'content': '내용',
         }
-
 class FlieForm(forms.ModelForm):
     class Meta:
         model =File
@@ -43,10 +42,6 @@ class CommentForm(forms.ModelForm):
         labels = {
             'text':'댓글'
         }
-    def __init__(self, *args, **kwargs):
-        super(CommentForm, self).__init__(*args, **kwargs)
-        self.fields['text'].widget.attrs['maxlength'] = 200
-
 
 class Notice_categoryForm(forms.ModelForm):
     class Meta:

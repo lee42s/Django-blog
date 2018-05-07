@@ -1,0 +1,7 @@
+.search_section{
+ min-height: 350px;
+}
+.search_section>h1{
+    font-size: 25px;
+    margin-bottom: 30px;
+}

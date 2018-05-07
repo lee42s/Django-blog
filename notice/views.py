@@ -345,7 +345,7 @@ def ajax_comment_edit(request):
     number_comment_id=int(comment_id)
     comment = request.POST.get('comment')
     comment_edit=Comment.objects.get(id= number_comment_id)
-    comment_edit.text= comment
+    comment_edit.text = comment
     comment_edit.save()
     data={
         # 'comment_edit_text':comment_edit.text,

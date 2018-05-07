@@ -69,7 +69,7 @@
     display: block;
     padding: 10px 0px;
 }
-.gallery>ul>li>img{
+.gallery>ul>li>a>img{
     height: 200px;
     margin-top: 15px;
   }

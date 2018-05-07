@@ -1,10 +1,9 @@
 .post_detail_section{
     margin-top: 50px;
     min-height:230px;
-    padding: 0px 10px;
 }
 .post_detail_section>h1{
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     margin-bottom: 20px;
 }
@@ -19,13 +18,13 @@
 .post_detail_info{
     border-bottom: 1px solid #c6cacc;
     width: 100%;
-    margin: 0px auto
+    margin: 0px auto;
 }
 .post_detail_info>p{
     font-size: 15px;
 }
 .post_detail_info>h2{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
     margin: 20px 0px;
 }

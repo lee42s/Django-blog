@@ -1,12 +1,14 @@
 {% extends 'home.html' %}
-{% block head_title %}home{% endblock %}
-{% block title %}home{% endblock %}
+{% block head_title %}NOTICE{% endblock %}
+{% block title %}NOTICE{% endblock %}
 {% block content %}
+<section class="wrap search_section">
 {% if results %}
 {% for post in results %}
-    <h2>검색결과: <a href="{% url 'notice_detail:post_detail' pk=post.id category=post.category_id%}">{{ post.title }}</a></h2>
+<h1>검색결과: <a href="{% url 'notice_detail:post_detail' pk=post.id category=post.category_id%}">{{ post.title }}</a></h2>
 {% endfor %}
 {% else %}
-<b><i>검색결과가 없습니다.</i></b>
+<h1>검색결과가 없습니다.</h1>
 {% endif %}
+</section>
 {%endblock%}

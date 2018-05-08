@@ -77,7 +77,7 @@ img {
   max-width: 980px;
   padding: 0px 20px;
 }
-a:hover{
+a:hover,a:focus{
   color: gold;
   text-decoration: none;
 }

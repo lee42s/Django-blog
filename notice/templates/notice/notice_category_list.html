@@ -1,62 +1,63 @@
 {% extends 'manager/home.html' %}
-{% block head_title %}manger{% endblock %}
-{% block title %}<a href="{% url 'manager_home' %}">manager</a>{% endblock %}
+{% block head_title %}MANAGER{% endblock %}
+{% block title %}<a href="{% url 'manager_home' %}">MANAGER</a>{% endblock %}
 {% block content %}
-<section>
-    <h1>게시판관리</h1>
-    <table>
-        <thead>
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">카테고리</th>
-                <th scope="col">목록보기</th>
-                <th scope="col">상세보기</th>
-                <th scope="col">작성하기</th>
-                <th scope="col">만든날짜</th>
-                <th scope="col">관리</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category_list in category_list %}
-        <tr>
-            <td>{{ forloop.counter}}</td>
-            <td><a href="{% url 'notice_list:post_list' category=category_list.id  %}?category={{ category_list.id }} ">{{category_list.title }}</a></td>
-            <td>{{category_list.get_list_auth_display}}</td>
-            <td>{{category_list.get_detail_auth_display}}</td>
-            <td>{{category_list.get_writer_auth_display}}</td>
-            <td>{{category_list.created_date|date:"M/d일"|lower}}</td>
-            <td>
-                <a href="{%url 'm_category_edit:category_edit' pk=category_list.pk%}">수정</a>
-                <a href="{%url 'm_category_remove:category_remove' pk=category_list.pk%}">삭제</a>
-            </td>
-        </tr>
-       {% empty %}
-        <tr>
-            <td colspan="6">게시물이 없습니다.</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% if category_list.has_other_pages %}
-  <ul class="pagination">
-    {% if category_list.has_previous %}
-      <li><a href="?page={{ category_list.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in category_list.paginator.page_range %}
-      {% if category_list.number == i %}
-        <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
+<section class="wrap notice_manager">
+  <h1>게시판관리</h1>
+  <table class="table table-hover notice_table ">
+      <thead>
+          <tr>
+              <th scope="col">번호</th>
+              <th scope="col">카테고리</th>
+              <th scope="col">목록 보기</th>
+              <th scope="col">상세 보기</th>
+              <th scope="col">작성 하기</th>
+              <th scope="col">만든 날짜</th>
+              <th scope="col">관리</th>
+          </tr>
+      </thead>
+      <tbody>
+      {% for category_list in category_list %}
+      <tr>
+          <td>{{ forloop.counter}}</td>
+          <td><a href="{% url 'notice_list:post_list' category=category_list.id  %}?category={{ category_list.id }} ">{{category_list.title }}</a></td>
+          <td>{{category_list.get_list_auth_display}}</td>
+          <td>{{category_list.get_detail_auth_display}}</td>
+          <td>{{category_list.get_writer_auth_display}}</td>
+          <td>{{category_list.created_date|date:"y/m/d"|lower}}</td>
+          <td>
+              <a class="btn btn-default" href="{%url 'm_category_edit:category_edit' pk=category_list.pk%}">수정</a>
+              <a class="btn btn-default btn_delete" href="{%url 'm_category_remove:category_remove' pk=category_list.pk%}">삭제</a>
+          </td>
+      </tr>
+      {% empty %}
+      <tr>
+          <td colspan="6">게시물이 없습니다.</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+  {% if category_list.has_other_pages %}
+    <ul class="pagination">
+      {% if category_list.has_previous %}
+        <li><a href="?page={{ category_list.previous_page_number }}">&laquo;</a></li>
       {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
+        <li class="disabled"><span>&laquo;</span></li>
       {% endif %}
-    {% endfor %}
-    {% if category_list.has_next %}
-      <li><a href="?page={{ category_list.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
-<a href="{% url 'm_category_new:category_new' %}">게시판추가</a>
+      {% for i in category_list.paginator.page_range %}
+        {% if category_list.number == i %}
+          <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
+        {% else %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if category_list.has_next %}
+        <li><a href="?page={{ category_list.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+  <a class="btn btn-default" href="{% url 'm_category_new:category_new' %}">게시판추가</a>
+</section>
 {%endblock%}

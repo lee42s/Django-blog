@@ -30,6 +30,9 @@ class Word_filteringForm(forms.ModelForm):
     class Meta:
         model = Word_filtering
         fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'text form-control',  'row': 0, 'cols': 100,'style': 'resize:none;'}),
+        }
 
 class CommentForm(forms.ModelForm):
 
@@ -47,6 +50,12 @@ class Notice_categoryForm(forms.ModelForm):
     class Meta:
         model = Notice_category
         fields = ['title','list_auth','detail_auth','writer_auth']
+        widgets = {
+            'title': forms.TextInput(attrs={'class':'title form-control' }),
+            'list_auth':forms.Select(attrs={'class':'list_auth form-control'}),
+            'detail_auth': forms.Select(attrs={'class': 'detail_auth form-control'}),
+            'writer_auth': forms.Select(attrs={'class': 'writer_auth form-control'}),
+        }
 
 class PostSearchForm(forms.Form):
     search_word = forms.CharField(label='search_word',widget=forms.TextInput(attrs={'class':'form-control','placeholder': '검색어를 입력해주세요'}))

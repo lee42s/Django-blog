@@ -1,16 +1,16 @@
 {% extends 'manager/home.html' %}
-{% block head_title %}manager{% endblock %}
-{% block title %}<a href="{% url 'manager_home' %}">manager</a>{% endblock %}
+{% block head_title %}MANAGER{% endblock %}
+{% block title %}<a href="{% url 'manager_home' %}">MANAGER</a>{% endblock %}
 {% block content %}
-<section>
+<section class="wrap member_authority">
     <h1>유저권한수정</h1>
-{% for user_pk in user_pk %}
-    <p>아이디:{{user_pk}}</p>
-{% endfor %}
-<form method="post">
+<form method="post" class="member_edit_form">
+    {% for user_pk in user_pk %}
+        <p class="user_pk">아이디:{{user_pk}}</p>
+    {% endfor %}
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">저장</button>
+    <button class="btn btn-default" type="submit">저장</button>
 </form>
 </section>
 {% block javascript %}

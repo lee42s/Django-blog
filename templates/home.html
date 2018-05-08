@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block head_title %}NOTICE{% endblock %}
+{% block title %}     
+<a  href="{% url 'home' %}">
+    NOTICE
+</a>
+{% endblock %}
 {% block gnbcontent %}
 {% load static %}
 <ul class="nav navbar-nav gnb">
@@ -89,7 +93,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post1.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post1.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post1.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li>
@@ -117,7 +121,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post2.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post2.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post2.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li>
@@ -147,7 +151,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post4.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post4.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post4.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li>
@@ -175,7 +179,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post5.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post5.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post5.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li>
@@ -205,7 +209,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post6.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post6.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post6.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li>
@@ -233,7 +237,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post7.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post7.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post7.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li>
@@ -264,7 +268,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                         {{post8.title|truncatechars:16}}
                     </a>
-                    <span class="date">{{post8.created_date|date:"M/d"|lower}}</span>
+                    <span class="date">{{post8.created_date|date:"y-m-d"|lower}}</span>
                 </li>
                 {% empty %}
                 <li> 
@@ -292,7 +296,7 @@
                             <span class="glyphicon glyphicon-minus"></span>
                             {{post3.title|truncatechars:16}}
                         </a>
-                        <span class="date">{{post3.created_date|date:"M/d"|lower}}</span>
+                        <span class="date">{{post3.created_date|date:"y-m-d"|lower}}</span>
                         {% for imges in imges %}
                             {% if imges.post_id == post3.id  %}
                             <a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">

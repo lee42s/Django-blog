@@ -1,118 +1,131 @@
 {% extends "base.html" %}
-{% block head_title %}manager{% endblock %}
-{% block title %}<a class="a_logo" href="{% url 'manager_home' %}">manager</a>{% endblock %}
+{% block head_title %}MANAGER{% endblock %}
+{% block title %}<a href="{% url 'manager_home' %}">MANAGER</a>{% endblock %}
 {% block gnbcontent %}
-<nav>
-    <ul>
-       {% if user.is_manager == True or user.is_superuser == True %}
-            <li><a href="{% url 'home' %}">사이트보기</a></li>
-            <li><a href="{% url 'm_category_list:category_list' %}">게시판관리</a></li>
-            <li><a href="{% url 'word_filtering_manager:word_filtering'%}">비방글관리</a></li>
-       {%endif%}
-    </ul>
-</nav>
+<ul class="nav navbar-nav gnb">
+    {% if user.is_manager == True or user.is_superuser == True %}
+        <li><a href="{% url 'home' %}">사이트보기</a></li>
+        <li><a href="{% url 'm_category_list:category_list' %}">게시판관리</a></li>
+        <li><a href="{% url 'word_filtering_manager:word_filtering'%}">비방글관리</a></li>
+    {%endif%}
 </ul>
 </div>
 </nav>
 </header>
 {% endblock %}
 {% block content %}
-<section>
-    <h1>회원권한</h1>
-    <section>
+<section class="wrap membership">
+    <section class="member">
         <h1>FAMILY-회원</h1>
-        <table>
+        <table class="table table-hover list_table">
             <thead>
             <tr>
                 <th scope="col">아이디</th>
                 <th scope="col">권한</th>
-                <th scope="col">가입날짜</th>
-                <th scope="col">마지막로그인날짜</th>
+                <th scope="col">가입 날짜</th>
+                <th scope="col">마지막 로그인날짜</th>
             </tr>
             </thead>
             <tbody>
             {% for user_is_member in user_is_member %}
             <tr>
                 <td>{{user_is_member.username}}</td>
-                <td>FAMILY<a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a></td>
-                <td>{{user_is_member.date_joined}}</td>
-                <td>{{user_is_member.last_login}}</td>
+                <td>
+                    FAMILY
+                    <a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a>
+                </td>
+                <td>{{user_is_member.date_joined|date:"y-m-d/f"|lower}}</td>
+                <td>{{user_is_member.last_login|date:"y-m-d/f"|lower}}</td>
             </tr>
             {% empty %}
                 <tr>
-                    <td colspan="6">게시물이 없습니다.</td>
+                    <td colspan="6" style="text-align: center;">게시물이 없습니다.</td>
                 </tr>
             </tbody>
             {% endfor %}
         </table>
-        <div class="pagination">
-            <span class="step-links">
-                {% if user_is_member.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ user_is_member.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ user_is_member.number }} of {{ user_is_member.paginator.num_pages }}.
-                </span>
-                {% if user_is_member.has_next %}
-                    <a href="?page={{ user_is_member.next_page_number }}">next</a>
-                    <a href="?page={{ user_is_member.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        {% if user_is_member.has_other_pages %}
+        <ul class="pagination">
+        {% if user_is_member.has_previous %}
+                <li><a href="?page={{ user_is_member.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in user_is_member.paginator.page_range %}
+          {% if user_is_member.number == i %}
+            <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
+          {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if user_is_member.has_next %}
+                <li><a href="?page={{ user_is_member.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+        </ul>
+        {% endif %}
     </section>
-    <section>
+    <section class="member">
          <h1>NORMAL-회원</h1>
-        <table>
+        <table class="table table-hover list_table">
             <thead>
             <tr>
                 <th scope="col">아이디</th>
                 <th scope="col">권한</th>
-                <th scope="col">가입날짜</th>
-                <th scope="col">마지막로그인날짜</th>
+                <th scope="col">가입 날짜</th>
+                <th scope="col">마지막 로그인날짜</th>
             </tr>
             </thead>
             {% for none_user in none_user %}
             <tbody>
             <tr>
                 <td>{{none_user.username}}</td>
-                <td>NORMAL<a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a></td>
-                <td>{{none_user.date_joined}}</td>
-                <td>{{none_user.last_login}}</td>
+                <td>
+                    NORMAL
+                    <a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a>
+                </td>
+                <td>{{none_user.date_joined|date:"y-m-d/f"|lower}}</td>
+                <td>{{none_user.last_login|date:"y-m-d/f"|lower}}</td>
             </tr>
             {% empty %}
             <tr>
-               <td colspan="6">게시물이 없습니다.</td>
+               <td colspan="6" style="text-align: center;">게시물이 없습니다.</td>
             </tr>
             </tbody>
             {% endfor %}
         </table>
-        <div class="pagination">
-            <span class="step-links">
-                {% if none_user.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ none_user.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="current">
-                    Page {{ none_user.number }} of {{ none_user.paginator.num_pages }}.
-                </span>
-                {% if none_user.has_next %}
-                    <a href="?page={{ none_user.next_page_number }}">next</a>
-                    <a href="?page={{ none_user.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        {% if none_user.has_other_pages %}
+        <ul class="pagination">
+        {% if none_user.has_previous %}
+                <li><a href="?page={{ none_user.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in none_user.paginator.page_range %}
+          {% if none_user.number == i %}
+            <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
+          {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if none_user.has_next %}
+                <li><a href="?page={{ none_user.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+        </ul>
+        {% endif %}
     </section>
-     <section>
+     <section class="member">
          <h1>manager-회원</h1>
-        <table>
+        <table class="table table-hover list_table">
             <thead>
             <tr>
                 <th scope="col">아이디</th>
                 <th scope="col">권한</th>
-                <th scope="col">가입날짜</th>
-                <th scope="col">마지막로그인날짜</th>
+                <th scope="col">가입 날짜</th>
+                <th scope="col">마지막 로그인날짜</th>
             </tr>
             </thead>
             {% for user_is_manager in user_is_manager %}
@@ -120,78 +133,88 @@
             <tr>
                 <td>{{user_is_manager.username}}</td>
                 <td>manager<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
-                <td>{{user_is_manager.date_joined}}</td>
-                <td>{{user_is_manager.last_login}}</td>
+                <td>{{user_is_manager.date_joined|date:"y-m-d/f"|lower}}</td>
+                <td>{{user_is_manager.last_login|date:"y-m-d/f"|lower}}</td>
             </tr>
             {% empty %}
                 <tr>
-                  <td colspan="6">게시물이 없습니다.</td>
+                  <td colspan="6" style="text-align: center;">게시물이 없습니다.</td>
                 </tr>
             </tbody>
             {% endfor %}
         </table>
-         <div class="pagination">
-            <span class="step-links">
-                {% if user_is_manager.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ user_is_manager.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ user_is_manager.number }} of {{ user_is_member.paginator.num_pages }}.
-                </span>
-                {% if user_is_manager.has_next %}
-                    <a href="?page={{ user_is_manager.next_page_number }}">next</a>
-                    <a href="?page={{ user_is_manager.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        {% if user_is_manager.has_other_pages %}
+        <ul class="pagination">
+        {% if user_is_manager.has_previous %}
+                <li><a href="?page={{ user_is_manager.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in user_is_manager.paginator.page_range %}
+          {% if user_is_manager.number == i %}
+            <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
+          {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if user_is_manager.has_next %}
+                <li><a href="?page={{ user_is_manager.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+        </ul>
+        {% endif %}
     </section>
-</section>
-<section>
-    <h1>최신게시판 리스트</h1>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col">번호</th>
-            <th scope="col">게시판</th>
-            <th scope="col">자성자</th>
-            <th scope="col">제목</th>
-            <th scope="col">날짜</th>
-        </tr>
-        </thead>
-        {% for post in posts %}
-        <tbody>
+    <section class="wrap new_post">
+        <h1>최신게시판 리스트</h1>
+        <table class="table table-hover list_table">
+            <thead>
             <tr>
-                <td>{{ forloop.counter}}</td>
-                <td><a href="{%url 'notice_list:post_list' category=post.category.id%}">{{post.category.title}}</a></td>
-                <td>{{post.author}}</td>
-                <td><a href="{% url 'notice_detail:post_detail' pk=post.pk category=post.category.id%}">{{post.title}}</a></td>
-                <td>{{post.created_date|date:"M/d일"|lower}}</td>
+                <th scope="col">번호</th>
+                <th scope="col">게시판</th>
+                <th scope="col">자성자</th>
+                <th scope="col">제목</th>
+                <th scope="col">날짜</th>
             </tr>
-        {% empty %}
-           <tr>
-                <td colspan="6">게시물이 없습니다.</td>
-           </tr>
-        </tbody>
-        {%endfor%}
-    </table>
-     <div class="pagination">
-        <span class="step-links">
-            {% if posts.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            </thead>
+            {% for post in posts %}
+            <tbody>
+                <tr>
+                    <td>{{ forloop.counter}}</td>
+                    <td><a href="{%url 'notice_list:post_list' category=post.category.id%}">{{post.category.title}}</a></td>
+                    <td>{{post.author}}</td>
+                    <td><a href="{% url 'notice_detail:post_detail' pk=post.pk category=post.category.id%}">{{post.title}}</a></td>
+                    <td>{{post.created_date|date:"y - m - d"|lower}}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">게시물이 없습니다.</td>
+                </tr>
+            </tbody>
+            {%endfor%}
+        </table>
+        {% if posts.has_other_pages %}
+        <ul class="pagination">
+        {% if posts.has_previous %}
+                <li><a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in posts.paginator.page_range %}
+            {% if posts.number == i %}
+            <li class="active"><span>{{ i }}<span class="sr-only"></span></span></li>
+            {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
             {% endif %}
-
-            <span class="current">
-                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-            </span>
-            {% if posts.has_next %}
-                <a href="?page={{ posts.next_page_number }}">next</a>
-                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-     </div>
+        {% endfor %}
+        {% if posts.has_next %}
+                <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+        </ul>
+        {% endif %}
+    </section>
 </section>
 {% block javascript %}{% endblock %}
 {% endblock %}

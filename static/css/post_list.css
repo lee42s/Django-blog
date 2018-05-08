@@ -8,8 +8,16 @@
     margin-bottom: 20px;
 }
 .post_list_table{
-    margin-bottom: 0px;
+    margin-bottom: 15px;
 }
+.post_list_table>thead>tr>th{
+   text-align: center;
+   vertical-align: middle;
+}
+.post_list_table>tbody>tr>td{
+    text-align: center;
+    vertical-align: middle;
+ }
 .pagination{
     font-size: 10px;
 }

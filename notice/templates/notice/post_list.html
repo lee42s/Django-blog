@@ -1,6 +1,10 @@
 {% extends 'home.html' %}
 {% block head_title %}NOTICE{% endblock %}
-{% block title %}NOTICE{% endblock %}
+{% block title %}     
+<a  href="{% url 'home' %}">
+    NOTICE
+</a>
+{% endblock %}
 {% block content %}
 <section class="list_section wrap">
     {% for category_id in category_id %}
@@ -10,7 +14,7 @@
         <thead>
         <tr>
             <th scope="col">번호</th>
-            <th scope="col">자성자</th>
+            <th scope="col">작성자</th>
             <th scope="col">제목</th>
             <th scope="col">날짜</th>
         </tr>
@@ -21,7 +25,7 @@
                 <td>{{ forloop.counter}}</td>
                 <td>{{post.author}}</td>
                 <td><a href="{% url 'notice_detail:post_detail' pk=post.pk category=post.category_id%}">{{post.title|truncatechars:16}}</a></td>
-                <td>{{post.created_date|date:"m-d"|lower}}</td>
+                <td>{{post.created_date|date:"y-m-d"|lower}}</td>
             </tr>
         {% empty %}
             <tr>
@@ -31,7 +35,7 @@
         {%endfor%}
     </table>
 {% if posts.has_other_pages %}
-<ul class="pagination ">
+<ul class="pagination">
 {% if posts.has_previous %}
     {% for category_id in category_id %}
         <li><a href="?page={{ posts.previous_page_number }}&category={{category_id.id}}">&laquo;</a></li>

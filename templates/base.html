@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/post_edit.css' %}">
     <link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <link rel="stylesheet" href="{% static 'css/manager_home.css' %}">
     <link rel="stylesheet" href="{% static 'css/pc_media.css' %}">
 </head>
 <body>
@@ -32,9 +33,11 @@
                     <span class="icon-bar"></span>                        
             </button>
             <h1 class="logo">
+                {% block title %}
                 <a  href="{% url 'home' %}">
-                    {% block title %}NOTICE{% endblock %}
+                    NOTICE
                 </a>
+                {% endblock %}
             </h1>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">

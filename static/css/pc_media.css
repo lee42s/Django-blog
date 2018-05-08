@@ -3,8 +3,12 @@
     .wrap{
         padding: 0px;
     }
+    .logo{
+        padding: 0px 0px;
+    }
     .logo>a{
         padding-left: 0px;
+        display: block;
     }
     .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover{
         background-color: black;
@@ -132,6 +136,7 @@
     }
     .post_list_table{
         font-size: 17px;
+        margin-bottom: 25px;
     }
     .list_section{
         margin-top:80px;
@@ -168,6 +173,67 @@
     .about{
         margin-top:285px;
         min-height:360px;
+    }
+    /*manager*/
+    .membership{
+        padding-top: 80px;
+    }
+    .member,.new_post{
+        padding: 0px 25px;
+        margin-bottom: 35px;
+    }
+    .member>h1,.new_post>h1{
+        font-size: 35px;
+        padding: 25px 0px;
+    }
+    .list_table>thead>tr>th{
+        font-size: 18px;
+        padding: 10px 0px;
+    }
+    .list_table>tbody>tr>td{
+        font-size: 18px;
+        padding: 15px 15px;
+    }
+    .notice_manager{
+        padding-top: 80px;
+        min-height: 635px;
+        
+    }
+    .notice_manager>h1{
+        font-size: 35px;
+        padding: 25px 0px;
+    }
+    .notice_table>thead>tr>th{
+        font-size: 20px;
+        padding: 10px 0px;
+        letter-spacing: 2px;
+    }
+    .notice_table>tbody>tr>td{
+        font-size: 18px;
+        padding: 15px 15px;
+    }
+    .btn_delete{
+        margin-left: 5px;
+    }
+    .member_authority{
+        padding-top: 150px;
+        min-height: 635px;
+    }
+    .member_edit_form{
+        width: 50%;
+        margin: 0px auto;
+    }
+    .notice_authority{
+        padding-top: 120px;
+        min-height: 635px;
+    }
+    .notice-form{
+      width: 50%;
+      margin: 0px auto;
+    }
+    .word_filtering{
+        padding-top: 150px;
+        min-height: 635px;
     }
     /*footer*/
     .footer{

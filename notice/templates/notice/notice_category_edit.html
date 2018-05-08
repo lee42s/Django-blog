@@ -3,7 +3,15 @@
 {% block title %}<a href="{% url 'manager_home' %}">MANAGER</a>{% endblock %}
 {% block content %}
 <section class="wrap notice_authority">
-        <h1>게시판관리</h1>
+        {% url 'm_category_new:category_new' as new_path %}
+        <h1>
+                게시판
+                {% if request.path == new_path %}
+                        작성
+                {% else %}
+                        수정
+                {% endif %}
+        </h1>
         <form method="POST" class="notice-form">
                 {% csrf_token %}
                 <div class="form-group">

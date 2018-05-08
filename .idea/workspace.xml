@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8923afc6-13fa-459f-9ed3-ffe90e91d4fb" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/member/forms.py" afterPath="$PROJECT_DIR$/member/forms.py" />
-      <change beforePath="$PROJECT_DIR$/member/templates/member/permission_edit.html" afterPath="$PROJECT_DIR$/member/templates/member/permission_edit.html" />
-      <change beforePath="$PROJECT_DIR$/notice/forms.py" afterPath="$PROJECT_DIR$/notice/forms.py" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/notice_category_edit.html" afterPath="$PROJECT_DIR$/notice/templates/notice/notice_category_edit.html" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/notice_category_list.html" afterPath="$PROJECT_DIR$/notice/templates/notice/notice_category_list.html" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/post_detail.html" afterPath="$PROJECT_DIR$/notice/templates/notice/post_detail.html" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/post_edit.html" afterPath="$PROJECT_DIR$/notice/templates/notice/post_edit.html" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/post_list.html" afterPath="$PROJECT_DIR$/notice/templates/notice/post_list.html" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/post_search_list.html" afterPath="$PROJECT_DIR$/notice/templates/notice/post_search_list.html" />
-      <change beforePath="$PROJECT_DIR$/notice/templates/notice/word_filtering_edit.html" afterPath="$PROJECT_DIR$/notice/templates/notice/word_filtering_edit.html" />
-      <change beforePath="$PROJECT_DIR$/static/css/base.css" afterPath="$PROJECT_DIR$/static/css/base.css" />
-      <change beforePath="$PROJECT_DIR$/static/css/common.css" afterPath="$PROJECT_DIR$/static/css/common.css" />
-      <change beforePath="$PROJECT_DIR$/static/css/pc_media.css" afterPath="$PROJECT_DIR$/static/css/pc_media.css" />
-      <change beforePath="$PROJECT_DIR$/static/css/post_list.css" afterPath="$PROJECT_DIR$/static/css/post_list.css" />
-      <change beforePath="$PROJECT_DIR$/templates/about.html" afterPath="$PROJECT_DIR$/templates/about.html" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" afterPath="$PROJECT_DIR$/templates/home.html" />
-      <change beforePath="$PROJECT_DIR$/templates/manager/home.html" afterPath="$PROJECT_DIR$/templates/manager/home.html" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/login.html" afterPath="$PROJECT_DIR$/templates/registration/login.html" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/password_change_done.html" afterPath="$PROJECT_DIR$/templates/registration/password_change_done.html" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/password_change_form.html" afterPath="$PROJECT_DIR$/templates/registration/password_change_form.html" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/register.html" afterPath="$PROJECT_DIR$/templates/registration/register.html" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/notice/views.py" afterPath="$PROJECT_DIR$/notice/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/notice/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
+            <state relative-caret-position="378">
+              <caret line="165" column="35" lean-forward="true" selection-start-line="165" selection-start-column="35" selection-end-line="165" selection-end-column="35" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -50,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/mysite/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="414">
-              <caret line="52" column="132" lean-forward="true" selection-start-line="52" selection-start-column="120" selection-end-line="52" selection-end-column="132" />
+              <caret line="52" column="132" lean-forward="false" selection-start-line="52" selection-start-column="120" selection-end-line="52" selection-end-column="132" />
               <folding />
             </state>
           </provider>
@@ -101,16 +81,14 @@
       <file leaf-file-name="post_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/notice/templates/notice/post_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="35" column="8" lean-forward="false" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
-              <folding>
-                <marker date="1525741028609" expanded="true" signature="6515:8860" ph="..." />
-              </folding>
+            <state relative-caret-position="504">
+              <caret line="66" column="54" lean-forward="false" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="74" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/notice/forms.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="298">
@@ -208,16 +186,16 @@
         <option value="$PROJECT_DIR$/mysite/settings.py" />
         <option value="$PROJECT_DIR$/mysite/wsgi.py" />
         <option value="$PROJECT_DIR$/notice/templates/notice/post_edit.html" />
-        <option value="$PROJECT_DIR$/notice/views.py" />
         <option value="$PROJECT_DIR$/notice/templates/notice/post_detail.html" />
         <option value="$PROJECT_DIR$/templates/home.html" />
         <option value="$PROJECT_DIR$/notice/templates/notice/post_list.html" />
         <option value="$PROJECT_DIR$/member/forms.py" />
         <option value="$PROJECT_DIR$/notice/forms.py" />
+        <option value="$PROJECT_DIR$/notice/views.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="141" />
     <option name="y" value="70" />
     <option name="width" value="1615" />
@@ -409,7 +387,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19420989" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -686,16 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/notice/templates/notice/post_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="35" column="8" lean-forward="false" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
-          <folding>
-            <marker date="1525741028609" expanded="true" signature="6515:8860" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/notice/templates/notice/post_list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -714,20 +682,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/notice/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
-          <caret line="52" column="132" lean-forward="true" selection-start-line="52" selection-start-column="120" selection-end-line="52" selection-end-column="132" />
+          <caret line="52" column="132" lean-forward="false" selection-start-line="52" selection-start-column="120" selection-end-line="52" selection-end-column="132" />
           <folding />
         </state>
       </provider>
@@ -753,6 +711,24 @@
         <state relative-caret-position="298">
           <caret line="33" column="56" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notice/templates/notice/post_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="66" column="54" lean-forward="false" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notice/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="165" column="35" lean-forward="true" selection-start-line="165" selection-start-column="35" selection-end-line="165" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -148,44 +148,43 @@ def post_edit(request,pk,category):
     post_author=Post.objects.filter(id=pk)
     category1 = Notice_category.objects.all()  # gnb카티고리을 불러오는 쿼리셋
     for username in post_author:
-        if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
+        if request.method == 'POST' or request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             category_id = Notice_category.objects.filter(id=category)
             post_edit = get_object_or_404(Post, pk=pk, category=category)
+            form = PostForm(request.POST, instance=post_edit)
         else:
             return redirect('notice_detail:post_detail', pk=username.id, category=category)
-        if request.method == 'POST':
-            form=PostForm(request.POST,instance=post_edit)
-            if form.is_valid():
-                # 66,67행 글 제목과 내용  중에 비방글 내용이 존재 시 Ture을 반환한다.
-                cleanr = re.compile('<.*?>')  # 문자타입안에html태그제거
-                cleanc_html = re.sub(cleanr, '', post_edit.content)  # 문자타입안에html태그제거
-                cleanr_content = cleanc_html.replace(" ", "")  # 문자안에공백제거
-                # 글제목과 내용중에 비방글을 필터링해준다.
-                word_content = Word_filtering.objects.filter(id=1, text__contains=cleanr_content).exists()
-                word_subject = Word_filtering.objects.filter(id=1, text__contains=post_edit.title).exists()
-                if word_content or word_subject:
-                    post = form.save(commit=False)
-                    post.title = post_edit.title
-                    post.content = post_edit.content
-                else:
-                    post = form.save(commit=False)
-                    post.author = request.user
-                    post.title = post_edit.title
-                    post.content = post_edit.content
-                    post.save()
-                    upflis = request.FILES.getlist('file')
-                    for upfl in upflis:
-                        file = File()
-                        file.file = upfl
-                        file.post = post
-                        file.save()
-                    upimges = request.FILES.getlist('imges')
-                    for upim in upimges:
-                        imges = Imges()
-                        imges.imges = upim
-                        imges.post = post
-                        imges.save()
-                    return redirect('notice_detail:post_detail', pk=post.pk, category=category)
+        if form.is_valid():
+            # 66,67행 글 제목과 내용  중에 비방글 내용이 존재 시 Ture을 반환한다.
+            cleanr = re.compile('<.*?>')  # 문자타입안에html태그제거
+            cleanc_html = re.sub(cleanr, '', post_edit.content)  # 문자타입안에html태그제거
+            cleanr_content = cleanc_html.replace(" ", "")  # 문자안에공백제거
+            # 글제목과 내용중에 비방글을 필터링해준다.
+            word_content = Word_filtering.objects.filter(id=1, text__contains=cleanr_content).exists()
+            word_subject = Word_filtering.objects.filter(id=1, text__contains=post_edit.title).exists()
+            if word_content or word_subject:
+                imges = ImgesForm()
+                file = FlieForm()
+                redirect('notice_edit:post_edit', category=category ,post=pk)
+            else:
+                post = form.save(commit=False)
+                post.author = request.user
+                post.title = post_edit.title
+                post.content = post_edit.content
+                post.save()
+                upflis = request.FILES.getlist('file')
+                for upfl in upflis:
+                    file = File()
+                    file.file = upfl
+                    file.post = post
+                    file.save()
+                upimges = request.FILES.getlist('imges')
+                for upim in upimges:
+                    imges = Imges()
+                    imges.imges = upim
+                    imges.post = post
+                    imges.save()
+                return redirect('notice_detail:post_detail', pk=post.pk, category=category)
         else:
             form = PostForm(instance=post_edit)
             searchForm = PostSearchForm()

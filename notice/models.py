@@ -33,6 +33,7 @@ class Post(models.Model):
     content = RichTextField(verbose_name='내용')
     created_date=models.DateTimeField(verbose_name='만든날짜',auto_now_add=True)#auto_now_add=True생정날짜,auto_now=True수정날짜
     modified_date = models.DateTimeField(verbose_name='수정날짜',auto_now=True)
+    imges_check = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

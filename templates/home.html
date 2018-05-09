@@ -298,12 +298,17 @@
                         </a>
                         <span class="date">{{post3.created_date|date:"y-m-d"|lower}}</span>
                         {% for imges in imges %}
-                            {% if imges.post_id == post3.id  %}
+                            {% if imges.post_id == post3.id and post3.imges_check == True %}
                             <a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">
                                 <img class="thumbnail"  src="{% get_media_prefix %}{{ imges }}" alt='{{ imges.imgename }}'>
                             </a>
-                            {% endif %}
+                            {% endif %}          
                         {%endfor%}
+                        {% if  post3.imges_check == False %}
+                        <a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">
+                            <img class="thumbnail"  src="{% static 'img/noimg.jpg' %}" alt='noimg'>
+                        </a>
+                        {% endif %}
                     </li>
                 {% empty %}
                     <li> 

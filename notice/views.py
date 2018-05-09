@@ -126,6 +126,8 @@ def post_new(request,category):
                     imges = Imges()
                     imges.imges = upim
                     imges.post = post
+                    post.imges_check = True
+                    post.save()
                     imges.save()
                 return redirect('notice_detail:post_detail', pk=post.pk, category=ctgry)
         else:
@@ -183,6 +185,8 @@ def post_edit(request,pk,category):
                     imges = Imges()
                     imges.imges = upim
                     imges.post = post
+                    post.imges_check = True
+                    post.save()
                     imges.save()
                 return redirect('notice_detail:post_detail', pk=post.pk, category=category)
         else:
@@ -211,6 +215,9 @@ def imges_remove(request, imge_pk, pk, category):
     for username in post_author:
         if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             imge=get_object_or_404(Imges, id=imge_pk)
+            post=get_object_or_404(Post, id=pk)
+            post.imges_check=False;
+            post.save()
             imge.delete()
         else:
             return redirect('notice_list:post_list', category=category)
@@ -222,6 +229,7 @@ def files_remove(request,file_pk,pk, category):
     for username in post_author:
         if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             file=get_object_or_404(File,id=file_pk)
+
             file.delete()
         else:
             return redirect('notice_list:post_list', category=category)

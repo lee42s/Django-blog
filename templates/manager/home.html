@@ -30,7 +30,7 @@
             {% for user_is_member in user_is_member %}
             <tr>
                 <td>{{user_is_member.username}}</td>
-                <td>
+                <td class="rating_family">
                     FAMILY
                     <a href="{%url 'member:permission_edit' pk=user_is_member.pk%}">[변경]</a>
                 </td>
@@ -81,7 +81,7 @@
             <tbody>
             <tr>
                 <td>{{none_user.username}}</td>
-                <td>
+                <td class="rating_normal">
                     NORMAL
                     <a href="{%url 'member:permission_edit' pk=none_user.pk%}">[변경]</a>
                 </td>
@@ -118,7 +118,7 @@
         {% endif %}
     </section>
      <section class="member">
-         <h1>manager-회원</h1>
+         <h1>MANAGER-회원</h1>
         <table class="table table-hover list_table">
             <thead>
             <tr>
@@ -132,7 +132,7 @@
             <tbody>
             <tr>
                 <td>{{user_is_manager.username}}</td>
-                <td>manager<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}">[변경]</a></td>
+                <td class="rating_manager">MANAGER<a href="{%url 'member:permission_edit' pk=user_is_manager.pk%}"> [변경]</a></td>
                 <td>{{user_is_manager.date_joined|date:"y-m-d/f"|lower}}</td>
                 <td>{{user_is_manager.last_login|date:"y-m-d/f"|lower}}</td>
             </tr>

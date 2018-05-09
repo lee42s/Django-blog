@@ -20,11 +20,23 @@ class FlieForm(forms.ModelForm):
     class Meta:
         model =File
         fields =['file',]
+        widgets = {
+            'file': forms.FileInput(attrs={'class' :' file'}),
+        }
+        labels = {
+            'file': ''
+        }
 
 class ImgesForm(forms.ModelForm):
     class Meta:
         model =Imges
         fields =['imges',]
+        widgets = {
+            'imges': forms.FileInput(attrs={'class' :'imges','accept':'image/*'}),
+        }
+        labels = {
+            'imges': ''
+        }
       
 class Word_filteringForm(forms.ModelForm):
     class Meta:

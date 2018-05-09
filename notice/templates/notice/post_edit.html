@@ -8,7 +8,12 @@
 {% block content %}
 {% for category in category_id %}
 <section class="wrap writer_edit">
-<h1>게시판:<a href="{% url 'notice_list:post_list' category=category.id %}">{{ category.title }}</a></h1>
+<h1>
+   게시판:
+   <a href="{% url 'notice_list:post_list' category=category.id %}">
+           {{ category.title }}
+   </a>
+</h1>
 {%endfor%}
 <form method="POST" id="f_write" onsubmit="f_word_tiltering()" enctype="multipart/form-data" >
         {% csrf_token %}
@@ -25,14 +30,20 @@
                 {% for category in category_id %}
                 {% if category.title != "겔러리게시판" %}
                 <div class="file_div">
-                        {{ file.as_p }}
+                        <label  for="{{ file.file.id_for_label }}" style="float:left;margin-right:5px;margin-top:5px;">
+                                <span class="glyphicon glyphicon-file" style="font-size:18px;"></span>
+                        </label>
+                        {{ file}}
                 </div>
                 {%endif%}
                 {%endfor%}
                 {% for category in category_id %}
                 {% if category.title == "겔러리게시판" or category.title == "공지사항" or category.title == "Django" or category.title == "less" or category.title == "HTML" or category.title == "javascript" %}
                 <div>
-                        {{ imges.as_p }}
+                        <label  for="{{ imges.imges.id_for_label }}" style="float:left; margin-right:5px; margin-top:5px;">
+                                <span class="glyphicon glyphicon-picture" style="font-size:18px;"></span>
+                        </label>
+                        {{ imges }}
                 </div>
                 {%endif%}
                 {%endfor%}

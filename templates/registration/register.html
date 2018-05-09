@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 <section class="register_section wrap">
-    <h1>회원가입</h1>
+    <h1><span class="glyphicon glyphicon-user"></span> 회원가입</h1>
     <form method="post" action="." class="register_form">
       {% csrf_token %}
       {% if form.errors %}

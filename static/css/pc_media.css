@@ -74,6 +74,7 @@
         padding: 10px 20px;
     }
     .gallery>ul>li>a>img{
+      margin-top: 10px;
       height: 116px;
     }
     .pw_chang{

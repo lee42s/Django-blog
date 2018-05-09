@@ -77,8 +77,8 @@
       height: 116px;
     }
     .pw_chang{
-        margin-top:80px;
-        min-height:475px;
+        margin-top:100px;
+        min-height:520px;
     }
     .pw_chang>h1{
         text-align: center;
@@ -90,9 +90,13 @@
         width: 50%;
         margin: 0px auto;
     }
+    .pw_chang_done{
+        margin-top: 305px;
+        min-height: 315px;
+    }
     .login_section{
-        margin-top:80px;
-        min-height:475px;
+        margin-top:100px;
+        min-height:520px;
     }
     .login_section>h1{
         text-align: center;
@@ -113,8 +117,8 @@
         margin-bottom: 25px;
     }
     .register_section{
-        margin-top:80px;
-        min-height:475px;
+        margin-top:100px;
+        min-height:520px;
     }
     .register_section>h1{
         text-align: center;
@@ -175,7 +179,7 @@
     }
     /*manager*/
     .membership{
-        padding-top: 80px;
+        padding-top: 90px;
     }
     .member,.new_post{
         padding: 0px 25px;
@@ -194,8 +198,8 @@
         padding: 15px 15px;
     }
     .notice_manager{
-        padding-top: 80px;
-        min-height: 635px;
+        padding-top: 185px;
+        min-height: 750px;
         
     }
     .notice_manager>h1{
@@ -215,24 +219,24 @@
         margin-left: 5px;
     }
     .member_authority{
-        padding-top: 150px;
-        min-height: 635px;
+        padding-top: 235px;
+        min-height: 745px;
     }
     .member_edit_form{
         width: 50%;
         margin: 0px auto;
     }
     .notice_authority{
-        padding-top: 120px;
-        min-height: 635px;
+        padding-top: 165px;
+        min-height: 750px;
     }
     .notice-form{
       width: 50%;
       margin: 0px auto;
     }
     .word_filtering{
-        padding-top: 150px;
-        min-height: 635px;
+        padding-top: 230px;
+        min-height: 745px;
     }
     /*footer*/
     .footer{

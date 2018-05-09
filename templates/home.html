@@ -294,7 +294,7 @@
                     <li>
                         <a href="{% url 'notice_detail:post_detail' pk=post3.pk category=post3.category_id %}">
                             <span class="glyphicon glyphicon-minus"></span>
-                            {{post3.title|truncatechars:16}}
+                            {{post3.title|truncatechars:8}}
                         </a>
                         <span class="date">{{post3.created_date|date:"y-m-d"|lower}}</span>
                         {% for imges in imges %}

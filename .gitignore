@@ -6,3 +6,5 @@ __pycache__
 db.sqlite3
 Gwlib/
 .DS_Store
+imges
+file

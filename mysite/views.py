@@ -162,3 +162,8 @@ def validate_username(request):
     # data를 Json형식으로 인코딩되도록 합니다.
     return JsonResponse(data)
 
+@login_required
+def game(request):
+    category = Notice_category.objects.all()
+    searchForm = PostSearchForm()
+    return render(request, 'game.html', {'category': category,'searchForm':searchForm})

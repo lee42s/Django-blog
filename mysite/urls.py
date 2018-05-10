@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
-from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView
+from .views import admin_home,UserRegisterView,home,UserPasswordChangeView,UserPasswordDoneView,game
 from notice.views import ajax_word_filtering,ajax_comment_word_filtering,ajax_comment_edit,post_search
 from mysite import views
 from notice.models import Notice_category
@@ -73,5 +73,7 @@ urlpatterns = [
     # text위젯
     # url(r'^djrichtextfield/', include('djrichtextfield.urls'))
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    #game
+    url(r'^game1/$',game,name='game'),
 ]
 urlpatterns += static('media', document_root=settings.MEDIA_ROOT)

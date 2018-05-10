@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'remove/files(?P<file_pk>\d+)/post(?P<pk>\d+)/categroy(?P<category>\d+)/$', views.files_remove, name='files_remove'),
 
 
+
     #관리자
     url(r'^category_list$', views.notice_category_manager, name='category_list'),
     url(r'^category/new$', views.new_notice_category_manager, name='category_new'),

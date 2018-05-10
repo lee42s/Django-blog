@@ -23,6 +23,14 @@
             </li>
         {%endif%}
         {% endfor %}
+        {% if  user.is_member == True or user.is_manager == True or user.is_superuser == True %}
+            <li>
+                <a href="{% url 'game' %}">
+                    <span class="glyphicon glyphicon-minus"></span>
+                    game
+                </a>
+            </li>
+        {%endif%}
         </ul>
     </li>
     <li class="dropdown">

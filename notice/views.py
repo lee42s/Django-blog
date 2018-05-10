@@ -96,6 +96,8 @@ def post_new(request,category):
         for writer_auth in category_id:
             if request.method == "POST" or request.user.is_level <= writer_auth.writer_auth  or request.user.is_superuser == True:
                 form = PostForm(request.POST)
+                imges = ImgesForm()
+                file = FlieForm()
             else:
                 return render(request, 'about.html', {'category': category1,'searchForm':searchForm})
         if form.is_valid():
@@ -107,9 +109,8 @@ def post_new(request,category):
             word_content = Word_filtering.objects.filter(id=1,text__contains=cleanr_content).exists()
             word_subject = Word_filtering.objects.filter(id=1,text__contains=post.title).exists()
             if word_content or word_subject:
-                imges = ImgesForm()
-                file = FlieForm()
-                redirect('notice_new:post_new' ,category=category)
+                post.author = request.user
+                post.category = writer_auth
             else:
                 post.author = request.user
                 post.category = writer_auth
@@ -154,6 +155,9 @@ def post_edit(request,pk,category):
             category_id = Notice_category.objects.filter(id=category)
             post_edit = get_object_or_404(Post, pk=pk, category=category)
             form = PostForm(request.POST, instance=post_edit)
+            searchForm = PostSearchForm()
+            imges = ImgesForm()
+            file = FlieForm()
         else:
             return redirect('notice_detail:post_detail', pk=username.id, category=category)
         if form.is_valid():
@@ -165,9 +169,10 @@ def post_edit(request,pk,category):
             word_content = Word_filtering.objects.filter(id=1, text__contains=cleanr_content).exists()
             word_subject = Word_filtering.objects.filter(id=1, text__contains=post_edit.title).exists()
             if word_content or word_subject:
-                imges = ImgesForm()
-                file = FlieForm()
-                redirect('notice_edit:post_edit', category=category ,post=pk)
+                post = form.save(commit=False)
+                post.author = request.user
+                post.title = post_edit.title
+                post.content = post_edit.content
             else:
                 post = form.save(commit=False)
                 post.author = request.user
@@ -180,9 +185,13 @@ def post_edit(request,pk,category):
                     file.file = upfl
                     file.post = post
                     file.save()
+                if Imges.objects.filter(post_id=pk).exists():
+                    imges_edit = Imges.objects.get(post_id=pk)
+                else:
+                    imges_edit = Imges()
                 upimges = request.FILES.getlist('imges')
                 for upim in upimges:
-                    imges = Imges()
+                    imges = imges_edit
                     imges.imges = upim
                     imges.post = post
                     post.imges_check = True
@@ -191,9 +200,6 @@ def post_edit(request,pk,category):
                 return redirect('notice_detail:post_detail', pk=post.pk, category=category)
         else:
             form = PostForm(instance=post_edit)
-            searchForm = PostSearchForm()
-            imges = ImgesForm()
-            file = FlieForm()
     return render(request, 'notice/post_edit.html', {'form': form,'category':category1,'category_id': category_id,'file': file,'imges':imges,'searchForm':searchForm})
 
 
@@ -216,7 +222,7 @@ def imges_remove(request, imge_pk, pk, category):
         if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             imge=get_object_or_404(Imges, id=imge_pk)
             post=get_object_or_404(Post, id=pk)
-            post.imges_check=False;
+            post.imges_check=False
             post.save()
             imge.delete()
         else:
@@ -229,7 +235,6 @@ def files_remove(request,file_pk,pk, category):
     for username in post_author:
         if request.user.id == username.author_id or request.user.is_manager == True or request.user.is_superuser == True:
             file=get_object_or_404(File,id=file_pk)
-
             file.delete()
         else:
             return redirect('notice_list:post_list', category=category)

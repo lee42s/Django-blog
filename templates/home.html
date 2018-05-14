@@ -280,7 +280,7 @@
     </section>
     <section class="gallery">
         {% for category in category %}
-        {% if category.title == '겔러리게시판' or category.title == '겔러리게시판' %}
+        {% if category.title == '겔러리게시판'%}
         <h1>
             {{category.title}}
             <a class="plus_btn" href="{%url 'notice_list:post_list' category=category.id%}">

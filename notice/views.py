@@ -23,13 +23,14 @@ def post_list(request, category):
     category_id = Notice_category.objects.filter(id=category)
     for list_auth in category_id:
         try :
-            if request.user.is_level <= list_auth.list_auth or request.user.is_superuser == True :
+            if request.user.is_level <= list_auth.list_auth or request.user.is_superuser == True  :
                 posts = Post.objects.filter(category_id=category,
                                             created_date__lte=timezone.now()).order_by('-created_date')
             else:
                 return render(request, 'about.html',{'category':category1,'searchForm':searchForm})
         except:
-            return redirect('register')
+            posts = Post.objects.filter(category_id=category,
+                                        created_date__lte=timezone.now()).order_by('-created_date')
     page = request.GET.get('page', 1)
     paginator = Paginator(posts, 10)
     try:
@@ -47,7 +48,7 @@ def post_detail(request, pk, category):
     searchForm = PostSearchForm()
     for detail_auth in category_id:
         try :
-            if request.user.is_level <= detail_auth.detail_auth or request.user.is_superuser == True :
+            if request.user.is_level <= detail_auth.detail_auth or request.user.is_superuser == True or request.user.is_level.exists() ==False:
                 post_detail = Post.objects.get(pk=pk, category=category)
                 post = get_object_or_404(Post, pk=pk)
                 # 파일,이미지
@@ -56,7 +57,11 @@ def post_detail(request, pk, category):
             else:
                 return render(request, 'about.html',{'category':category1,'searchForm':searchForm})
         except:
-            return redirect('register')
+            post_detail = Post.objects.get(pk=pk, category=category)
+            post = get_object_or_404(Post, pk=pk)
+            # 파일,이미지
+            files = post.file_set.all()
+            imges = post.imges_set.all()
     # 댓글 페이지
     comment_post = Comment.objects.filter(post_id=pk,created_date__lte=timezone.now()).order_by('-created_date')
     paginator_comment = Paginator(comment_post, 5)

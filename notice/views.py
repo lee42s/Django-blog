@@ -81,14 +81,19 @@ def post_detail(request, pk, category):
                 comment.author = request.user
                 comment.post = post
             else:
-                comment.author = request.user
-                comment.post = post
-                comment.save()
-                return redirect('notice_detail:post_detail', pk=post.pk, category=category)
+                if request.user.is_authenticated:
+                    comment.author = request.user
+                    comment.post = post
+                    comment.save()
+                    return redirect('notice_detail:post_detail', pk=post.pk, category=category)
+                else:
+                    return redirect('login')
     else:
         form = CommentForm()
     return render(request, 'notice/post_detail.html',
                   {'post_detail': post_detail,'category':category1,'form': form,'comment_post':contacts_comment,'files':files, 'imges': imges,'searchForm':searchForm})
+
+
 
 
 @login_required
